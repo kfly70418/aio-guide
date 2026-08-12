@@ -1,0 +1,12 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#2563eb"/>
+  <text x="600" y="280" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="white" text-anchor="middle">
+    API 中转站精选导航
+  </text>
+  <text x="600" y="360" font-family="Arial, sans-serif" font-size="32" fill="#e0e7ff" text-anchor="middle">
+    人工核验 · 价格透明 · 真实体验
+  </text>
+  <text x="600" y="420" font-family="Arial, sans-serif" font-size="24" fill="#bfdbfe" text-anchor="middle">
+    助您找到最适合的 AI API 中转服务
+  </text>
+</svg>
