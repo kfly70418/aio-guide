@@ -84,12 +84,12 @@ export default async function HomePage() {
 
         <main className="flex-1">
           {/* Hero + 模型比价入口 */}
-          <section className="bg-gradient-to-b from-blue-50 to-white pt-12 pb-10">
+          <section className="bg-gradient-to-b from-blue-50 to-white pt-8 pb-6">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
                 AI API 中转站 <span className="text-blue-600">精选导航</span>
               </h1>
-              <p className="text-sm text-gray-600 mb-8">
+              <p className="text-sm text-gray-600 mb-5">
                 给 AI 使用者选中转站：比价格、看模型真假
                 <span className="mx-2 text-gray-300">·</span>
                 人工录入并标注核验时间，不做自动抓取
@@ -99,8 +99,8 @@ export default async function HomePage() {
 
               {/* 模型详细比价 */}
               {modelGroups.length > 0 && (
-                <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-                  <div className="flex flex-wrap items-center gap-2 mb-5">
+                <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+                  <div className="flex flex-wrap items-center gap-2 mb-4">
                     <span className="px-2 py-0.5 text-xs font-medium bg-blue-100 text-blue-700 rounded">
                       特色
                     </span>
@@ -137,10 +137,10 @@ export default async function HomePage() {
           </section>
 
           {/* 推荐中转站 */}
-          <section className="py-16 bg-white">
+          <section className="pt-8 pb-12 bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex items-center justify-between mb-8">
-                <h2 className="text-3xl font-bold text-gray-900">推荐中转站</h2>
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-gray-900">推荐中转站</h2>
                 <Link
                   href="/providers"
                   className="text-sm font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1"
@@ -298,10 +298,10 @@ export default async function HomePage() {
 
           {/* 最新教程 */}
           {tutorials && tutorials.length > 0 && (
-            <section className="py-16 bg-gray-50">
+            <section className="py-12 bg-gray-50">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between mb-8">
-                  <h2 className="text-3xl font-bold text-gray-900">最新教程</h2>
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-bold text-gray-900">最新教程</h2>
                   <Link
                     href="/articles?category=tutorial"
                     className="text-sm font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1"
@@ -341,9 +341,9 @@ export default async function HomePage() {
           )}
 
           {/* 特色说明 */}
-          <section className="py-16 bg-white">
+          <section className="py-12 bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">为什么选择我们</h2>
+              <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">为什么选择我们</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div className="text-center">
                   <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -385,11 +385,11 @@ export default async function HomePage() {
           </section>
 
           {/* AI快讯 */}
-          <section className="py-16 bg-gray-50">
+          <section className="py-12 bg-gray-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h2 className="text-3xl font-bold text-gray-900 mb-2">AI 快讯</h2>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2">AI 快讯</h2>
                   <p className="text-gray-600">AI 大模型、API 中转站最新动态和行业资讯</p>
                 </div>
                 <Link
