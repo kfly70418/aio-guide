@@ -25,6 +25,12 @@ export interface Provider {
   status: 'draft' | 'published' | 'archived'
   sort_order: number
   verified_at: string | null
+  min_topup: string | null
+  trial_credit: string | null
+  transaction_fee: string | null
+  invoice_support: boolean
+  promo_code: string | null
+  verification_status: 'verified' | 'pending' | 'suspect' | 'failed' | null
   created_by: string | null
   updated_by: string | null
   created_at: string
@@ -129,7 +135,7 @@ export interface AuditLog {
   action: string
   resource_type: string
   resource_id: string | null
-  details: Record<string, any> | null
+  details: Record<string, unknown> | null
   ip_address: string | null
   user_agent: string | null
   created_at: string
@@ -166,6 +172,12 @@ export interface ProviderFormData {
   is_recommended: boolean
   status: 'draft' | 'published' | 'archived'
   sort_order: number
+  min_topup?: string
+  trial_credit?: string
+  transaction_fee?: string
+  invoice_support?: boolean
+  promo_code?: string
+  verification_status?: 'verified' | 'pending' | 'suspect' | 'failed'
 }
 
 export interface ModelFormData {
