@@ -303,58 +303,7 @@ export default async function HomePage() {
                   ))}
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="md:col-span-2 border border-dashed border-gray-300 rounded-xl p-8 bg-gradient-to-br from-blue-50 to-white">
-                    <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0">
-                        <span className="inline-flex items-center justify-center w-12 h-12 bg-blue-600 text-white rounded-lg font-bold text-lg">
-                          热
-                        </span>
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-2">
-                          <span className="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-red-100 text-red-800 rounded">
-                            最新
-                          </span>
-                          <span className="text-xs text-gray-500">今日</span>
-                        </div>
-                        <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                          ChatGPT API 价格下调，GPT-4o 降价 50%
-                        </h3>
-                        <p className="text-gray-600">
-                          OpenAI 宣布 GPT-4o 模型价格大幅下调，输入价格降至 $2.5/M tokens，输出价格降至 $10/M tokens。
-                          多家中转站同步跟进降价，开发者迎来利好消息。
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  {[1, 2, 3, 4, 5, 6].map((i) => (
-                    <div key={i} className="border border-dashed border-gray-300 rounded-xl p-6 bg-white">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-red-100 text-red-800 rounded">
-                          最新
-                        </span>
-                        <span className="text-xs text-gray-500">{i} 天前</span>
-                      </div>
-                      <h3 className="text-base font-semibold text-gray-900 mb-2">
-                        {i === 1 && 'Claude 3.5 Sonnet 新版本发布'}
-                        {i === 2 && 'Gemini 2.0 Flash 正式上线'}
-                        {i === 3 && '多家中转站推出双旦优惠活动'}
-                        {i === 4 && 'GPT-4 Turbo 性能优化升级'}
-                        {i === 5 && 'OpenAI 推出实时语音 API'}
-                        {i === 6 && 'AI 模型价格战持续，开发者受益'}
-                      </h3>
-                      <p className="text-sm text-gray-600 line-clamp-2">
-                        {i === 1 && 'Anthropic 发布 Claude 3.5 Sonnet 新版本，推理能力提升明显，价格保持不变...'}
-                        {i === 2 && 'Google 正式推出 Gemini 2.0 Flash 模型，速度更快，价格更低...'}
-                        {i === 3 && '多家主流中转站推出年终优惠，充值享受 85-95 折优惠...'}
-                        {i === 4 && 'OpenAI 对 GPT-4 Turbo 进行性能优化，响应速度提升 30%...'}
-                        {i === 5 && 'OpenAI 推出实时语音 API，支持低延迟语音对话，多家中转站已接入...'}
-                        {i === 6 && '随着多个新模型发布，AI API 价格战持续，开发者成本持续降低...'}
-                      </p>
-                    </div>
-                  ))}
-                </div>
+                <p className="text-center text-gray-500 py-12">暂无快讯</p>
               )}
 
               <div className="mt-8 p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border border-blue-100">
