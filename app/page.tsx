@@ -17,14 +17,16 @@ export const revalidate = 300 // ISR: 5分钟
 export default async function HomePage() {
   const supabase = await createClient()
 
-  const [{ data: providers }, { data: tutorials }, { data: news }] = await Promise.all([
+  const [{ data: providers }, { data: tutorials }, { data: news }, { data: models }] = await Promise.all([
     supabase
       .from('providers')
-      .select('id, slug, name, name_en, description, features, is_recommended, verified_at')
+      .select(
+        'id, slug, name, name_en, description, features, is_recommended, verified_at, min_topup, trial_credit, transaction_fee, invoice_support, promo_code, verification_status'
+      )
       .eq('status', 'published')
       .order('is_recommended', { ascending: false })
       .order('sort_order', { ascending: false })
-      .limit(9), // 首页只显示9个，不是全部
+      .limit(10), // 前3张卡片 + 后续列表
     supabase
       .from('articles')
       .select('id, slug, title, summary, published_at')
@@ -39,7 +41,29 @@ export default async function HomePage() {
       .eq('category', 'news')
       .order('published_at', { ascending: false })
       .limit(8),
+    supabase
+      .from('models')
+      .select('id, slug, name, family, sort_order')
+      .eq('status', 'published')
+      .order('sort_order', { ascending: false }),
   ])
+
+  // 按家族分组模型，用于顶部比价筛选区
+  const FAMILY_ORDER = ['GPT', 'Claude', 'Gemini', 'Grok']
+  const FAMILY_LABEL: Record<string, string> = {
+    GPT: 'OPENAI',
+    Claude: 'CLAUDE',
+    Gemini: 'GEMINI',
+    Grok: 'GROK',
+  }
+  const modelGroups = FAMILY_ORDER.map((family) => ({
+    family,
+    label: FAMILY_LABEL[family] ?? family.toUpperCase(),
+    items: (models ?? []).filter((m) => m.family === family),
+  })).filter((g) => g.items.length > 0)
+
+  const topThree = (providers ?? []).slice(0, 3)
+  const restProviders = (providers ?? []).slice(3)
 
   const organizationSchema = generateOrganizationSchema()
   const websiteSchema = generateWebSiteSchema()
@@ -59,20 +83,56 @@ export default async function HomePage() {
         <Header />
 
         <main className="flex-1">
-          {/* Hero Section */}
-          <section className="bg-gradient-to-b from-blue-50 to-white py-16">
+          {/* Hero + 模型比价入口 */}
+          <section className="bg-gradient-to-b from-blue-50 to-white pt-12 pb-10">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="text-center max-w-3xl mx-auto">
-                <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-                  {SITE_NAME}
-                </h1>
-                <p className="text-lg text-gray-600 leading-relaxed mb-4">
-                  {SITE_DESCRIPTION}
-                </p>
-                <p className="text-sm text-gray-500">
-                  站内数据均由<strong>人工录入并标注核验时间</strong>，不做自动抓取，也不展示未经核验的可用率。
-                </p>
-              </div>
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+                AI API 中转站 <span className="text-blue-600">精选导航</span>
+              </h1>
+              <p className="text-sm text-gray-600 mb-8">
+                给 AI 使用者选中转站：比价格、看模型真假
+                <span className="mx-2 text-gray-300">·</span>
+                人工录入并标注核验时间，不做自动抓取
+                <span className="mx-2 text-gray-300">·</span>
+                最近核验 {new Date().toLocaleDateString('zh-CN')}
+              </p>
+
+              {/* 模型详细比价 */}
+              {modelGroups.length > 0 && (
+                <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                  <div className="flex flex-wrap items-center gap-2 mb-5">
+                    <span className="px-2 py-0.5 text-xs font-medium bg-blue-100 text-blue-700 rounded">
+                      特色
+                    </span>
+                    <h2 className="text-lg font-bold text-gray-900">模型详细比价</h2>
+                    <span className="text-xs text-gray-500">
+                      同一个模型，每家中转站每条渠道直接比 · 价格透明
+                    </span>
+                  </div>
+
+                  <div className="space-y-3">
+                    {modelGroups.map((group) => (
+                      <div key={group.family} className="flex flex-wrap items-center gap-2">
+                        <span className="w-16 shrink-0 text-xs font-medium text-gray-400 tracking-wider">
+                          {group.label}
+                        </span>
+                        {group.items.map((model) => (
+                          <Link
+                            key={model.id}
+                            href={`/models/${model.slug}`}
+                            className="inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                          >
+                            {model.name}
+                            <span aria-hidden="true" className="text-gray-400">
+                              →
+                            </span>
+                          </Link>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </section>
 
@@ -93,53 +153,150 @@ export default async function HomePage() {
               </div>
 
               {providers && providers.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {providers.map((provider) => (
-                    <Link
-                      key={provider.id}
-                      href={`/providers/${provider.slug}`}
-                      className="group block border border-gray-200 rounded-xl p-6 hover:border-blue-400 hover:shadow-md transition-all"
-                    >
-                      <div className="flex items-start justify-between mb-3">
-                        <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
-                          {provider.name}
-                        </h3>
-                        {provider.is_recommended && (
-                          <Badge variant="success" size="sm">推荐</Badge>
+                <>
+                  {/* 前三名：卡片 */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {topThree.map((provider, index) => (
+                      <Link
+                        key={provider.id}
+                        href={`/providers/${provider.slug}`}
+                        className="group relative block border border-gray-200 rounded-xl p-6 hover:border-blue-400 hover:shadow-md transition-all"
+                      >
+                        <span className="absolute -top-3 -left-2 inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white text-sm font-bold shadow">
+                          {index + 1}
+                        </span>
+
+                        <div className="flex items-start justify-between mb-3">
+                          <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                            {provider.name}
+                          </h3>
+                          {provider.is_recommended && (
+                            <Badge variant="success" size="sm">推荐</Badge>
+                          )}
+                        </div>
+
+                        {provider.description && (
+                          <p className="text-sm text-gray-600 mb-4 line-clamp-2">
+                            {provider.description}
+                          </p>
                         )}
+
+                        <dl className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-gray-600 mb-4">
+                          {provider.min_topup && (
+                            <div>
+                              <dt className="inline text-gray-500">起充 </dt>
+                              <dd className="inline font-medium text-gray-900">{provider.min_topup}</dd>
+                            </div>
+                          )}
+                          {provider.trial_credit && (
+                            <div>
+                              <dt className="inline text-gray-500">赠送 </dt>
+                              <dd className="inline font-medium text-gray-900">{provider.trial_credit}</dd>
+                            </div>
+                          )}
+                        </dl>
+
+                        {provider.features && provider.features.length > 0 && (
+                          <div className="flex flex-wrap gap-2">
+                            {provider.features.slice(0, 3).map((feature: string) => (
+                              <span
+                                key={feature}
+                                className="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded"
+                              >
+                                {feature}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+
+                        {provider.verified_at && (
+                          <p className="text-xs text-gray-400 mt-4">
+                            核验时间: {new Date(provider.verified_at).toLocaleDateString('zh-CN')}
+                          </p>
+                        )}
+                      </Link>
+                    ))}
+                  </div>
+
+                  {/* 第四名起：紧凑列表 */}
+                  {restProviders.length > 0 && (
+                    <div className="mt-8 border border-gray-200 rounded-xl overflow-hidden">
+                      {/* 表头（桌面端） */}
+                      <div className="hidden md:grid grid-cols-12 gap-4 px-5 py-3 bg-gray-50 border-b border-gray-200 text-xs font-medium text-gray-500">
+                        <div className="col-span-4">服务商</div>
+                        <div className="col-span-2">模型检测</div>
+                        <div className="col-span-1">起充</div>
+                        <div className="col-span-2">赠送额度</div>
+                        <div className="col-span-2">退款政策</div>
+                        <div className="col-span-1 text-right">开票</div>
                       </div>
 
-                      {provider.name_en && (
-                        <p className="text-sm text-gray-500 mb-3">{provider.name_en}</p>
-                      )}
-
-                      {provider.description && (
-                        <p className="text-sm text-gray-600 mb-4 line-clamp-2">
-                          {provider.description}
-                        </p>
-                      )}
-
-                      {provider.features && provider.features.length > 0 && (
-                        <div className="flex flex-wrap gap-2">
-                          {provider.features.slice(0, 3).map((feature: string) => (
-                            <span
-                              key={feature}
-                              className="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded"
+                      <ul className="divide-y divide-gray-200">
+                        {restProviders.map((provider, index) => (
+                          <li key={provider.id}>
+                            <Link
+                              href={`/providers/${provider.slug}`}
+                              className="grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-4 px-5 py-4 items-center hover:bg-blue-50/50 transition-colors"
                             >
-                              {feature}
-                            </span>
-                          ))}
-                        </div>
-                      )}
+                              <div className="md:col-span-4 flex items-center gap-3 min-w-0">
+                                <span className="shrink-0 w-6 text-sm font-semibold text-gray-400">
+                                  {index + 4}
+                                </span>
+                                <div className="min-w-0">
+                                  <p className="text-sm font-semibold text-gray-900 truncate">
+                                    {provider.name}
+                                  </p>
+                                  {provider.promo_code && (
+                                    <p className="text-xs text-orange-600 truncate">
+                                      优惠码 {provider.promo_code}
+                                    </p>
+                                  )}
+                                </div>
+                              </div>
 
-                      {provider.verified_at && (
-                        <p className="text-xs text-gray-400 mt-4">
-                          核验时间: {new Date(provider.verified_at).toLocaleDateString('zh-CN')}
-                        </p>
-                      )}
-                    </Link>
-                  ))}
-                </div>
+                              <div className="md:col-span-2">
+                                {provider.verification_status === 'verified' ? (
+                                  <span className="inline-flex items-center gap-1 text-xs font-medium text-green-700">
+                                    <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                                    </svg>
+                                    通过检测
+                                  </span>
+                                ) : (
+                                  <span className="text-xs text-gray-400">待检测</span>
+                                )}
+                              </div>
+
+                              <div className="md:col-span-1 text-xs text-gray-700">
+                                <span className="md:hidden text-gray-500">起充 </span>
+                                {provider.min_topup || '—'}
+                              </div>
+
+                              <div className="md:col-span-2 text-xs text-gray-700 truncate">
+                                <span className="md:hidden text-gray-500">赠送 </span>
+                                {provider.trial_credit || '—'}
+                              </div>
+
+                              <div className="md:col-span-2 text-xs text-gray-700 truncate">
+                                <span className="md:hidden text-gray-500">退款 </span>
+                                {provider.transaction_fee || '—'}
+                              </div>
+
+                              <div className="md:col-span-1 md:text-right text-xs">
+                                <span className="md:hidden text-gray-500">开票 </span>
+                                {provider.invoice_support ? (
+                                  <span className="text-green-600 font-medium">支持</span>
+                                ) : (
+                                  <span className="text-gray-400">否</span>
+                                )}
+                              </div>
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </>
               ) : (
                 <p className="text-center text-gray-500 py-12">暂无已发布的中转站</p>
               )}
