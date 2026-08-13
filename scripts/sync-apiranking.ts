@@ -41,6 +41,12 @@ const APPLY = process.argv.includes('--apply')
 const NO_NEW = process.argv.includes('--no-new')
 const LIMIT = Number(process.argv.find((a) => a.startsWith('--limit='))?.split('=')[1] ?? 0)
 const FORCE = process.argv.includes('--force')
+const EXPORT = process.argv.includes('--export')
+
+if (APPLY && EXPORT) {
+  console.error('❌ --apply 和 --export 不能同时使用')
+  process.exit(1)
+}
 
 // ---------- 本地缓存：避免同一天重复请求对方服务器 ----------
 const CACHE_DIR = path.join(process.cwd(), 'scripts', '.cache')
@@ -354,8 +360,43 @@ async function main() {
     if (toInsert.length > 40) console.log(`  ...还有 ${toInsert.length - 40} 家`)
   }
 
+  if (EXPORT) {
+    const exportDir = path.join(process.cwd(), 'scripts', 'exports')
+    fs.mkdirSync(exportDir, { recursive: true })
+    const ts = Date.now()
+    const filename = `providers_${new Date().toISOString().slice(0, 10)}_${ts}.json`
+    const filepath = path.join(exportDir, filename)
+    const payload = {
+      meta: {
+        scraped_at: new Date().toISOString(),
+        total: scoped.length,
+        verified_only: true,
+      },
+      providers: scoped.map((s) => ({
+        rank: s.rank,
+        name: s.name,
+        domain: s.domain,
+        website_url: s.domain ? `https://${s.domain}` : null,
+        verification: s.verification,
+        price_level: s.priceLevels.join(' ') || null,
+        min_topup: s.minTopup,
+        trial_credit: s.bonus,
+        refund_policy: s.refund,
+        invoice_policy: s.invoice,
+        coupon_code: s.couponNote ? 'apiranking' : null,
+        coupon_note: s.couponNote,
+        tags: s.tags,
+      })),
+    }
+    fs.writeFileSync(filepath, JSON.stringify(payload, null, 2), 'utf8')
+    console.log(`\n✅ 已导出到 ${filename}`)
+    console.log(`   完整路径: ${filepath}`)
+    console.log(`\n请将此文件发送给数据接收方。`)
+    return
+  }
+
   if (!APPLY) {
-    console.log('\n预览模式，未写库。加 --apply 执行；加 --no-new 则只更新不新增。')
+    console.log('\n预览模式，未写库。加 --apply 执行；加 --export 导出本地文件；加 --no-new 则只更新不新增。')
     return
   }
 

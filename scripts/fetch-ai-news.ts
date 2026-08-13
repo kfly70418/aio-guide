@@ -44,8 +44,14 @@ if (!SUPABASE_URL || !SERVICE_KEY) {
 
 const supabase = createClient(SUPABASE_URL, SERVICE_KEY)
 const DO_IMPORT = process.argv.includes('--import')
+const DO_EXPORT = process.argv.includes('--export')
 const dateArg = process.argv.find((a) => a.startsWith('--date='))?.split('=')[1]
 const FORCE = process.argv.includes('--force')
+
+if (DO_IMPORT && DO_EXPORT) {
+  console.error('❌ --import 和 --export 不能同时使用')
+  process.exit(1)
+}
 
 // ---------- 本地缓存，避免调试时重复请求 ----------
 const CACHE_DIR = path.join(process.cwd(), 'scripts', '.cache')
@@ -236,6 +242,7 @@ async function importNews(items: NewsItem[]) {
 
 // ---------- 主流程 ----------
 async function main() {
+  const targetDate = dateArg ?? ymd(new Date())
   console.log('抓取 ainav.cn AI 快讯\n')
 
   const all: NewsItem[] = []
@@ -254,6 +261,28 @@ async function main() {
 
   if (all.length === 0) {
     console.log('⚠️ 两个源都没取到数据，可能是站点当天还未生成 JSON。可加 --date=YYYY-MM-DD 指定日期。')
+    return
+  }
+
+  if (DO_EXPORT) {
+    const exportDir = path.join(process.cwd(), 'scripts', 'exports')
+    fs.mkdirSync(exportDir, { recursive: true })
+    const ts = Date.now()
+    const filename = `ai-news_${targetDate}_${ts}.json`
+    const filepath = path.join(exportDir, filename)
+    const payload = {
+      meta: {
+        date: targetDate,
+        sources: ['geekpark', 'jiqizhixin'],
+        total: all.length,
+        exported_at: new Date().toISOString(),
+      },
+      items: all,
+    }
+    fs.writeFileSync(filepath, JSON.stringify(payload, null, 2), 'utf8')
+    console.log(`\n✅ 已导出到 ${filename}`)
+    console.log(`   完整路径: ${filepath}`)
+    console.log(`\n请将此文件发送给数据接收方。`)
     return
   }
 
