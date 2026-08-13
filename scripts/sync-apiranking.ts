@@ -40,6 +40,36 @@ const supabase = createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.SUPABASE_SERVICE
 const APPLY = process.argv.includes('--apply')
 const NO_NEW = process.argv.includes('--no-new')
 const LIMIT = Number(process.argv.find((a) => a.startsWith('--limit='))?.split('=')[1] ?? 0)
+const FORCE = process.argv.includes('--force')
+
+// ---------- 本地缓存：避免同一天重复请求对方服务器 ----------
+const CACHE_DIR = path.join(process.cwd(), 'scripts', '.cache')
+const CACHE_TTL_MS = 12 * 60 * 60 * 1000 // 12 小时
+
+function cachePath(key: string) {
+  return path.join(CACHE_DIR, `${key}.html`)
+}
+
+function readCache(key: string): string | null {
+  if (FORCE) return null
+  const p = cachePath(key)
+  if (!fs.existsSync(p)) return null
+  const age = Date.now() - fs.statSync(p).mtimeMs
+  if (age > CACHE_TTL_MS) return null
+  console.log(`使用本地缓存（${Math.round(age / 60000)} 分钟前抓取），未发起网络请求`)
+  return fs.readFileSync(p, 'utf8')
+}
+
+function writeCache(key: string, html: string) {
+  fs.mkdirSync(CACHE_DIR, { recursive: true })
+  fs.writeFileSync(cachePath(key), html, 'utf8')
+}
+
+/** 随机延迟，避免每天固定时刻整点请求 */
+function jitter(minMs: number, maxMs: number) {
+  const ms = minMs + Math.random() * (maxMs - minMs)
+  return new Promise((r) => setTimeout(r, ms))
+}
 
 // ---------- 抓取 ----------
 function fetchHTML(url: string, depth = 0): Promise<string> {
@@ -49,8 +79,9 @@ function fetchHTML(url: string, depth = 0): Promise<string> {
       url,
       {
         headers: {
+          // 如实标识来源与用途，便于对方站长在日志中识别、必要时联系
           'User-Agent':
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Mozilla/5.0 (compatible; aio-guide/1.0; +https://aio-guide-six.vercel.app/about) price-reference-bot',
           Accept: 'text/html,application/xhtml+xml',
           'Accept-Language': 'zh-CN,zh;q=0.9',
         },
@@ -237,8 +268,20 @@ function slugify(name: string, domain: string | null) {
 
 // ---------- 主流程 ----------
 async function main() {
-  console.log('抓取 https://apiranking.com/ ...')
-  const html = await fetchHTML('https://apiranking.com/')
+  let html = readCache('apiranking')
+
+  if (!html) {
+    // 随机等待 0–20 秒，避免每天在同一秒发起请求
+    const waitMs = Math.round(Math.random() * 20000)
+    if (waitMs > 1500) {
+      console.log(`随机延迟 ${(waitMs / 1000).toFixed(1)}s 后请求...`)
+      await jitter(waitMs, waitMs)
+    }
+    console.log('抓取 https://apiranking.com/ ...')
+    html = await fetchHTML('https://apiranking.com/')
+    writeCache('apiranking', html)
+  }
+
   console.log(`HTML ${html.length} 字符\n`)
 
   const all = parseCards(html)

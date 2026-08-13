@@ -45,6 +45,28 @@ if (!SUPABASE_URL || !SERVICE_KEY) {
 const supabase = createClient(SUPABASE_URL, SERVICE_KEY)
 const DO_IMPORT = process.argv.includes('--import')
 const dateArg = process.argv.find((a) => a.startsWith('--date='))?.split('=')[1]
+const FORCE = process.argv.includes('--force')
+
+// ---------- 本地缓存，避免调试时重复请求 ----------
+const CACHE_DIR = path.join(process.cwd(), 'scripts', '.cache')
+const CACHE_TTL_MS = 6 * 60 * 60 * 1000 // 快讯更新较频繁，6 小时
+
+function readCache(key: string): any | null {
+  if (FORCE) return null
+  const p = path.join(CACHE_DIR, `${key}.json`)
+  if (!fs.existsSync(p)) return null
+  if (Date.now() - fs.statSync(p).mtimeMs > CACHE_TTL_MS) return null
+  try {
+    return JSON.parse(fs.readFileSync(p, 'utf8'))
+  } catch {
+    return null
+  }
+}
+
+function writeCache(key: string, data: any) {
+  fs.mkdirSync(CACHE_DIR, { recursive: true })
+  fs.writeFileSync(path.join(CACHE_DIR, `${key}.json`), JSON.stringify(data), 'utf8')
+}
 
 const LIMIT = 10
 
@@ -124,9 +146,13 @@ async function fetchSource(file: string, name: string): Promise<NewsItem[]> {
       })
 
   for (const date of dates) {
+    const cacheKey = `${file}_${date}`
     const url = `https://www.ainav.cn/news/json/${file}_${date}.json`
     try {
-      const json = await fetchJSON(url)
+      const cached = readCache(cacheKey)
+      const json = cached ?? (await fetchJSON(url))
+      if (!cached && json?.items?.length) writeCache(cacheKey, json)
+      else if (cached) console.log(`  ${name}：使用本地缓存（${date}）`)
       const items: RawItem[] = json?.items ?? []
       if (items.length === 0) continue
       console.log(`  ${name}：命中 ${date}，共 ${items.length} 条`)
