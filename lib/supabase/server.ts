@@ -19,8 +19,8 @@ export async function createClient() {
             cookiesToSet.forEach(({ name, value, options }) => {
               cookieStore.set(name, value, options)
             })
-          } catch (error) {
-            // 在 Server Component 中调用时可能会失败，这是正常的
+          } catch {
+            // 在 Server Component 中调用时无法写 cookie，这是预期行为
           }
         },
       },
