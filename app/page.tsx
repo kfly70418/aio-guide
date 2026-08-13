@@ -156,16 +156,12 @@ export default async function HomePage() {
                 <>
                   {/* 前三名：卡片 */}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {topThree.map((provider, index) => (
+                    {topThree.map((provider) => (
                       <Link
                         key={provider.id}
                         href={`/providers/${provider.slug}`}
-                        className="group relative block border border-gray-200 rounded-xl p-6 hover:border-blue-400 hover:shadow-md transition-all"
+                        className="group block border border-gray-200 rounded-xl p-6 hover:border-blue-400 hover:shadow-md transition-all"
                       >
-                        <span className="absolute -top-3 -left-2 inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white text-sm font-bold shadow">
-                          {index + 1}
-                        </span>
-
                         <div className="flex items-start justify-between mb-3">
                           <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
                             {provider.name}
@@ -232,16 +228,13 @@ export default async function HomePage() {
                       </div>
 
                       <ul className="divide-y divide-gray-200">
-                        {restProviders.map((provider, index) => (
+                        {restProviders.map((provider) => (
                           <li key={provider.id}>
                             <Link
                               href={`/providers/${provider.slug}`}
                               className="grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-4 px-5 py-4 items-center hover:bg-blue-50/50 transition-colors"
                             >
-                              <div className="md:col-span-4 flex items-center gap-3 min-w-0">
-                                <span className="shrink-0 w-6 text-sm font-semibold text-gray-400">
-                                  {index + 4}
-                                </span>
+                              <div className="md:col-span-4 min-w-0">
                                 <div className="min-w-0">
                                   <p className="text-sm font-semibold text-gray-900 truncate">
                                     {provider.name}

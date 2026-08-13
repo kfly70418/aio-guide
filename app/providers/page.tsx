@@ -174,7 +174,7 @@ export default async function ProvidersPage({ searchParams }: ProvidersPageProps
             {providers && providers.length > 0 ? (
               <>
                 <div className="grid grid-cols-1 gap-6 mb-8">
-                  {providers.map((provider, index) => (
+                  {providers.map((provider) => (
                     <article
                       key={provider.id}
                       className="bg-white border border-gray-200 rounded-xl p-6 hover:border-blue-400 hover:shadow-md transition-all"
@@ -182,9 +182,6 @@ export default async function ProvidersPage({ searchParams }: ProvidersPageProps
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex-1">
                           <div className="flex items-center gap-3 mb-2">
-                            <span className="text-2xl font-bold text-gray-400">
-                              #{from + index + 1}
-                            </span>
                             <Link
                               href={`/providers/${provider.slug}`}
                               className="text-xl font-bold text-gray-900 hover:text-blue-600 transition-colors"
