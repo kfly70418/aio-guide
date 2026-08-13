@@ -21,9 +21,7 @@ import * as path from 'path'
 // ---------- 读取 .env.local ----------
 function loadEnv(): Record<string, string> {
   const envPath = path.join(process.cwd(), '.env.local')
-  if (!fs.existsSync(envPath)) {
-    throw new Error('找不到 .env.local，请在项目根目录运行此脚本')
-  }
+  if (!fs.existsSync(envPath)) return {}
   const env: Record<string, string> = {}
   for (const line of fs.readFileSync(envPath, 'utf8').split('\n')) {
     const t = line.trim()
@@ -35,14 +33,6 @@ function loadEnv(): Record<string, string> {
   return env
 }
 
-const env = loadEnv()
-const SUPABASE_URL = env.NEXT_PUBLIC_SUPABASE_URL
-const SERVICE_KEY = env.SUPABASE_SERVICE_ROLE_KEY
-if (!SUPABASE_URL || !SERVICE_KEY) {
-  throw new Error('.env.local 缺少 NEXT_PUBLIC_SUPABASE_URL 或 SUPABASE_SERVICE_ROLE_KEY')
-}
-
-const supabase = createClient(SUPABASE_URL, SERVICE_KEY)
 const DO_IMPORT = process.argv.includes('--import')
 const DO_EXPORT = process.argv.includes('--export')
 const dateArg = process.argv.find((a) => a.startsWith('--date='))?.split('=')[1]
@@ -51,6 +41,19 @@ const FORCE = process.argv.includes('--force')
 if (DO_IMPORT && DO_EXPORT) {
   console.error('❌ --import 和 --export 不能同时使用')
   process.exit(1)
+}
+
+// 只有需要写库时才初始化 Supabase
+let supabase: any = null
+if (DO_IMPORT) {
+  const env = loadEnv()
+  const SUPABASE_URL = env.NEXT_PUBLIC_SUPABASE_URL
+  const SERVICE_KEY = env.SUPABASE_SERVICE_ROLE_KEY
+  if (!SUPABASE_URL || !SERVICE_KEY) {
+    console.error('❌ .env.local 缺少 Supabase 配置（NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY）')
+    process.exit(1)
+  }
+  supabase = createClient(SUPABASE_URL, SERVICE_KEY)
 }
 
 // ---------- 本地缓存，避免调试时重复请求 ----------
