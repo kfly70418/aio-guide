@@ -1,14 +1,14 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/public'
 import { generateSEOMetadata, generateBreadcrumbSchema } from '@/lib/seo'
 import { Header, Footer } from '@/components/layout/PublicLayout'
 
 export const revalidate = 300
 
 async function getModel(slug: string) {
-  const supabase = await createClient()
+  const supabase = createPublicClient()
   const { data } = await supabase
     .from('models')
     .select('*')
@@ -56,7 +56,7 @@ export default async function ModelDetailPage({
     notFound()
   }
 
-  const supabase = await createClient()
+  const supabase = createPublicClient()
 
   // 取该模型的所有在售报价，带渠道与服务商
   const { data: prices } = await supabase
@@ -172,6 +172,31 @@ export default async function ModelDetailPage({
                 </div>
               </dl>
             </div>
+
+            {/* 支持的服务商 */}
+            {rows.length > 0 && (
+              <section className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
+                <h2 className="text-xl font-bold text-gray-900 mb-4">支持该模型的服务商</h2>
+                <div className="flex flex-wrap gap-2">
+                  {Array.from(new Set(rows.map(r => (r.channel as any)?.provider?.slug).filter(Boolean))).map((slug) => {
+                    const provider = rows.find(r => (r.channel as any)?.provider?.slug === slug)?.channel as any
+                    if (!provider?.provider) return null
+                    return (
+                      <Link
+                        key={slug}
+                        href={`/providers/${slug}`}
+                        className="inline-flex items-center px-3 py-1.5 bg-green-50 hover:bg-green-100 border border-green-200 rounded-lg text-sm text-green-700 hover:text-green-800 transition-colors"
+                      >
+                        {provider.provider.name}
+                      </Link>
+                    )
+                  })}
+                </div>
+                <p className="text-xs text-gray-500 mt-3">
+                  点击服务商名称查看详细信息和完整价格列表
+                </p>
+              </section>
+            )}
 
             {/* 报价表 */}
             <section className="bg-white rounded-xl border border-gray-200 p-6 mb-6">

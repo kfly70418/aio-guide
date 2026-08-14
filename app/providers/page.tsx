@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/public'
 import { generateSEOMetadata, generateBreadcrumbSchema, generateItemListSchema } from '@/lib/seo'
 import { Header, Footer } from '@/components/layout/PublicLayout'
 import { RankingTable, type RankingProvider } from '@/components/providers/RankingTable'
@@ -42,7 +42,7 @@ const FAMILY_LABEL: Record<string, string> = {
 export default async function ProvidersPage({ searchParams }: ProvidersPageProps) {
   const { search: rawSearch } = await searchParams
   const search = rawSearch?.trim()
-  const supabase = await createClient()
+  const supabase = createPublicClient()
 
   let query = supabase
     .from('providers')

@@ -2,7 +2,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import ReactMarkdown from 'react-markdown'
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/public'
 import { generateSEOMetadata, generateBreadcrumbSchema, generateArticleSchema } from '@/lib/seo'
 import { Header, Footer } from '@/components/layout/PublicLayout'
 import { Badge } from '@/components/ui'
@@ -17,12 +17,15 @@ const CATEGORY_LABEL: Record<string, string> = {
 }
 
 async function getArticle(slug: string) {
-  const supabase = await createClient()
+  const supabase = createPublicClient()
+
+  // 解码 URL 编码的 slug（处理中文）
+  const decodedSlug = decodeURIComponent(slug)
 
   const { data } = await supabase
     .from('articles')
     .select('*, provider:providers(name, slug)')
-    .eq('slug', slug)
+    .eq('slug', decodedSlug)
     .eq('status', 'published')
     .maybeSingle()
 
@@ -42,6 +45,19 @@ export async function generateMetadata({
       title: '文章不存在',
       description: '未找到该文章',
       path: `/articles/${slug}`,
+      noindex: true,
+    })
+  }
+
+  // 新闻类文章设置 noindex, follow（内容过于单薄）
+  if (article.category === 'news') {
+    return generateSEOMetadata({
+      title: article.title,
+      description: article.summary || article.title,
+      path: `/articles/${article.slug}`,
+      type: 'article',
+      publishedTime: article.published_at || undefined,
+      modifiedTime: article.updated_at,
       noindex: true,
     })
   }
@@ -205,16 +221,26 @@ export default async function ArticleDetailPage({
                         {children}
                       </pre>
                     ),
-                    a: ({ href, children }) => (
-                      <a
-                        href={href}
-                        target="_blank"
-                        rel="noopener noreferrer nofollow"
-                        className="text-blue-600 hover:underline"
-                      >
-                        {children}
-                      </a>
-                    ),
+                    a: ({ href, children }) => {
+                      const isTrusted = href && (
+                        href.includes('openai.com') ||
+                        href.includes('anthropic.com') ||
+                        href.includes('google.com') ||
+                        href.includes('deepseek.com') ||
+                        href.includes('coze.com') ||
+                        href.includes('github.com')
+                      )
+                      return (
+                        <a
+                          href={href}
+                          target="_blank"
+                          rel={`noopener noreferrer${isTrusted ? '' : ' nofollow'}`}
+                          className="text-blue-600 hover:underline"
+                        >
+                          {children}
+                        </a>
+                      )
+                    },
                     blockquote: ({ children }) => (
                       <blockquote className="border-l-4 border-blue-500 pl-4 py-2 my-4 bg-blue-50 text-gray-700 italic">
                         {children}

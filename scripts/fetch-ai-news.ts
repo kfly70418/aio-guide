@@ -77,7 +77,7 @@ function writeCache(key: string, data: any) {
   fs.writeFileSync(path.join(CACHE_DIR, `${key}.json`), JSON.stringify(data), 'utf8')
 }
 
-const LIMIT = 10
+const LIMIT = 5
 
 // ---------- 抓取 ----------
 interface RawItem {

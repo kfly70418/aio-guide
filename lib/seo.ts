@@ -62,7 +62,7 @@ export function generateSEOMetadata({
   if (noindex) {
     metadata.robots = {
       index: false,
-      follow: false,
+      follow: true, // 不索引但允许跟踪链接
     }
   } else {
     metadata.robots = {
@@ -96,7 +96,7 @@ export function generateOrganizationSchema() {
     '@type': 'Organization',
     name: SITE_NAME,
     url: SITE_URL,
-    logo: `${SITE_URL}/logo.png`,
+    logo: `${SITE_URL}/logo.svg`,
     description: SITE_DESCRIPTION,
     sameAs: [],
   }

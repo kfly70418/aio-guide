@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/public'
 import { generateSEOMetadata, generateBreadcrumbSchema, generateItemListSchema } from '@/lib/seo'
 import { Header, Footer } from '@/components/layout/PublicLayout'
 
@@ -22,7 +22,7 @@ const FAMILY_LABEL: Record<string, string> = {
 }
 
 export default async function ModelsPage() {
-  const supabase = await createClient()
+  const supabase = createPublicClient()
 
   const { data: models } = await supabase
     .from('models')

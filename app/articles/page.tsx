@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/public'
 import { generateSEOMetadata, generateBreadcrumbSchema } from '@/lib/seo'
 import { Header, Footer } from '@/components/layout/PublicLayout'
 import { Badge } from '@/components/ui'
@@ -49,7 +49,7 @@ export default async function ArticlesPage({ searchParams }: ArticlesPageProps) 
   const params = await searchParams
   const page = parseInt(params.page || '1')
   const category = params.category
-  const supabase = await createClient()
+  const supabase = createPublicClient()
 
   // 查询总数
   let countQuery = supabase

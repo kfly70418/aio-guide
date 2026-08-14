@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/public'
 import { SITE_NAME } from '@/lib/constants'
 import { generateSEOMetadata, generateBreadcrumbSchema, generateServiceSchema } from '@/lib/seo'
 import { Header, Footer } from '@/components/layout/PublicLayout'
@@ -11,7 +11,7 @@ import { isExpired } from '@/lib/utils'
 export const revalidate = 300 // ISR: 5分钟
 
 async function getProvider(slug: string) {
-  const supabase = await createClient()
+  const supabase = createPublicClient()
   const { data } = await supabase
     .from('providers')
     .select('*')
@@ -60,7 +60,7 @@ export default async function ProviderDetailPage({
     notFound()
   }
 
-  const supabase = await createClient()
+  const supabase = createPublicClient()
 
   // 查询价格信息（带模型和渠道）
   const { data: prices } = await supabase
@@ -244,6 +244,36 @@ export default async function ProviderDetailPage({
                     )}
                   </dl>
                 </section>
+
+                {/* 支持的模型 */}
+                {prices && prices.length > 0 && (
+                  <section className="bg-white rounded-xl border border-gray-200 p-6">
+                    <h2 className="text-xl font-bold text-gray-900 mb-4">支持的模型</h2>
+                    <div className="flex flex-wrap gap-2">
+                      {Array.from(new Set(prices.map(p => p.model?.slug).filter(Boolean))).map((slug) => {
+                        const model = prices.find(p => p.model?.slug === slug)?.model
+                        if (!model) return null
+                        return (
+                          <Link
+                            key={slug}
+                            href={`/models/${slug}`}
+                            className="inline-flex items-center px-3 py-1.5 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg text-sm text-blue-700 hover:text-blue-800 transition-colors"
+                          >
+                            {model.name}
+                            {model.family && (
+                              <span className="ml-1.5 text-xs text-blue-500">
+                                ({model.family})
+                              </span>
+                            )}
+                          </Link>
+                        )
+                      })}
+                    </div>
+                    <p className="text-xs text-gray-500 mt-3">
+                      点击模型名称查看详细价格对比
+                    </p>
+                  </section>
+                )}
 
                 {/* 模型价格 */}
                 <section className="bg-white rounded-xl border border-gray-200 p-6">
