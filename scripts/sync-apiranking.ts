@@ -344,7 +344,7 @@ async function main() {
         trial_credit: s.bonus,
         refund_policy: s.refund,
         invoice_policy: s.invoice,
-        coupon_code: s.couponNote ? 'apiranking' : null,
+        coupon_code: s.couponNote ? 'apixuan' : null,
         coupon_note: s.couponNote,
         tags: s.tags,
       })),

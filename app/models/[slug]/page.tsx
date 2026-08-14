@@ -66,7 +66,7 @@ export default async function ModelDetailPage({
       id, price_input, price_output, currency, verified_at, notes,
       channel:channels!inner(
         id, name, is_primary,
-        provider:providers!inner(id, slug, name, status, is_recommended, min_topup, promo_code)
+        provider:providers!inner(id, slug, name, status, is_recommended, min_topup, coupon_code)
       )
     `
     )
@@ -251,9 +251,9 @@ export default async function ModelDetailPage({
                                     </span>
                                   )}
                                 </div>
-                                {provider?.promo_code && (
+                                {provider?.coupon_code && (
                                   <p className="text-xs text-orange-600 mt-0.5">
-                                    优惠码 {provider.promo_code}
+                                    优惠码 {provider.coupon_code}
                                   </p>
                                 )}
                               </td>

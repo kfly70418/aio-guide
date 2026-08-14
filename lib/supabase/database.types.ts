@@ -36,7 +36,6 @@ export interface Database {
           trial_credit: string | null
           transaction_fee: string | null
           invoice_support: boolean
-          promo_code: string | null
           verification_status: 'verified' | 'pending' | 'suspect' | 'failed' | null
           created_by: string | null
           updated_by: string | null
@@ -60,7 +59,6 @@ export interface Database {
           trial_credit?: string | null
           transaction_fee?: string | null
           invoice_support?: boolean
-          promo_code?: string | null
           verification_status?: 'verified' | 'pending' | 'suspect' | 'failed' | null
           created_by?: string | null
           updated_by?: string | null
@@ -84,7 +82,6 @@ export interface Database {
           trial_credit?: string | null
           transaction_fee?: string | null
           invoice_support?: boolean
-          promo_code?: string | null
           verification_status?: 'verified' | 'pending' | 'suspect' | 'failed' | null
           created_by?: string | null
           updated_by?: string | null

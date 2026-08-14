@@ -236,10 +236,10 @@ export default async function ProviderDetailPage({
                         </dd>
                       </div>
                     )}
-                    {provider.promo_code && (
+                    {provider.coupon_code && (
                       <div>
                         <dt className="text-gray-500 mb-1">优惠码</dt>
-                        <dd className="text-gray-900 font-medium font-mono">{provider.promo_code}</dd>
+                        <dd className="text-gray-900 font-medium font-mono">{provider.coupon_code}</dd>
                       </div>
                     )}
                   </dl>
@@ -382,7 +382,7 @@ export default async function ProviderDetailPage({
                 </aside>
 
                 {/* 商业披露 */}
-                {provider.promo_code && (
+                {provider.coupon_code && (
                   <aside className="bg-blue-50 border border-blue-200 rounded-xl p-5">
                     <h3 className="text-sm font-semibold text-blue-900 mb-2">商业合作</h3>
                     <p className="text-xs text-blue-800 leading-relaxed">

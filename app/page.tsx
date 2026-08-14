@@ -21,7 +21,7 @@ export default async function HomePage() {
     supabase
       .from('providers')
       .select(
-        'id, slug, name, name_en, description, features, is_recommended, verified_at, min_recharge, free_credits, transaction_fee, invoice_support, promo_code, verification_status, refund_policy, invoice_policy'
+        'id, slug, name, name_en, description, features, is_recommended, verified_at, min_topup, trial_credit, transaction_fee, invoice_support, coupon_code, verification_status, refund_policy, invoice_policy'
       )
       .eq('status', 'published')
       .order('is_recommended', { ascending: false })
@@ -175,16 +175,16 @@ export default async function HomePage() {
                         {/* 核心信息卡片 */}
                         <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-4 mb-4">
                           <div className="grid grid-cols-2 gap-4">
-                            {provider.min_recharge && (
+                            {provider.min_topup && (
                               <div className="text-center">
                                 <div className="text-xs text-gray-500 mb-1">最低起充</div>
-                                <div className="text-lg font-bold text-blue-600">{provider.min_recharge}元</div>
+                                <div className="text-lg font-bold text-blue-600">{provider.min_topup}</div>
                               </div>
                             )}
-                            {provider.free_credits && (
+                            {provider.trial_credit && (
                               <div className="text-center">
                                 <div className="text-xs text-gray-500 mb-1">新人赠送</div>
-                                <div className="text-lg font-bold text-green-600">${provider.free_credits}</div>
+                                <div className="text-lg font-bold text-green-600">{provider.trial_credit}</div>
                               </div>
                             )}
                           </div>
@@ -230,9 +230,9 @@ export default async function HomePage() {
                                   <p className="text-sm font-semibold text-gray-900 truncate">
                                     {provider.name}
                                   </p>
-                                  {provider.promo_code && (
+                                  {provider.coupon_code && (
                                     <p className="text-xs text-orange-600 truncate">
-                                      优惠码 {provider.promo_code}
+                                      优惠码 {provider.coupon_code}
                                     </p>
                                   )}
                                   {/* 气泡标签显示 description */}
@@ -266,12 +266,12 @@ export default async function HomePage() {
 
                               <div className="md:col-span-1 text-xs text-gray-700">
                                 <span className="md:hidden text-gray-500">起充 </span>
-                                {provider.min_recharge ? `${provider.min_recharge}元` : '—'}
+                                {provider.min_topup || '—'}
                               </div>
 
                               <div className="md:col-span-2 text-xs text-gray-700 truncate">
                                 <span className="md:hidden text-gray-500">赠送 </span>
-                                {provider.free_credits ? `$${provider.free_credits}` : '—'}
+                                {provider.trial_credit || '—'}
                               </div>
 
                               <div className="md:col-span-2 text-xs text-gray-700 truncate">

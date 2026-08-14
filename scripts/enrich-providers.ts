@@ -1,5 +1,5 @@
 /**
- * 用 apiranking 抓取的详情页 JSON 补全 providers 表字段
+ * 用外部数据源抓取的详情页 JSON 补全 providers 表字段
  *
  * 用法：
  *   npx tsx scripts/enrich-providers.ts            # 预览变更，不写库
@@ -151,7 +151,7 @@ async function main() {
 
   const { data: rows, error } = await supabase
     .from('providers')
-    .select('id, slug, name, description, features, is_recommended, sort_order, min_topup, trial_credit, transaction_fee, invoice_support, promo_code, verification_status, website_url')
+    .select('id, slug, name, description, features, is_recommended, sort_order, min_topup, trial_credit, transaction_fee, invoice_support, coupon_code, verification_status, website_url')
 
   if (error) throw error
   console.log(`数据库现有 ${rows?.length ?? 0} 条 providers\n`)
@@ -186,7 +186,7 @@ async function main() {
       trial_credit: pickTrialCredit(j),
       transaction_fee: pickTransactionFee(j),
       invoice_support: pickInvoiceSupport(j),
-      promo_code: j.coupon_code || null,
+      coupon_code: j.coupon_code || null,
       verification_status: clean(j.metrics?.['真假检测']).includes('通过检测') ? 'verified' : 'pending',
       website_url: j.domain ? `https://${j.domain}` : row.website_url,
       verified_at: new Date().toISOString(),
@@ -204,7 +204,7 @@ async function main() {
     console.log(
       `  推荐=${u.patch.is_recommended} | 权重=${u.patch.sort_order} | 起充=${u.patch.min_topup} | 赠送=${u.patch.trial_credit}`
     )
-    console.log(`  开票=${u.patch.invoice_support} | 优惠码=${u.patch.promo_code} | 退款=${u.patch.transaction_fee}`)
+    console.log(`  开票=${u.patch.invoice_support} | 优惠码=${u.patch.coupon_code} | 退款=${u.patch.transaction_fee}`)
     console.log('')
   }
 

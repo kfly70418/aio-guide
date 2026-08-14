@@ -1,6 +1,6 @@
 ---
 name: 抓取中转站排行数据
-description: 从 apiranking.com 抓取通过检测的服务商数据，保存为本地 JSON 文件
+description: 从外部数据源抓取通过检测的服务商数据，保存为本地 JSON 文件
 ---
 
 # 任务：抓取中转站排行数据

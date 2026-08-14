@@ -3,31 +3,14 @@ import type { Metadata } from 'next'
 import { createPublicClient } from '@/lib/supabase/public'
 import { generateSEOMetadata, generateBreadcrumbSchema, generateItemListSchema } from '@/lib/seo'
 import { Header, Footer } from '@/components/layout/PublicLayout'
-import { RankingTable, type RankingProvider } from '@/components/providers/RankingTable'
+import { ProvidersClient, type RankingProvider } from './ProvidersClient'
 
-interface ProvidersPageProps {
-  searchParams: Promise<{ search?: string }>
-}
-
-export async function generateMetadata({ searchParams }: ProvidersPageProps): Promise<Metadata> {
-  const { search } = await searchParams
-
-  if (search) {
-    return generateSEOMetadata({
-      title: `搜索: ${search} - 中转站排行榜`,
-      description: `搜索"${search}"相关的 AI API 中转站`,
-      path: '/providers',
-      noindex: true, // 搜索结果页不索引
-    })
-  }
-
-  return generateSEOMetadata({
-    title: 'AI API 中转站排行榜',
-    description:
-      '精选 AI API 中转站排行榜：逐家对比模型真假检测、价格水平、起充金额、赠送额度、退款政策与开票支持。数据人工核验并标注核验时间。',
-    path: '/providers',
-  })
-}
+export const metadata: Metadata = generateSEOMetadata({
+  title: 'AI API 中转站排行榜',
+  description:
+    '精选 AI API 中转站排行榜：逐家对比模型真假检测、价格水平、起充金额、赠送额度、退款政策与开票支持。数据人工核验并标注核验时间。',
+  path: '/providers',
+})
 
 export const revalidate = 300
 
@@ -39,12 +22,10 @@ const FAMILY_LABEL: Record<string, string> = {
   Grok: 'GROK',
 }
 
-export default async function ProvidersPage({ searchParams }: ProvidersPageProps) {
-  const { search: rawSearch } = await searchParams
-  const search = rawSearch?.trim()
+export default async function ProvidersPage() {
   const supabase = createPublicClient()
 
-  let query = supabase
+  const query = supabase
     .from('providers')
     .select(
       `id, slug, name, description, features, is_recommended, verified_at,
@@ -52,12 +33,6 @@ export default async function ProvidersPage({ searchParams }: ProvidersPageProps
        invoice_support, coupon_note, coupon_code, verification_status, website_url`
     )
     .eq('status', 'published')
-
-  if (search) {
-    query = query.or(
-      `name.ilike.%${search}%,name_en.ilike.%${search}%,description.ilike.%${search}%`
-    )
-  }
 
   const [{ data: providers }, { data: models }, { data: priceRows }] = await Promise.all([
     query.order('is_recommended', { ascending: false }).order('sort_order', { ascending: false }),
@@ -138,12 +113,10 @@ export default async function ProvidersPage({ searchParams }: ProvidersPageProps
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      {!search && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
-        />
-      )}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
+      />
 
       <div className="min-h-screen flex flex-col bg-gray-50">
         <Header />
@@ -216,35 +189,8 @@ export default async function ProvidersPage({ searchParams }: ProvidersPageProps
               </div>
             )}
 
-            {/* 搜索 */}
-            <form method="GET" action="/providers" className="mb-5 max-w-md">
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  name="search"
-                  defaultValue={search}
-                  placeholder="搜索中转站名称..."
-                  className="flex-1 px-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <button
-                  type="submit"
-                  className="px-5 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                >
-                  搜索
-                </button>
-                {search && (
-                  <Link
-                    href="/providers"
-                    className="px-4 py-2 text-sm text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors whitespace-nowrap"
-                  >
-                    清除
-                  </Link>
-                )}
-              </div>
-            </form>
-
-            {/* 排行榜表格（含模型筛选） */}
-            <RankingTable providers={rows} />
+            {/* 排行榜表格（含搜索和模型筛选） */}
+            <ProvidersClient providers={rows} />
 
             {/* 说明 */}
             <div className="mt-6 p-4 bg-white border border-gray-200 rounded-xl text-xs text-gray-600 leading-relaxed">
