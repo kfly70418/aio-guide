@@ -30,6 +30,8 @@ https://api.example.com
 
 点击 Windows 开始菜单，搜索“PowerShell”，然后打开 Windows PowerShell。
 
+![从 Windows 开始菜单搜索并打开 PowerShell](/images/articles/claude-code-relay-api/04-open-powershell.png)
+
 在 PowerShell 中粘贴下面的官方安装命令，然后按回车：
 
 ```powershell
@@ -102,7 +104,9 @@ claude
 - `Auth token` 或 `API key` 是否显示已经启用
 - 是否仍然使用以前保存的 Claude.ai 登录
 
-> 待补截图：Claude Code `/status` 页面。Base URL 可以保留，密钥内容必须遮挡。
+![Claude Code status 页面检查 Base URL 和认证方式示意图](/images/articles/claude-code-relay-api/05-claude-code-status-example.png)
+
+上图为示意界面，Claude Code 的页面布局和字段名称可能随版本更新。你需要重点确认 Base URL 和认证变量是否与服务商说明一致。
 
 如果状态页面没有显示自定义 Base URL，通常是因为 Claude Code 没有从刚才配置的 PowerShell 窗口启动。请退出 Claude Code，在同一个 PowerShell 窗口重新运行 `claude`。
 
@@ -111,10 +115,12 @@ claude
 退出状态页面后，可以输入一条简单指令：
 
 ```text
-请告诉我你当前使用的模型名称，并用一句话介绍自己。
+请只回复：连接测试成功
 ```
 
 能够正常返回内容，说明 API 地址、密钥和 Claude Code 已经连接成功。
+
+![Claude Code 返回连接测试成功的示意图](/images/articles/claude-code-relay-api/06-connection-test-example.png)
 
 接下来可以打开一个测试文件夹，让 Claude Code 执行：
 
@@ -123,8 +129,6 @@ claude
 ```
 
 这样可以同时确认 Claude Code 的对话和文件读取功能是否正常。
-
-> 待补截图：Claude Code 成功回答测试问题的画面。
 
 ## 第六步：把配置永久保存
 
