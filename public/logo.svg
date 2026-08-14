@@ -1,9 +1,11 @@
-<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg">
-  <rect width="512" height="512" fill="#2563eb" rx="64"/>
-  <text x="256" y="280" font-family="Arial, sans-serif" font-size="180" font-weight="bold" fill="white" text-anchor="middle">
-    API
-  </text>
-  <text x="256" y="360" font-family="Arial, sans-serif" font-size="48" fill="#e0e7ff" text-anchor="middle">
-    精选导航
-  </text>
+<svg xmlns="http://www.w3.org/2000/svg" width="204" height="56" viewBox="0 0 204 56" role="img" aria-labelledby="title desc">
+  <title id="title">API选</title>
+  <desc id="desc">API选品牌标志，代码括号环绕绿色勾选</desc>
+  <rect width="56" height="56" rx="13" fill="#111827"/>
+  <path d="M21 12c-5 0-6 4-6 9v2c0 4-2 5-5 5 3 0 5 1 5 5v2c0 5 1 9 6 9" fill="none" stroke="#60A5FA" stroke-width="4" stroke-linecap="round"/>
+  <path d="M35 12c5 0 6 4 6 9v2c0 4 2 5 5 5-3 0-5 1-5 5v2c0 5-1 9-6 9" fill="none" stroke="#93C5FD" stroke-width="4" stroke-linecap="round"/>
+  <path d="m21 28 6 6 10-12" fill="none" stroke="#34D399" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="70" y="32" fill="#111827" font-family="Arial, 'Microsoft YaHei', sans-serif" font-size="28" font-weight="800" letter-spacing="0">API</text>
+  <text x="118" y="32" fill="#2563EB" font-family="'Microsoft YaHei', Arial, sans-serif" font-size="28" font-weight="800" letter-spacing="0">选</text>
+  <text x="71" y="48" fill="#6B7280" font-family="Arial, sans-serif" font-size="10" font-weight="700" letter-spacing="0">AI API GUIDE</text>
 </svg>

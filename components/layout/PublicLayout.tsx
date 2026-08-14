@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { SITE_NAME } from '@/lib/constants'
 
 export function Header() {
@@ -6,10 +7,29 @@ export function Header() {
     <header className="border-b border-gray-200 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className="text-xl font-bold text-gray-900 hover:text-blue-600">
-            {SITE_NAME}
+          <Link
+            href="/"
+            aria-label={`${SITE_NAME}首页`}
+            className="flex shrink-0 items-center transition-opacity hover:opacity-80"
+          >
+            <Image
+              src="/logo-mark.svg"
+              alt="API选"
+              width={36}
+              height={36}
+              preload
+              className="h-9 w-9 sm:hidden"
+            />
+            <Image
+              src="/logo.svg"
+              alt="API选"
+              width={204}
+              height={56}
+              preload
+              className="hidden h-10 w-auto sm:block"
+            />
           </Link>
-          <nav className="flex gap-6 text-sm font-medium">
+          <nav className="flex gap-2 whitespace-nowrap text-xs font-medium sm:gap-6 sm:text-sm">
             <Link href="/providers" className="text-gray-700 hover:text-blue-600 transition-colors">
               中转站排行
             </Link>
