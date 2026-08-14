@@ -43,7 +43,7 @@ export async function generateMetadata({ searchParams }: ArticlesPageProps): Pro
   })
 }
 
-export const revalidate = 600 // ISR: 10分钟
+export const revalidate = 3600 // ISR: 1小时（文章更新频率低）
 
 export default async function ArticlesPage({ searchParams }: ArticlesPageProps) {
   const params = await searchParams

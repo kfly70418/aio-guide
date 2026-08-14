@@ -7,7 +7,7 @@ import { generateSEOMetadata, generateBreadcrumbSchema, generateArticleSchema } 
 import { Header, Footer } from '@/components/layout/PublicLayout'
 import { Badge } from '@/components/ui'
 
-export const revalidate = 600 // ISR: 10分钟
+export const revalidate = 3600 // ISR: 1小时（文章内容更新频率低）
 
 const CATEGORY_LABEL: Record<string, string> = {
   tutorial: '入门教程',

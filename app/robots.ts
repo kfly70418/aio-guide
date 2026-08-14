@@ -14,7 +14,6 @@ export default function robots(): MetadataRoute.Robots {
           '/auth/*',
           '/api/',
           '/api/*',
-          '/*?page=*',     // 分页参数不索引
           '/*?search=*',   // 搜索参数不索引
         ],
       },

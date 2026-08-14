@@ -1,7 +1,7 @@
 // 常量定义
 
 // 网站信息
-export const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || 'api中转站精选导航'
+export const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || 'API选'
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 export const SITE_DESCRIPTION = process.env.NEXT_PUBLIC_SITE_DESCRIPTION || 'AI中转站评测，真实体验'
 
