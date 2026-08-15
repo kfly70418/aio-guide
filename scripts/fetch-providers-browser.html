@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>服务商信息抓取工具</title>
+  <style>
+    body {
+      font-family: 'Microsoft YaHei', sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .header {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .provider-card {
+      background: white;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .provider-name {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333;
+    }
+    .status {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      margin-left: 10px;
+    }
+    .status.pending { background: #ffd700; color: #333; }
+    .status.loading { background: #4a90e2; color: white; }
+    .status.success { background: #52c41a; color: white; }
+    .status.error { background: #ff4d4f; color: white; }
+    .info-field {
+      margin: 8px 0;
+      font-size: 14px;
+    }
+    .info-field label {
+      font-weight: bold;
+      color: #666;
+      display: inline-block;
+      width: 100px;
+    }
+    .info-field input, .info-field textarea {
+      width: calc(100% - 120px);
+      padding: 6px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .info-field textarea {
+      min-height: 60px;
+      resize: vertical;
+    }
+    button {
+      background: #4a90e2;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-right: 10px;
+    }
+    button:hover {
+      background: #357abd;
+    }
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    .export-section {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    textarea.export-data {
+      width: 100%;
+      min-height: 200px;
+      font-family: monospace;
+      font-size: 12px;
+    }
+    .progress {
+      margin: 15px 0;
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🚀 服务商信息抓取工具</h1>
+    <p>请手动访问下面的每个服务商网站，填写相关信息后导出数据</p>
+    <div class="progress" id="progress">待处理: 13 个服务商</div>
+    <button onclick="exportData()">📋 导出 JSON 数据</button>
+    <button onclick="copyToClipboard()">📋 复制到剪贴板</button>
+  </div>
+
+  <div id="providers"></div>
+
+  <div class="export-section">
+    <h3>导出数据（JSON 格式）</h3>
+    <textarea class="export-data" id="exportData" readonly></textarea>
+  </div>
+
+  <script>
+    const providers = [
+      { name: 'OpenAI-HK', url: 'https://openai-hk.com' },
+      { name: 'API2D', url: 'https://api2d.com' },
+      { name: 'AIchatOS', url: 'https://aichatos.cloud' },
+      { name: 'CUN.ai', url: 'https://cun.ai' },
+      { name: 'wawapi.top', url: 'https://wawapi.top' },
+      { name: 'AISKT', url: 'https://aiskt.com' },
+      { name: 'APIHub', url: 'https://apihub.bot' },
+      { name: 'AceDataCloud', url: 'https://www.acedatcloud.com' },
+      { name: 'GPT-API', url: 'https://gpt-api.us' },
+      { name: 'DuiAPI', url: 'https://duiapi.com' },
+      { name: 'Modelflare', url: 'https://modelflare.com' },
+      { name: 'api.koozhan.com', url: 'https://api.koozhan.com' },
+      { name: 'api-top.com', url: 'https://api-top.com' }
+    ];
+
+    const providersContainer = document.getElementById('providers');
+
+    providers.forEach((provider, index) => {
+      const card = document.createElement('div');
+      card.className = 'provider-card';
+      card.id = `provider-${index}`;
+      card.innerHTML = `
+        <div class="provider-name">
+          ${provider.name}
+          <span class="status pending">待填写</span>
+          <a href="${provider.url}" target="_blank" style="margin-left: 10px; font-size: 14px;">🔗 访问网站</a>
+        </div>
+        <div class="info-field">
+          <label>描述:</label>
+          <textarea id="desc-${index}" placeholder="简短描述服务商特点" oninput="updateStatus(${index})"></textarea>
+        </div>
+        <div class="info-field">
+          <label>最低充值:</label>
+          <input type="text" id="topup-${index}" placeholder="例如: ¥1" oninput="updateStatus(${index})">
+        </div>
+        <div class="info-field">
+          <label>试用额度:</label>
+          <input type="text" id="trial-${index}" placeholder="例如: $3" oninput="updateStatus(${index})">
+        </div>
+        <div class="info-field">
+          <label>手续费:</label>
+          <input type="text" id="fee-${index}" placeholder="例如: 无手续费 或 1.6%手续费" oninput="updateStatus(${index})">
+        </div>
+        <div class="info-field">
+          <label>特性:</label>
+          <input type="text" id="features-${index}" placeholder="用逗号分隔,例如: 支持开票,稳定可靠,24小时客服" oninput="updateStatus(${index})">
+        </div>
+      `;
+      providersContainer.appendChild(card);
+    });
+
+    function updateStatus(index) {
+      const desc = document.getElementById(`desc-${index}`).value;
+      const card = document.getElementById(`provider-${index}`);
+      const statusEl = card.querySelector('.status');
+
+      if (desc.trim()) {
+        statusEl.textContent = '已填写';
+        statusEl.className = 'status success';
+      } else {
+        statusEl.textContent = '待填写';
+        statusEl.className = 'status pending';
+      }
+
+      updateProgress();
+      exportData();
+    }
+
+    function updateProgress() {
+      let completed = 0;
+      providers.forEach((_, index) => {
+        const desc = document.getElementById(`desc-${index}`).value;
+        if (desc.trim()) completed++;
+      });
+      document.getElementById('progress').textContent =
+        `已完成: ${completed} / ${providers.length} 个服务商`;
+    }
+
+    function exportData() {
+      const data = [];
+      providers.forEach((provider, index) => {
+        const desc = document.getElementById(`desc-${index}`).value.trim();
+        const topup = document.getElementById(`topup-${index}`).value.trim();
+        const trial = document.getElementById(`trial-${index}`).value.trim();
+        const fee = document.getElementById(`fee-${index}`).value.trim();
+        const features = document.getElementById(`features-${index}`).value.trim();
+
+        if (desc) {
+          data.push({
+            name: provider.name,
+            description: desc,
+            min_topup: topup || null,
+            trial_credit: trial || null,
+            transaction_fee: fee || null,
+            features: features ? features.split(',').map(f => f.trim()).filter(f => f) : []
+          });
+        }
+      });
+
+      document.getElementById('exportData').value = JSON.stringify(data, null, 2);
+    }
+
+    function copyToClipboard() {
+      const textarea = document.getElementById('exportData');
+      textarea.select();
+      document.execCommand('copy');
+      alert('已复制到剪贴板！');
+    }
+
+    // 初始化
+    updateProgress();
+  </script>
+</body>
+</html>

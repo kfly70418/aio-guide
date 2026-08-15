@@ -12,7 +12,8 @@ export default async function ProvidersPage({
   const statusFilter = params.status || ''
   const pageSize = 20
 
-  const { data: allProviders } = await getProviders()
+  // 获取所有服务商（不分页）用于客户端筛选
+  const { data: allProviders } = await getProviders(undefined, undefined, 1, 9999)
   const expiredProviders = await getExpiredProviders()
 
   // 过滤
