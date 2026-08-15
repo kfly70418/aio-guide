@@ -114,6 +114,14 @@ export default async function AdminLayout({
                   </li>
                   <li>
                     <Link
+                      href="/admin/provider-models"
+                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded"
+                    >
+                      服务商模型配置
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
                       href="/admin/prices"
                       className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded"
                     >
