@@ -70,7 +70,7 @@ async function generateImages() {
         style: "natural"
       });
 
-      const imageUrl = response.data[0].url;
+      const imageUrl = response.data?.[0]?.url;
       if (!imageUrl) {
         console.error(`❌ 未获取到图片 URL`);
         continue;
