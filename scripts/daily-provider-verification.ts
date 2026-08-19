@@ -9,6 +9,11 @@
  * 执行时间：每天上午 10:00
  */
 
+// Polyfill for WebSocket in Node.js environment
+if (typeof global.WebSocket === 'undefined') {
+  global.WebSocket = class WebSocket {} as any;
+}
+
 import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
