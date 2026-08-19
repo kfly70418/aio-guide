@@ -1,0 +1,51 @@
+name: Daily Provider Verification
+
+on:
+  schedule:
+    # 每天上午 10:00 (UTC+8) = 02:00 UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch: # 允许手动触发
+
+jobs:
+  verify-providers:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run provider verification
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: npx tsx scripts/daily-provider-verification.ts
+
+      - name: Commit verification report
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          # 如果有新的报告文件，提交它
+          if [ -n "$(git status --porcelain logs/verification/)" ]; then
+            git add logs/verification/*.md
+            git commit -m "chore: 每日服务商核验报告 $(date +'%Y-%m-%d')" || echo "No changes to commit"
+            git push || echo "Nothing to push"
+          else
+            echo "No verification reports to commit"
+          fi
+
+      - name: Send notification on failure
+        if: failure()
+        run: |
+          echo "❌ 服务商核验任务失败"
+          echo "时间: $(date +'%Y-%m-%d %H:%M:%S')"
+          # 这里可以添加通知逻辑（如发送邮件、Webhook 等）
