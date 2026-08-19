@@ -298,6 +298,44 @@ export default async function HomePage() {
                 </Link>
 
                 <Link
+                  href="/rankings/fast"
+                  className="group p-6 bg-white border-2 border-gray-200 rounded-xl hover:border-amber-400 hover:shadow-lg transition-all"
+                >
+                  <div className="text-4xl mb-4">⚡</div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-amber-600">
+                    速度快的中转站
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-4">
+                    低延迟高响应，平均 &lt;500ms
+                  </p>
+                  <div className="flex items-center text-sm text-amber-600 font-medium">
+                    查看榜单
+                    <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/rankings/multimodel"
+                  className="group p-6 bg-white border-2 border-gray-200 rounded-xl hover:border-indigo-400 hover:shadow-lg transition-all"
+                >
+                  <div className="text-4xl mb-4">🎯</div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-indigo-600">
+                    多模型中转站
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-4">
+                    支持 Claude、GPT、Gemini 等 10+ 模型
+                  </p>
+                  <div className="flex items-center text-sm text-indigo-600 font-medium">
+                    查看榜单
+                    <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </Link>
+
+                <Link
                   href="/faq"
                   className="group p-6 bg-white border-2 border-gray-200 rounded-xl hover:border-indigo-400 hover:shadow-lg transition-all"
                 >

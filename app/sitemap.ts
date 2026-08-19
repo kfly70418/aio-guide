@@ -43,6 +43,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/rankings/free`, changeFrequency: 'daily', priority: 0.9 },
     { url: `${SITE_URL}/rankings/newbie`, changeFrequency: 'daily', priority: 0.9 },
     { url: `${SITE_URL}/rankings/enterprise`, changeFrequency: 'daily', priority: 0.9 },
+    { url: `${SITE_URL}/rankings/fast`, changeFrequency: 'daily', priority: 0.9 },
+    { url: `${SITE_URL}/rankings/multimodel`, changeFrequency: 'daily', priority: 0.9 },
   ]
 
   // 移除质量门槛：所有已发布的服务商都收录

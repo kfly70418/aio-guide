@@ -91,6 +91,22 @@ const RANKING_CATEGORIES: Record<string, RankingCategory> = {
     filter: { tags: ['开发票'] },
     icon: '🏢',
   },
+  'fast': {
+    title: '速度快的 API 中转站',
+    fullTitle: '速度快的 API 中转站推荐 - 低延迟高响应的 AI API 服务商',
+    description: '精选响应速度快、延迟低的 API 中转站。国内节点优化，平均响应时间 <500ms，适合实时对话场景。',
+    keywords: ['速度快的中转站', 'api中转站速度', '低延迟中转站', '快速响应中转站'],
+    filter: { tags: ['速度快'] },
+    icon: '⚡',
+  },
+  'multimodel': {
+    title: '多模型 API 中转站',
+    fullTitle: '多模型 API 中转站推荐 - 支持 10+ AI 模型的服务商',
+    description: '精选支持多种 AI 模型的 API 中转站。同时支持 Claude、GPT、Gemini、文心一言等 10+ 主流模型，一站式解决方案。',
+    keywords: ['多模型中转站', 'api中转站多模型', '支持多模型的中转站', '全模型中转站'],
+    filter: { tags: ['多模型'] },
+    icon: '🎯',
+  },
 };
 
 type RankingCategoryKey = keyof typeof RANKING_CATEGORIES;
