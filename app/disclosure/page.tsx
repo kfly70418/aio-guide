@@ -75,12 +75,28 @@ export default function DisclosurePage() {
                   以下服务商与本站存在推广合作关系（持续更新）：
                 </p>
                 <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
-                  <p className="text-gray-600 text-sm">
-                    当前暂无正式合作的服务商。本站刚刚上线，正在逐步建立合作关系。
-                    一旦有合作服务商，会在此列表中公开披露。
-                  </p>
-                  <p className="text-gray-600 text-sm mt-3">
-                    <strong>更新时间：</strong>2026年8月12日
+                  <div className="space-y-4">
+                    <div className="border-l-4 border-blue-600 pl-4">
+                      <h3 className="font-semibold text-gray-900">OpenOx</h3>
+                      <p className="text-sm text-gray-600 mt-1">
+                        合作形式：推广链接
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        详情页标注：已标注推广合作关系
+                      </p>
+                    </div>
+                    <div className="border-l-4 border-blue-600 pl-4">
+                      <h3 className="font-semibold text-gray-900">H API</h3>
+                      <p className="text-sm text-gray-600 mt-1">
+                        合作形式：推广链接
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        详情页标注：已标注推广合作关系
+                      </p>
+                    </div>
+                  </div>
+                  <p className="text-gray-600 text-sm mt-4">
+                    <strong>更新时间：</strong>2026年8月19日
                   </p>
                 </div>
               </div>
@@ -207,7 +223,7 @@ export default function DisclosurePage() {
                 如果您对商业合作有任何疑问，欢迎通过<a href="/about" className="text-blue-600 hover:underline">联系方式</a>与我们沟通。
               </p>
               <p className="text-sm text-gray-500 mt-4">
-                <strong>最后更新时间：</strong>2026年8月12日
+                <strong>最后更新时间：</strong>2026年8月19日
               </p>
             </section>
           </div>

@@ -143,8 +143,8 @@ export default function AboutPage() {
                 <div className="mt-6 p-4 bg-gray-50 rounded-lg">
                   <p className="text-gray-700">
                     <strong>邮箱：</strong>
-                    <a href="mailto:contact@example.com" className="text-blue-600 hover:underline ml-2">
-                      contact@example.com
+                    <a href="mailto:kfly70418@gmail.com" className="text-blue-600 hover:underline ml-2">
+                      kfly70418@gmail.com
                     </a>
                   </p>
                 </div>
