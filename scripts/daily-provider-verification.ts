@@ -124,7 +124,6 @@ async function verifyAllProviders(): Promise<VerificationResult[]> {
   const { data: providers, error } = await supabase
     .from('providers')
     .select('id, name, slug, website_url')
-    .eq('is_active', true)
     .order('name')
 
   if (error) {
