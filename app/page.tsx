@@ -21,7 +21,7 @@ export default async function HomePage() {
     supabase
       .from('providers')
       .select(
-        'id, slug, name, name_en, description, features, is_recommended, verified_at, min_topup, trial_credit, transaction_fee, invoice_support, coupon_code, verification_status, refund_policy, invoice_policy'
+        'id, slug, name, name_en, description, features, is_recommended, verified_at, min_topup, trial_credit, transaction_fee, invoice_support, verification_status'
       )
       .eq('status', 'published')
       .order('is_recommended', { ascending: false })
@@ -136,6 +136,132 @@ export default async function HomePage() {
             </div>
           </section>
 
+          {/* 热门榜单推荐 - 新增 SEO 导流模块 */}
+          <section className="py-12 bg-gradient-to-b from-gray-50 to-white">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-center mb-8">
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">🏆 热门榜单推荐</h2>
+                <p className="text-sm text-gray-600">根据不同需求，精选最适合你的中转站</p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <Link
+                  href="/rankings/claude-api"
+                  className="group p-6 bg-white border-2 border-gray-200 rounded-xl hover:border-purple-400 hover:shadow-lg transition-all"
+                >
+                  <div className="text-4xl mb-4">🤖</div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-purple-600">
+                    Claude 中转站推荐
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-4">
+                    支持 Opus 5 / Sonnet 5 最新模型，稳定可靠
+                  </p>
+                  <div className="flex items-center text-sm text-purple-600 font-medium">
+                    查看榜单
+                    <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/rankings/gpt-api"
+                  className="group p-6 bg-white border-2 border-gray-200 rounded-xl hover:border-green-400 hover:shadow-lg transition-all"
+                >
+                  <div className="text-4xl mb-4">💬</div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-green-600">
+                    GPT 中转站推荐
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-4">
+                    已支持 GPT-5.6 最新版本，价格透明
+                  </p>
+                  <div className="flex items-center text-sm text-green-600 font-medium">
+                    查看榜单
+                    <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/rankings/cheap"
+                  className="group p-6 bg-white border-2 border-gray-200 rounded-xl hover:border-orange-400 hover:shadow-lg transition-all"
+                >
+                  <div className="text-4xl mb-4">💰</div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-orange-600">
+                    便宜的中转站
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-4">
+                    高性价比推荐，最低 10 元起充
+                  </p>
+                  <div className="flex items-center text-sm text-orange-600 font-medium">
+                    查看榜单
+                    <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/rankings/stable"
+                  className="group p-6 bg-white border-2 border-gray-200 rounded-xl hover:border-blue-400 hover:shadow-lg transition-all"
+                >
+                  <div className="text-4xl mb-4">🛡️</div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600">
+                    稳定的中转站
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-4">
+                    运营 1 年以上，用户口碑好
+                  </p>
+                  <div className="flex items-center text-sm text-blue-600 font-medium">
+                    查看榜单
+                    <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/rankings/domestic"
+                  className="group p-6 bg-white border-2 border-gray-200 rounded-xl hover:border-red-400 hover:shadow-lg transition-all"
+                >
+                  <div className="text-4xl mb-4">🇨🇳</div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-red-600">
+                    国内中转站
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-4">
+                    无需魔法，国内直连低延迟
+                  </p>
+                  <div className="flex items-center text-sm text-red-600 font-medium">
+                    查看榜单
+                    <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/faq"
+                  className="group p-6 bg-white border-2 border-gray-200 rounded-xl hover:border-indigo-400 hover:shadow-lg transition-all"
+                >
+                  <div className="text-4xl mb-4">❓</div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-indigo-600">
+                    常见问题
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-4">
+                    15+ 问题快速解答，新手必看
+                  </p>
+                  <div className="flex items-center text-sm text-indigo-600 font-medium">
+                    查看全部
+                    <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </Link>
+              </div>
+            </div>
+          </section>
+
           {/* 推荐中转站 */}
           <section className="pt-8 pb-12 bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -230,11 +356,6 @@ export default async function HomePage() {
                                   <p className="text-sm font-semibold text-gray-900 truncate">
                                     {provider.name}
                                   </p>
-                                  {provider.coupon_code && (
-                                    <p className="text-xs text-orange-600 truncate">
-                                      优惠码 {provider.coupon_code}
-                                    </p>
-                                  )}
                                   {/* 气泡标签显示 description */}
                                   {provider.description && (
                                     <div className="flex flex-wrap gap-1 mt-2">
@@ -275,13 +396,13 @@ export default async function HomePage() {
                               </div>
 
                               <div className="md:col-span-2 text-xs text-gray-700 truncate">
-                                <span className="md:hidden text-gray-500">退款 </span>
-                                {provider.refund_policy || provider.transaction_fee || '—'}
+                                <span className="md:hidden text-gray-500">费用 </span>
+                                {provider.transaction_fee || '—'}
                               </div>
 
                               <div className="md:col-span-1 md:text-right text-xs">
                                 <span className="md:hidden text-gray-500">开票 </span>
-                                {provider.invoice_policy || (provider.invoice_support ? '支持' : '—')}
+                                {provider.invoice_support ? '支持' : '—'}
                               </div>
                             </Link>
                           </li>

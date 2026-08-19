@@ -27,9 +27,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/providers`, changeFrequency: 'daily', priority: 0.9 },
     { url: `${SITE_URL}/models`, changeFrequency: 'daily', priority: 0.9 },
     { url: `${SITE_URL}/articles`, changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${SITE_URL}/faq`, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${SITE_URL}/about`, changeFrequency: 'monthly', priority: 0.5 },
     { url: `${SITE_URL}/methodology`, changeFrequency: 'monthly', priority: 0.5 },
     { url: `${SITE_URL}/disclosure`, changeFrequency: 'monthly', priority: 0.5 },
+  ]
+
+  // Rankings 聚合页面（高优先级 SEO 页面）
+  const rankingPages: MetadataRoute.Sitemap = [
+    { url: `${SITE_URL}/rankings/claude-api`, changeFrequency: 'daily', priority: 0.95 },
+    { url: `${SITE_URL}/rankings/gpt-api`, changeFrequency: 'daily', priority: 0.95 },
+    { url: `${SITE_URL}/rankings/cheap`, changeFrequency: 'daily', priority: 0.9 },
+    { url: `${SITE_URL}/rankings/stable`, changeFrequency: 'daily', priority: 0.9 },
+    { url: `${SITE_URL}/rankings/domestic`, changeFrequency: 'daily', priority: 0.9 },
   ]
 
   // 移除质量门槛：所有已发布的服务商都收录
@@ -55,5 +65,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }))
 
-  return [...staticPages, ...providerPages, ...modelPages, ...articlePages]
+  return [...staticPages, ...rankingPages, ...providerPages, ...modelPages, ...articlePages]
 }
