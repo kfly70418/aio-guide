@@ -159,13 +159,29 @@ async function verifyAllProviders(): Promise<VerificationResult[]> {
 
     // 如果网站在线，更新核验时间
     if (websiteCheck.status === 'online') {
+      const now = new Date().toISOString()
+
+      // 更新服务商核验时间
       await supabase
         .from('providers')
         .update({
-          last_verified_at: new Date().toISOString(),
-          updated_at: new Date().toISOString()
+          last_verified_at: now,
+          updated_at: now
         })
         .eq('id', provider.id)
+
+      // 同时更新该服务商的所有价格记录核验时间
+      await supabase
+        .from('prices')
+        .update({
+          verified_at: now
+        })
+        .in('channel_id',
+          supabase
+            .from('channels')
+            .select('id')
+            .eq('provider_id', provider.id)
+        )
     }
 
     // 避免过于频繁的请求
