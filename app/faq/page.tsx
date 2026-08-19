@@ -506,11 +506,740 @@ config/secrets.yml
     category: 'safety',
     keywords: ['api key泄露', 'api密钥泄露怎么办', 'key被盗用'],
   },
+  {
+    id: 'relay-speed',
+    question: 'API 中转站速度慢怎么办？',
+    answer: `优化 API 中转站响应速度的方法：
+
+**🔍 诊断速度问题**
+
+**1. 测试网络延迟**
+\`\`\`bash
+# 测试到中转站的延迟
+curl -o /dev/null -s -w "Time: %{time_total}s\\n" https://api.provider.com/v1/chat/completions
+\`\`\`
+
+**2. 定位瓶颈**
+- 网络延迟（ping > 200ms）
+- DNS 解析慢（> 500ms）
+- 服务端处理慢（排队/限流）
+
+**⚡ 优化方案**
+
+**1. 选择就近节点**
+- 国内用户选择国内直连服务商
+- 海外用户选择海外节点
+- 查看[速度快的中转站](/rankings/fast)
+
+**2. 优化 DNS**
+\`\`\`bash
+# 使用公共 DNS
+# 114DNS: 114.114.114.114
+# 阿里DNS: 223.5.5.5
+# Cloudflare: 1.1.1.1
+\`\`\`
+
+**3. 使用连接池**
+\`\`\`python
+from openai import OpenAI
+
+# 复用连接，避免频繁建立 TCP
+client = OpenAI(
+    base_url="https://api.provider.com/v1",
+    api_key="your-key",
+    max_retries=3,
+    timeout=30.0
+)
+\`\`\`
+
+**4. 启用流式响应**
+\`\`\`python
+# 流式输出，首字延迟更低
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[{"role": "user", "content": "Hello"}],
+    stream=True
+)
+\`\`\`
+
+**📊 正常速度参考**
+- 国内直连：首字延迟 < 500ms
+- 海外节点：首字延迟 1-3s
+- 完整响应：根据输出长度，约 20-50 tokens/s`,
+    category: 'technical',
+    keywords: ['api中转站速度慢', '中转站响应慢', '提升api速度'],
+  },
+  {
+    id: 'multiple-models',
+    question: '一个中转站可以用多个模型吗？',
+    answer: `大部分 API 中转站支持多模型切换：
+
+**✅ 多模型支持情况**
+
+**主流服务商（10+ 模型）**
+1. **LinkAI** - Claude, GPT, Gemini, 文心一言
+2. **OpenOx** - 15+ 主流模型
+3. **聚星AI** - 支持几乎所有主流模型
+
+**单一模型服务商**
+- 部分服务商只支持 OpenAI 系列
+- 部分只支持 Claude 系列
+
+**🎯 多模型使用方式**
+
+**同一个 Key 切换模型**
+\`\`\`python
+# 使用同一个 API Key
+client = OpenAI(base_url="https://api.provider.com/v1")
+
+# 切换到 GPT-4o
+response1 = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[...]
+)
+
+# 切换到 Claude Opus 5
+response2 = client.chat.completions.create(
+    model="claude-opus-5",
+    messages=[...]
+)
+\`\`\`
+
+**💡 选择建议**
+- 需要多模型对比：选择多模型服务商
+- 只用单一模型：选择专精服务商
+- 查看[多模型中转站排行](/rankings/multimodel)
+
+**⚠️ 注意事项**
+- 不同模型价格不同，注意余额消耗
+- 部分模型可能需要单独开通权限
+- 查看服务商的模型支持列表`,
+    category: 'usage',
+    keywords: ['中转站支持多个模型吗', '一个key用多个模型', '多模型切换'],
+  },
+  {
+    id: 'invoice-support',
+    question: 'API 中转站可以开发票吗？',
+    answer: `部分 API 中转站支持开具发票：
+
+**🏢 支持开票的服务商**
+
+**企业级服务商**
+- **LinkAI** - 支持增值税专用发票/普通发票
+- **OpenOx** - 企业认证后可开票
+- **聚星AI** - 充值满 1000 元可开票
+
+查看[企业级中转站排行](/rankings/enterprise)
+
+**📋 开票流程**
+
+**1. 企业认证**
+- 提供营业执照
+- 填写企业信息
+- 绑定对公账户（部分需要）
+
+**2. 申请发票**
+- 登录控制台 → 发票管理
+- 填写发票抬头信息
+- 选择发票类型（专票/普票）
+- 提交申请
+
+**3. 发票内容**
+- 品名：技术服务费 / 信息服务费
+- 税率：6%（一般纳税人）
+- 金额：实际充值金额
+
+**💰 开票门槛**
+- 最低金额：100-1000 元不等
+- 开票频率：月结 / 季度结
+- 邮寄费用：部分收取 10-20 元
+
+**⚠️ 注意事项**
+- 个人用户通常无法开票
+- 专票需要企业一般纳税人资质
+- 电子发票与纸质发票法律效力相同`,
+    category: 'pricing',
+    keywords: ['api中转站开发票', '中转站发票', '企业充值开票'],
+  },
+  {
+    id: 'api-quota-management',
+    question: '如何管理 API 用量配额？',
+    answer: `有效管理 API 用量的方法：
+
+**📊 用量监控**
+
+**1. 服务商控制台**
+- 实时用量统计
+- 按天/周/月查看
+- 分模型查看消耗
+
+**2. 自建监控系统**
+\`\`\`python
+import time
+from openai import OpenAI
+
+class APIMonitor:
+    def __init__(self, api_key):
+        self.client = OpenAI(api_key=api_key)
+        self.usage_log = []
+
+    def track_request(self, model, messages):
+        start_time = time.time()
+        response = self.client.chat.completions.create(
+            model=model,
+            messages=messages
+        )
+
+        # 记录用量
+        self.usage_log.append({
+            'timestamp': start_time,
+            'model': model,
+            'tokens': response.usage.total_tokens,
+            'cost': self.calculate_cost(model, response.usage)
+        })
+
+        return response
+\`\`\`
+
+**🎯 配额管理策略**
+
+**1. 设置告警阈值**
+- 每日用量超过 X 元时告警
+- 余额低于 Y 元时通知
+- 单次请求成本过高时拦截
+
+**2. 用户级配额**
+\`\`\`python
+# 限制单用户每日调用次数
+user_quotas = {
+    'user_001': {'daily_limit': 100, 'used': 45},
+    'user_002': {'daily_limit': 50, 'used': 12}
+}
+
+def check_quota(user_id):
+    if user_quotas[user_id]['used'] >= user_quotas[user_id]['daily_limit']:
+        raise Exception("Daily quota exceeded")
+\`\`\`
+
+**3. 成本优化**
+- 较简单任务使用 Mini 模型
+- 启用缓存减少重复请求
+- 控制 max_tokens 避免浪费
+
+**📈 最佳实践**
+1. 每周查看用量报表
+2. 识别异常消耗模式
+3. 优化高成本调用
+4. 预留 20% 缓冲余额`,
+    category: 'technical',
+    keywords: ['api用量管理', '配额控制', 'api成本监控'],
+  },
+  {
+    id: 'streaming-vs-sync',
+    question: '流式输出和同步输出有什么区别？',
+    answer: `流式输出（Streaming）与同步输出的对比：
+
+**📊 对比表格**
+
+| 特性 | 流式输出 | 同步输出 |
+|------|---------|---------|
+| **响应方式** | 逐字输出 | 等待完整响应 |
+| **首字延迟** | 很低（< 500ms）| 较高（5-30s）|
+| **用户体验** | 实时反馈 | 需要等待 |
+| **网络开销** | 保持连接 | 单次请求 |
+| **适用场景** | 对话应用 | 批量处理 |
+
+**⚡ 流式输出（推荐）**
+
+\`\`\`python
+from openai import OpenAI
+
+client = OpenAI()
+
+# 流式输出
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[{"role": "user", "content": "写一首诗"}],
+    stream=True  # 开启流式
+)
+
+for chunk in response:
+    if chunk.choices[0].delta.content:
+        print(chunk.choices[0].delta.content, end='')
+\`\`\`
+
+**优势：**
+- ✅ 用户立即看到响应
+- ✅ 降低感知等待时间
+- ✅ 可以提前终止生成
+- ✅ 更好的交互体验
+
+**🔄 同步输出**
+
+\`\`\`python
+# 同步输出
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[{"role": "user", "content": "写一首诗"}],
+    stream=False  # 或不设置
+)
+
+print(response.choices[0].message.content)
+\`\`\`
+
+**适用场景：**
+- 批量处理任务
+- 需要完整响应再处理
+- API 调用统计
+
+**💡 选择建议**
+- **对话机器人**：必用流式
+- **内容生成工具**：推荐流式
+- **后台批处理**：可用同步
+- **API 网关/转发**：根据下游需求`,
+    category: 'technical',
+    keywords: ['流式输出', 'streaming', '同步异步输出'],
+  },
+  {
+    id: 'relay-contract',
+    question: '企业使用中转站需要签合同吗？',
+    answer: `企业使用 API 中转站的合同建议：
+
+**📋 合同类型**
+
+**1. 标准服务协议**
+- 大部分中转站提供在线协议
+- 注册时默认同意
+- 适合小额充值（< 1 万元）
+
+**2. 定制服务合同**
+- 适合企业大额采购（> 5 万元）
+- 可协商价格折扣
+- 明确 SLA 保障
+- 支持对公转账
+
+**🏢 企业采购流程**
+
+**1. 商务咨询**
+- 联系服务商商务团队
+- 说明预算和用量需求
+- 获取报价方案
+
+**2. 合同谈判**
+- 价格折扣（通常 8-9 折）
+- SLA 保障（可用性 99%+）
+- 技术支持响应时间
+- 数据安全条款
+
+**3. 签订合同**
+- 盖章/电子签章
+- 约定付款方式
+- 开具发票
+
+**4. 开通服务**
+- 企业认证
+- 专属客服
+- 技术对接
+
+**⚖️ 合同关键条款**
+
+**必须明确的内容：**
+1. **服务范围** - 支持的模型、API 调用次数
+2. **SLA 保障** - 可用性承诺、故障赔偿
+3. **价格体系** - 各模型单价、折扣政策
+4. **数据安全** - 不留存对话记录、加密传输
+5. **终止条款** - 余额退款政策
+
+**🛡️ 风险提示**
+- ❌ 避免一次性充值过大金额
+- ❌ 警惕无合同的"熟人推荐"
+- ✅ 保留充值记录和发票
+- ✅ 定期审计用量和账单
+
+查看[企业级中转站推荐](/rankings/enterprise)`,
+    category: 'comparison',
+    keywords: ['企业中转站合同', 'api中转站签约', '企业采购中转站'],
+  },
+  {
+    id: 'relay-model-delay',
+    question: '为什么中转站的新模型更新比官方慢？',
+    answer: `中转站模型更新延迟的原因和应对方法：
+
+**⏱️ 更新延迟原因**
+
+**1. 技术对接时间（1-7 天）**
+- OpenAI/Anthropic 发布新模型
+- 中转站需要更新 API 兼容层
+- 测试稳定性和计费
+- 逐步开放给用户
+
+**2. 成本测算周期**
+- 评估新模型价格
+- 确定倍率和套餐
+- 更新计费系统
+
+**3. 供应链限制**
+- 部分中转站依赖上游供应商
+- 上游未接入时无法提供
+
+**📊 不同服务商更新速度**
+
+| 服务商类型 | 更新速度 | 举例 |
+|----------|---------|------|
+| **一级供应商** | 1-3 天 | LinkAI, OpenOx |
+| **二级代理** | 3-7 天 | 部分小服务商 |
+| **专精单模型** | 即时-1天 | Claude 专用站 |
+
+**⚡ 快速体验新模型的方法**
+
+**1. 选择一级供应商**
+- 直接对接官方 API
+- 技术团队响应快
+- 查看[推荐榜单](/rankings/claude-api)
+
+**2. 关注公告渠道**
+- 服务商微信群/公众号
+- Telegram 频道
+- 官网公告
+
+**3. 提前充值备用方案**
+- 准备 2-3 家服务商
+- 新模型发布时快速切换
+
+**💡 是否需要第一时间用新模型？**
+
+**需要：**
+- 评测内容创作者
+- 技术调研团队
+- 追求最新特性的产品
+
+**不需要：**
+- 稳定生产环境（等 1-2 周观察稳定性）
+- 成本敏感用户（新模型初期价格较高）
+- 旧模型已满足需求
+
+**⚠️ 注意事项**
+- 新模型初期可能不稳定
+- 价格可能后续调整
+- 建议先小规模测试`,
+    category: 'comparison',
+    keywords: ['中转站新模型', '模型更新慢', '新模型什么时候有'],
+  },
+  {
+    id: 'api-error-429',
+    question: 'API 返回 429 错误是什么意思？',
+    answer: `API 429 错误（Too Many Requests）的含义和解决方法：
+
+**🔍 错误含义**
+
+HTTP 429 = 请求过于频繁，触发限流
+
+**常见原因：**
+1. **服务商限流** - 单 IP/单 Key 请求频率过高
+2. **余额不足** - 部分服务商余额不足时返回 429
+3. **账号异常** - 被标记为滥用账号
+4. **模型队列满** - 热门模型排队中
+
+**🛠️ 解决方案**
+
+**1. 实现退避重试**
+\`\`\`python
+import time
+from openai import OpenAI
+
+def call_api_with_retry(client, max_retries=3):
+    for attempt in range(max_retries):
+        try:
+            response = client.chat.completions.create(
+                model="gpt-4o",
+                messages=[...]
+            )
+            return response
+        except Exception as e:
+            if "429" in str(e):
+                # 指数退避
+                wait_time = (2 ** attempt) + random.random()
+                print(f"Rate limited, waiting {wait_time}s...")
+                time.sleep(wait_time)
+            else:
+                raise
+
+    raise Exception("Max retries exceeded")
+\`\`\`
+
+**2. 降低请求频率**
+\`\`\`python
+import time
+
+# 限制每秒最多 2 个请求
+rate_limiter = time.time()
+
+for item in items:
+    # 确保至少间隔 0.5 秒
+    elapsed = time.time() - rate_limiter
+    if elapsed < 0.5:
+        time.sleep(0.5 - elapsed)
+
+    call_api(item)
+    rate_limiter = time.time()
+\`\`\`
+
+**3. 使用请求队列**
+\`\`\`python
+from queue import Queue
+import threading
+
+request_queue = Queue(maxsize=10)
+
+def worker():
+    while True:
+        task = request_queue.get()
+        process_request(task)
+        time.sleep(0.5)  # 限流
+        request_queue.task_done()
+
+# 启动工作线程
+threading.Thread(target=worker, daemon=True).start()
+\`\`\`
+
+**4. 检查账号状态**
+- 登录控制台查看余额
+- 检查是否有封禁通知
+- 联系客服确认限流原因
+
+**📊 各服务商限流策略**
+
+| 限流类型 | 常见限制 | 应对方法 |
+|---------|---------|---------|
+| **QPM限制** | 60-600 次/分钟 | 降低频率 |
+| **并发限制** | 3-10 并发 | 使用队列 |
+| **日用量限制** | 10万 tokens/天 | 升级套餐 |
+
+**💡 预防建议**
+1. 阅读服务商的限流文档
+2. 生产环境配置重试机制
+3. 监控 API 响应状态码
+4. 准备备用服务商`,
+    category: 'technical',
+    keywords: ['api 429错误', '请求过于频繁', 'rate limit'],
+  },
+  {
+    id: 'best-practice-production',
+    question: '生产环境使用中转站的最佳实践？',
+    answer: `生产环境安全使用 API 中转站的最佳实践：
+
+**🏗️ 架构设计**
+
+**1. 多服务商冗余**
+\`\`\`python
+class APIGateway:
+    def __init__(self):
+        self.providers = [
+            {'name': 'LinkAI', 'priority': 1, 'client': ...},
+            {'name': 'OpenOx', 'priority': 2, 'client': ...},
+            {'name': 'Backup', 'priority': 3, 'client': ...}
+        ]
+
+    def call_with_fallback(self, messages):
+        for provider in self.providers:
+            try:
+                response = provider['client'].chat.completions.create(
+                    model="gpt-4o",
+                    messages=messages,
+                    timeout=30
+                )
+                return response
+            except Exception as e:
+                logging.error(f"{provider['name']} failed: {e}")
+                continue
+
+        raise Exception("All providers failed")
+\`\`\`
+
+**2. 请求重试机制**
+- 网络错误：重试 3 次
+- 429 限流：指数退避
+- 5xx 错误：切换服务商
+
+**3. 超时控制**
+\`\`\`python
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=messages,
+    timeout=30,  # 30秒超时
+    stream=True   # 使用流式降低超时风险
+)
+\`\`\`
+
+**🔒 安全措施**
+
+**1. 密钥管理**
+- 使用环境变量或密钥管理服务
+- 定期轮换 API Key（每月）
+- 不同环境使用不同 Key
+
+**2. 请求日志**
+\`\`\`python
+import logging
+
+logging.basicConfig(
+    filename='api_calls.log',
+    format='%(asctime)s - %(message)s'
+)
+
+def log_api_call(request, response, cost):
+    logging.info({
+        'model': request.model,
+        'tokens': response.usage.total_tokens,
+        'cost': cost,
+        'latency': response.latency_ms
+    })
+\`\`\`
+
+**3. 敏感信息过滤**
+\`\`\`python
+import re
+
+def sanitize_input(text):
+    # 过滤手机号
+    text = re.sub(r'1[3-9]\\d{9}', '[PHONE]', text)
+    # 过滤身份证
+    text = re.sub(r'\\d{17}[\\dXx]', '[ID]', text)
+    return text
+\`\`\`
+
+**📊 监控告警**
+
+**1. 关键指标**
+- API 成功率（目标 > 99.5%）
+- 平均响应时间（目标 < 3s）
+- 每日成本
+- 余额剩余
+
+**2. 告警规则**
+- 成功率 < 95%：紧急告警
+- 余额 < 100 元：邮件通知
+- 单日成本 > 预算 120%：告警
+
+**💰 成本控制**
+
+**1. 请求级限流**
+\`\`\`python
+from collections import defaultdict
+import time
+
+user_requests = defaultdict(list)
+
+def check_user_quota(user_id, max_per_hour=100):
+    now = time.time()
+    # 清理1小时前的记录
+    user_requests[user_id] = [
+        t for t in user_requests[user_id]
+        if now - t < 3600
+    ]
+
+    if len(user_requests[user_id]) >= max_per_hour:
+        raise Exception("Hourly quota exceeded")
+
+    user_requests[user_id].append(now)
+\`\`\`
+
+**2. 智能模型选择**
+- 简单任务：GPT-4o-mini
+- 复杂任务：GPT-4o
+- 降低 70% 成本
+
+**✅ 上线前检查清单**
+- [ ] 至少配置 2 个备用服务商
+- [ ] 实现重试和降级逻辑
+- [ ] 配置监控和告警
+- [ ] 测试故障切换流程
+- [ ] 设置成本预算上限
+- [ ] 准备应急联系方式`,
+    category: 'technical',
+    keywords: ['生产环境中转站', 'api最佳实践', '高可用架构'],
+  },
+  {
+    id: 'refund-policy',
+    question: 'API 中转站可以退款吗？',
+    answer: `API 中转站的退款政策说明：
+
+**📋 常见退款政策**
+
+**1. 大部分服务商：不支持退款**
+- 充值后余额不可退
+- 类似手机话费预充值
+- 只能用完为止
+
+**2. 部分服务商：有条件退款**
+- 未使用的余额可退（扣除手续费）
+- 退款时间：3-7 个工作日
+- 需要提供充值凭证
+
+**3. 特殊情况可协商**
+- 服务商跑路/停业
+- 重大服务故障
+- 误充值大额
+
+**💡 避免余额浪费的方法**
+
+**1. 小额多次充值**
+- 首次充值：50-100 元测试
+- 确认稳定后再大额充值
+- 避免一次性充值过多
+
+**2. 选择按量付费**
+- 部分服务商支持后付费
+- 月结账单
+- 适合企业用户
+
+**3. 充值前确认**
+- 阅读服务协议中的退款条款
+- 咨询客服退款政策
+- 查看其他用户评价
+
+**⚠️ 充值注意事项**
+
+**充值前检查：**
+- ✅ 是否支持你需要的模型
+- ✅ 价格是否合理
+- ✅ 是否有其他用户推荐
+- ✅ 客服响应是否及时
+
+**避免踩坑：**
+- ❌ 新服务商一次性大额充值
+- ❌ 无法联系客服的服务商
+- ❌ 价格异常低的"优惠"
+- ❌ 无企业主体的个人服务商
+
+**🔄 如何处理剩余余额**
+
+**1. 转赠他人**
+- 部分服务商支持余额转赠
+- 可转给同事/朋友
+
+**2. 切换用途**
+- 原本用 GPT，改用 Claude
+- 原本做开发，改做测试
+
+**3. 慢慢用完**
+- 余额可长期保留
+- 偶尔用于个人需求
+
+**4. 协商退款**
+- 联系客服说明情况
+- 提供充值凭证
+- 可能扣除 10-20% 手续费
+
+查看[推荐服务商](/rankings/stable)选择靠谱平台`,
+    category: 'pricing',
+    keywords: ['api中转站退款', '余额可以退吗', '充值能退款吗'],
+  },
 ];
 
 export const metadata: Metadata = generateSEOMetadata({
   title: 'API 中转站常见问题 - 使用教程、安全指南与选择建议',
-  description: '15+ API 中转站常见问题解答，涵盖使用教程、安全性、价格计算、故障排查、服务商选择等。帮你快速上手 AI API 中转服务。',
+  description: '30+ API 中转站常见问题解答，涵盖使用教程、安全性、价格计算、故障排查、服务商选择等。帮你快速上手 AI API 中转服务。',
   path: '/faq',
 });
 
