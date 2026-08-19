@@ -67,6 +67,30 @@ const RANKING_CATEGORIES: Record<string, RankingCategory> = {
     filter: { tags: ['国内直连'] },
     icon: '🇨🇳',
   },
+  'free': {
+    title: '免费的 API 中转站',
+    fullTitle: '免费的 API 中转站推荐 - 有免费额度的 AI API 服务商',
+    description: '精选提供免费额度、试用额度的 API 中转站。新用户注册即送免费 Token，适合测试和小规模使用。',
+    keywords: ['免费api中转站', '免费的中转站', 'api中转站免费额度', '免费试用中转站'],
+    filter: { tags: ['免费试用'] },
+    icon: '🎁',
+  },
+  'newbie': {
+    title: '新人优惠中转站',
+    fullTitle: '新人优惠中转站推荐 - 首充优惠最多的 API 服务商',
+    description: '精选新人优惠力度大的 API 中转站。首充送余额、折扣码、免费额度，新手入门首选。',
+    keywords: ['新人优惠中转站', '首充优惠', 'api中转站新人福利', '中转站优惠码'],
+    filter: { tags: ['新人优惠'] },
+    icon: '🎉',
+  },
+  'enterprise': {
+    title: '企业级 API 中转站',
+    fullTitle: '企业级 API 中转站推荐 - 支持开票和合同的 AI API 服务商',
+    description: '精选支持企业服务的 API 中转站。可开发票、签合同、专属客服、定制服务，适合企业用户。',
+    keywords: ['企业级api中转站', 'api中转站开票', '企业中转站', '可开发票的中转站'],
+    filter: { tags: ['开发票'] },
+    icon: '🏢',
+  },
 };
 
 type RankingCategoryKey = keyof typeof RANKING_CATEGORIES;

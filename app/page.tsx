@@ -203,6 +203,63 @@ export default async function HomePage() {
                 </Link>
 
                 <Link
+                  href="/rankings/free"
+                  className="group p-6 bg-white border-2 border-gray-200 rounded-xl hover:border-pink-400 hover:shadow-lg transition-all"
+                >
+                  <div className="text-4xl mb-4">🎁</div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-pink-600">
+                    免费的中转站
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-4">
+                    注册即送免费额度，适合测试使用
+                  </p>
+                  <div className="flex items-center text-sm text-pink-600 font-medium">
+                    查看榜单
+                    <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/rankings/newbie"
+                  className="group p-6 bg-white border-2 border-gray-200 rounded-xl hover:border-yellow-400 hover:shadow-lg transition-all"
+                >
+                  <div className="text-4xl mb-4">🎉</div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-yellow-600">
+                    新人优惠中转站
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-4">
+                    首充送余额，新手入门首选
+                  </p>
+                  <div className="flex items-center text-sm text-yellow-600 font-medium">
+                    查看榜单
+                    <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/rankings/enterprise"
+                  className="group p-6 bg-white border-2 border-gray-200 rounded-xl hover:border-cyan-400 hover:shadow-lg transition-all"
+                >
+                  <div className="text-4xl mb-4">🏢</div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-cyan-600">
+                    企业级中转站
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-4">
+                    支持开票、签合同，企业用户首选
+                  </p>
+                  <div className="flex items-center text-sm text-cyan-600 font-medium">
+                    查看榜单
+                    <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </Link>
+
+                <Link
                   href="/rankings/stable"
                   className="group p-6 bg-white border-2 border-gray-200 rounded-xl hover:border-blue-400 hover:shadow-lg transition-all"
                 >
