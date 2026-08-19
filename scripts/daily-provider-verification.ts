@@ -120,10 +120,10 @@ async function checkAPI(apiUrl: string): Promise<{
 async function verifyAllProviders(): Promise<VerificationResult[]> {
   console.log('🔍 开始核验所有服务商...')
 
-  // 获取所有服务商
+  // 获取所有服务商（只查询必要字段）
   const { data: providers, error } = await supabase
     .from('providers')
-    .select('id, name, slug, website_url, api_base_url')
+    .select('id, name, slug, website_url')
     .eq('is_active', true)
     .order('name')
 
@@ -143,14 +143,8 @@ async function verifyAllProviders(): Promise<VerificationResult[]> {
     const websiteCheck = await checkWebsite(provider.website_url)
     console.log(`  网站: ${websiteCheck.status} (${websiteCheck.responseTime}ms)`)
 
-    // 检查 API
-    const apiCheck = provider.api_base_url
-      ? await checkAPI(provider.api_base_url)
-      : { status: 'unknown' as const }
-
-    if (provider.api_base_url) {
-      console.log(`  API: ${apiCheck.status}`)
-    }
+    // 暂时跳过 API 检查，因为数据库中没有 api_base_url 字段
+    const apiCheck = { status: 'unknown' as const }
 
     const result: VerificationResult = {
       provider_id: provider.id,
@@ -158,7 +152,7 @@ async function verifyAllProviders(): Promise<VerificationResult[]> {
       website_status: websiteCheck.status,
       api_status: apiCheck.status,
       response_time: websiteCheck.responseTime,
-      error_message: websiteCheck.error || apiCheck.error,
+      error_message: websiteCheck.error,
       checked_at: new Date().toISOString()
     }
 
