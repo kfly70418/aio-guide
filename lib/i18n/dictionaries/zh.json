@@ -205,5 +205,11 @@
     "trust_4_desc": "定期更新数据，确保信息时效性。",
     "contact_title": "联系我们",
     "contact_desc": "如有疑问或建议，欢迎联系我们："
+  },
+  "not_found": {
+    "title": "页面不存在",
+    "description": "您访问的页面可能已被删除、链接输入有误，或者内容尚未发布。",
+    "back_home": "回到首页",
+    "browse_providers": "浏览中转站"
   }
 }
