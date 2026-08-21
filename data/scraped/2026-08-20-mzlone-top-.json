@@ -1,0 +1,25 @@
+{
+  "name": "AIMZ",
+  "name_en": "AIMZ",
+  "website_url": "https://mzlone.top/",
+  "description": "提供多模型 API 中转服务的平台，支持控制台管理和模型广场",
+  "features": [
+    "多模型支持",
+    "控制台管理",
+    "图片生成",
+    "文档完善"
+  ],
+  "min_topup": null,
+  "trial_credit": null,
+  "payment_methods": null,
+  "api_base_url": null,
+  "models": null,
+  "support": {
+    "email": null,
+    "qq": null,
+    "telegram": null,
+    "wechat": null,
+    "docs_url": "https://mzlone.top/文档"
+  },
+  "confidence_score": 25
+}

@@ -1,4 +1,4 @@
-import type { MetadataRoute } from 'next'
+import { MetadataRoute } from 'next'
 import { SITE_URL } from '@/lib/constants'
 
 export default function robots(): MetadataRoute.Robots {
@@ -7,38 +7,17 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: [
-          '/admin/',
-          '/admin/*',
-          '/auth/',
-          '/auth/*',
-          '/api/',
-          '/api/*',
-          '/*?search=*',   // 搜索参数不索引
-        ],
+        disallow: ['/api/', '/admin/', '/_next/', '/static/'],
       },
-      // 优先抓取高价值 SEO 页面
       {
         userAgent: 'Googlebot',
-        allow: [
-          '/rankings/',
-          '/faq',
-          '/providers/',
-          '/models/',
-          '/articles/',
-        ],
-        crawlDelay: 0,
+        allow: '/',
+        disallow: ['/api/', '/admin/'],
       },
       {
-        userAgent: 'Baiduspider',
-        allow: [
-          '/rankings/',
-          '/faq',
-          '/providers/',
-          '/models/',
-          '/articles/',
-        ],
-        crawlDelay: 1,
+        userAgent: 'Yandex',
+        allow: '/',
+        disallow: ['/api/', '/admin/'],
       },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,

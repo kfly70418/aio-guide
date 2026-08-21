@@ -1,0 +1,63 @@
+{
+  "name": "HHApi",
+  "name_en": "HHApi",
+  "website_url": "https://api.hanhanapi.top",
+  "description": "稳定的 AI 中转平台，不超售、定价合理，提供纯血 Claude 和 GPT 系列模型",
+  "features": [
+    "不超售",
+    "纯血CCMAX",
+    "定价透明",
+    "真人客服",
+    "无汇率损失"
+  ],
+  "min_topup": null,
+  "trial_credit": null,
+  "payment_methods": null,
+  "api_base_url": null,
+  "models": [
+    {
+      "model_name": "claude-sonnet-4.6",
+      "price_input": 3.6,
+      "price_output": 18,
+      "currency": "CNY"
+    },
+    {
+      "model_name": "claude-opus-4.7",
+      "price_input": 6,
+      "price_output": 30,
+      "currency": "CNY"
+    },
+    {
+      "model_name": "claude-haiku-4.5",
+      "price_input": 1.2,
+      "price_output": 6,
+      "currency": "CNY"
+    },
+    {
+      "model_name": "gpt-5.5",
+      "price_input": 1,
+      "price_output": 6,
+      "currency": "CNY"
+    },
+    {
+      "model_name": "gpt-5.4",
+      "price_input": 0.5,
+      "price_output": 3,
+      "currency": "CNY"
+    },
+    {
+      "model_name": "gpt-5.4-mini",
+      "price_input": 0.15,
+      "price_output": 0.9,
+      "currency": "CNY"
+    }
+  ],
+  "support": {
+    "email": null,
+    "qq": "1091197364",
+    "telegram": null,
+    "wechat": null,
+    "docs_url": null
+  },
+  "confidence_score": 85
+}

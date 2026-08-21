@@ -12,6 +12,10 @@ interface GenerateMetadataProps {
   publishedTime?: string
   modifiedTime?: string
   author?: string
+  locale?: string
+  alternateUrls?: { locale: string; url: string }[]
+  keywords?: string[]
+  siteName?: string
 }
 
 export function generateSEOMetadata({
@@ -24,23 +28,40 @@ export function generateSEOMetadata({
   publishedTime,
   modifiedTime,
   author,
+  locale = 'zh',
+  alternateUrls = [],
+  keywords = [],
+  siteName,
 }: GenerateMetadataProps): Metadata {
-  const fullTitle = title === SITE_NAME ? title : `${title} - ${SITE_NAME}`
+  const siteNameToUse = siteName || SITE_NAME
+  const fullTitle = title === siteNameToUse ? title : `${title} - ${siteNameToUse}`
   const url = `${SITE_URL}${path}`
   const ogImage = image || `${SITE_URL}/og-default.png`
+
+  // 语言映射
+  const localeMap: Record<string, string> = {
+    'zh': 'zh_CN',
+    'ru': 'ru_RU',
+    'en': 'en_US'
+  }
 
   const metadata: Metadata = {
     title: fullTitle,
     description,
+    keywords: keywords.length > 0 ? keywords.join(', ') : undefined,
     alternates: {
       canonical: url,
+      languages: alternateUrls.length > 0 ? alternateUrls.reduce((acc, alt) => {
+        acc[alt.locale] = `${SITE_URL}${alt.url}`
+        return acc
+      }, {} as Record<string, string>) : undefined,
     },
     openGraph: {
       title: fullTitle,
       description,
       url,
-      siteName: SITE_NAME,
-      locale: 'zh_CN',
+      siteName: siteNameToUse,
+      locale: localeMap[locale] || 'zh_CN',
       type,
       images: [
         {
@@ -113,7 +134,7 @@ export function generateWebSiteSchema() {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: `${SITE_URL}/providers?search={search_term_string}`,
+        urlTemplate: `${SITE_URL}/providers?q={search_term_string}`,
       },
       'query-input': 'required name=search_term_string',
     },

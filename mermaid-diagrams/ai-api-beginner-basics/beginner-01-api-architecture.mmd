@@ -1,0 +1,26 @@
+# API 工作原理架构图
+
+```mermaid
+graph TB
+    A[你的应用] -->|HTTP请求| B[API端点]
+    B --> C{认证}
+
+    C -->|Token验证| D[负载均衡]
+    D --> E[AI模型集群]
+
+    E --> E1[Claude Opus]
+    E --> E2[GPT-4o]
+    E --> E3[Gemini Pro]
+
+    E1 --> F[生成响应]
+    E2 --> F
+    E3 --> F
+
+    F -->|JSON响应| G[你的应用]
+
+    G --> H[展示给用户]
+
+    style C fill:#fbbf24
+    style E fill:#10b981
+    style F fill:#3b82f6
+```

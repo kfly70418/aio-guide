@@ -61,7 +61,7 @@ function buildSummary(item: any): string {
 
 async function main() {
   console.log(`读取文件: ${filepath}\n`)
-  const raw = fs.readFileSync(filepath, 'utf8')
+  const raw = fs.readFileSync(filepath!, 'utf8')
   const data = JSON.parse(raw)
 
   if (!data.meta || !Array.isArray(data.items)) {

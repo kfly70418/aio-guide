@@ -1,0 +1,65 @@
+{
+  "name": "APINebula",
+  "name_en": "APINebula",
+  "website_url": "https://apinebula.ai",
+  "description": "统一接入 Anthropic 和 OpenAI 模型的 API 中转服务，支付宝充值，稳定直连",
+  "features": [
+    "国内直连",
+    "支付宝充值",
+    "多模型统一",
+    "99.9% SLA",
+    "OpenAI 兼容"
+  ],
+  "min_topup": "¥20",
+  "trial_credit": null,
+  "payment_methods": [
+    "支付宝"
+  ],
+  "api_base_url": null,
+  "models": [
+    {
+      "model_name": "gpt-5.5",
+      "price_input": 1.95,
+      "price_output": 11.7,
+      "currency": "CNY"
+    },
+    {
+      "model_name": "claude-opus-4-8",
+      "price_input": 2.5,
+      "price_output": 12.5,
+      "currency": "CNY"
+    },
+    {
+      "model_name": "gpt-5.4",
+      "price_input": 0.975,
+      "price_output": 5.85,
+      "currency": "CNY"
+    },
+    {
+      "model_name": "claude-sonnet-4-6",
+      "price_input": 1.5,
+      "price_output": 7.5,
+      "currency": "CNY"
+    },
+    {
+      "model_name": "gpt-image-2",
+      "price_input": 0.05,
+      "price_output": null,
+      "currency": "CNY"
+    },
+    {
+      "model_name": "gemini-3.5-flash",
+      "price_input": 1.35,
+      "price_output": 8.1,
+      "currency": "CNY"
+    }
+  ],
+  "support": {
+    "email": null,
+    "qq": null,
+    "telegram": null,
+    "wechat": "微信群",
+    "docs_url": "https://apinebula.ai/docs"
+  },
+  "confidence_score": 92
+}

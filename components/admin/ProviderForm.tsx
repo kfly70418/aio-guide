@@ -51,7 +51,6 @@ export default function ProviderForm({ provider, mode }: ProviderFormProps) {
       trial_credit: formData.get('trial_credit') as string || null,
       transaction_fee: formData.get('transaction_fee') as string || null,
       invoice_support: formData.get('invoice_support') === 'on',
-      coupon_code: formData.get('coupon_code') as string || null,
       verification_status: formData.get('verification_status') as string || null,
     }
 
@@ -247,14 +246,6 @@ export default function ProviderForm({ provider, mode }: ProviderFormProps) {
               name="invoice_support"
               label="支持开具发票"
               defaultChecked={provider?.invoice_support}
-            />
-
-            <Input
-              name="coupon_code"
-              label="优惠码"
-              fullWidth
-              defaultValue={provider?.coupon_code || ''}
-              placeholder="例如: apixuan"
             />
 
             <Select

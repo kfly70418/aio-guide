@@ -1,0 +1,26 @@
+{
+  "name": "OpenOx",
+  "name_en": "OpenOx",
+  "website_url": "https://openox.tech/r/34533",
+  "description": "企业级稳定低价中转，统一API接入主流AI模型，订阅最低约0.29折起",
+  "features": [
+    "多模型接入",
+    "企业级安全",
+    "极速响应",
+    "低价中转",
+    "智能路由"
+  ],
+  "min_topup": null,
+  "trial_credit": "$3",
+  "payment_methods": null,
+  "api_base_url": null,
+  "models": [],
+  "support": {
+    "email": null,
+    "qq": null,
+    "telegram": null,
+    "wechat": null,
+    "docs_url": null
+  },
+  "confidence_score": 65
+}

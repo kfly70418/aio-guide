@@ -1,0 +1,26 @@
+{
+  "name": "三头牛",
+  "name_en": "36niu",
+  "website_url": "https://36niu.com",
+  "description": "统一 API 网关，支持多协议配置，接入海量 AI 模型的中转服务平台",
+  "features": [
+    "多协议兼容",
+    "全球覆盖",
+    "实时监控",
+    "负载均衡",
+    "开源"
+  ],
+  "min_topup": null,
+  "trial_credit": null,
+  "payment_methods": null,
+  "api_base_url": null,
+  "models": [],
+  "support": {
+    "email": null,
+    "qq": "1051464986",
+    "telegram": null,
+    "wechat": null,
+    "docs_url": null
+  },
+  "confidence_score": 45
+}

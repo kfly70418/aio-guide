@@ -171,17 +171,20 @@ async function verifyAllProviders(): Promise<VerificationResult[]> {
         .eq('id', provider.id)
 
       // 同时更新该服务商的所有价格记录核验时间
-      await supabase
-        .from('prices')
-        .update({
-          verified_at: now
-        })
-        .in('channel_id',
-          supabase
-            .from('channels')
-            .select('id')
-            .eq('provider_id', provider.id)
-        )
+      const { data: channels } = await supabase
+        .from('channels')
+        .select('id')
+        .eq('provider_id', provider.id)
+
+      if (channels && channels.length > 0) {
+        const channelIds = channels.map(c => c.id)
+        await supabase
+          .from('prices')
+          .update({
+            verified_at: now
+          })
+          .in('channel_id', channelIds)
+      }
     }
 
     // 避免过于频繁的请求

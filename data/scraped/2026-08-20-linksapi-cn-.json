@@ -1,0 +1,55 @@
+{
+  "name": "LinksAPI",
+  "name_en": "LinksAPI",
+  "website_url": "https://linksapi.cn/",
+  "description": "国内直连Claude Code的API中转站，支持OpenAI兼容协议，企业可开票对公结算",
+  "features": [
+    "国内直连",
+    "Claude官方渠道",
+    "OpenAI兼容",
+    "企业开票",
+    "按量计费"
+  ],
+  "min_topup": "¥8",
+  "trial_credit": "$0.60",
+  "payment_methods": [
+    "微信",
+    "支付宝",
+    "USDT(TRC20)"
+  ],
+  "api_base_url": "https://linksapi.cn/v1",
+  "models": [
+    {
+      "model_name": "claude-haiku-4-5",
+      "price_input": null,
+      "price_output": null,
+      "currency": "USD"
+    },
+    {
+      "model_name": "claude-sonnet-4-5",
+      "price_input": null,
+      "price_output": null,
+      "currency": "USD"
+    },
+    {
+      "model_name": "claude-opus-4-6",
+      "price_input": null,
+      "price_output": null,
+      "currency": "USD"
+    },
+    {
+      "model_name": "claude-opus-4-8",
+      "price_input": null,
+      "price_output": null,
+      "currency": "USD"
+    }
+  ],
+  "support": {
+    "email": "links-api@qq.com",
+    "qq": "2981356048 / 群号593687637",
+    "telegram": null,
+    "wechat": "有群但需扫码",
+    "docs_url": "https://linksapi.cn/docs"
+  },
+  "confidence_score": 85
+}

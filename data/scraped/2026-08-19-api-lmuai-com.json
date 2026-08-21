@@ -1,0 +1,23 @@
+{
+  "name": "灵眸",
+  "name_en": "LMU AI",
+  "website_url": "https://api.lmuai.com",
+  "description": "AI API Gateway 中转服务商，提供多模型 API 接入服务",
+  "features": [
+    "API Gateway",
+    "多模型支持"
+  ],
+  "min_topup": null,
+  "trial_credit": null,
+  "payment_methods": [],
+  "api_base_url": null,
+  "models": [],
+  "support": {
+    "email": null,
+    "qq": null,
+    "telegram": null,
+    "wechat": null,
+    "docs_url": null
+  },
+  "confidence_score": 15
+}

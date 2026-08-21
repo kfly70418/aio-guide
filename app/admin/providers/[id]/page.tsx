@@ -15,7 +15,7 @@ export default async function EditProviderPage({
     .select(`
       id, slug, name, name_en, logo_url, website_url, description, features,
       is_recommended, status, sort_order, verified_at,
-      min_topup, trial_credit, transaction_fee, invoice_support, coupon_code, verification_status,
+      min_topup, trial_credit, transaction_fee, invoice_support, verification_status,
       created_by, updated_by, created_at, updated_at
     `)
     .eq('id', id)

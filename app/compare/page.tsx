@@ -44,7 +44,7 @@ export default async function ComparePage({ searchParams }: ComparePageProps) {
     .order('name')
 
   // 如果有选中的服务商，获取详细信息
-  let selectedProviders = []
+  let selectedProviders: any[] = []
   if (providerIds.length > 0) {
     const { data } = await supabase
       .from('providers')
@@ -184,9 +184,9 @@ export default async function ComparePage({ searchParams }: ComparePageProps) {
               rows={[
                 {
                   label: '输入价格',
-                  getValue: (p) => {
+                  getValue: (p: any) => {
                     const gpt4o = p.provider_models?.find(
-                      (m) => m.model_name === 'gpt-4o'
+                      (m: any) => m.model_name === 'gpt-4o'
                     )
                     return gpt4o
                       ? `¥${gpt4o.input_price} / ${gpt4o.pricing_unit}`
@@ -195,9 +195,9 @@ export default async function ComparePage({ searchParams }: ComparePageProps) {
                 },
                 {
                   label: '输出价格',
-                  getValue: (p) => {
+                  getValue: (p: any) => {
                     const gpt4o = p.provider_models?.find(
-                      (m) => m.model_name === 'gpt-4o'
+                      (m: any) => m.model_name === 'gpt-4o'
                     )
                     return gpt4o
                       ? `¥${gpt4o.output_price} / ${gpt4o.pricing_unit}`
@@ -218,11 +218,11 @@ export default async function ComparePage({ searchParams }: ComparePageProps) {
                 },
                 {
                   label: '主要模型',
-                  getValue: (p) => {
+                  getValue: (p: any) => {
                     const models = p.provider_models?.slice(0, 5) || []
                     return (
                       <div className="flex flex-wrap gap-1">
-                        {models.map((m) => (
+                        {models.map((m: any) => (
                           <span
                             key={m.id}
                             className="px-2 py-1 bg-gray-100 text-xs rounded"

@@ -1,0 +1,139 @@
+[
+  {
+    "provider_id": "9a2a5865-29b8-4a64-abfe-136825efeb4d",
+    "slug": "aimz",
+    "error": "Error: 502 {\"error\":{\"message\":\"Upstream request failed\",\"type\":\"upstream_error\"},\"type\":\"error\"}"
+  },
+  {
+    "provider_id": "fabc2459-99ac-417b-bdcf-3aced24ed325",
+    "slug": "api-topcom",
+    "error": "Error: 502 {\"error\":{\"message\":\"Upstream request failed\",\"type\":\"upstream_error\"},\"type\":\"error\"}"
+  },
+  {
+    "provider_id": "76001215-4fc7-4939-a5b0-9a1a9d397d1e",
+    "slug": "apikoozhancom",
+    "error": "Error: 访问失败: HTTP 404"
+  },
+  {
+    "provider_id": "1b972e74-6208-4ffd-8343-409a41289129",
+    "slug": "api2d",
+    "error": "Error: 502 {\"error\":{\"message\":\"Upstream request failed\",\"type\":\"upstream_error\"},\"type\":\"error\"}"
+  },
+  {
+    "provider_id": "d1d80b05-02d2-437f-8fad-b48cd3a863b3",
+    "slug": "apinebula",
+    "error": "Error: 502 {\"error\":{\"message\":\"Upstream request failed\",\"type\":\"upstream_error\"},\"type\":\"error\"}"
+  },
+  {
+    "provider_id": "f99969b8-8491-4ff6-90b9-1a8308c7ff5f",
+    "slug": "boxying",
+    "error": "Error: 502 {\"error\":{\"message\":\"Upstream request failed\",\"type\":\"upstream_error\"},\"type\":\"error\"}"
+  },
+  {
+    "provider_id": "828256af-2738-4e44-84d0-afff6539f56a",
+    "slug": "cctq",
+    "error": "Error: 502 {\"error\":{\"message\":\"Upstream request failed\",\"type\":\"upstream_error\"},\"type\":\"error\"}"
+  },
+  {
+    "provider_id": "9981149e-2158-49bd-a11e-ee56bb573815",
+    "slug": "cunai",
+    "error": "Error: 访问失败: fetch failed"
+  },
+  {
+    "provider_id": "f070e0e1-cf50-487b-873a-79e427338a1b",
+    "slug": "duiapi",
+    "error": "Error: 502 {\"error\":{\"message\":\"Upstream request failed\",\"type\":\"upstream_error\"},\"type\":\"error\"}"
+  },
+  {
+    "provider_id": "141d6919-6258-4828-bb7a-f488971e84c6",
+    "slug": "h-api",
+    "error": "Error: 502 {\"error\":{\"message\":\"Upstream request failed\",\"type\":\"upstream_error\"},\"type\":\"error\"}"
+  },
+  {
+    "provider_id": "41748da9-875b-4fb2-b393-e4573acd9f76",
+    "slug": "linkai",
+    "error": "Error: 502 {\"error\":{\"message\":\"Upstream request failed\",\"type\":\"upstream_error\"},\"type\":\"error\"}"
+  },
+  {
+    "provider_id": "e5f1e977-87c6-483f-a497-e8776c9a8e5f",
+    "slug": "linksapi",
+    "error": "Error: 502 {\"error\":{\"message\":\"Upstream request failed\",\"type\":\"upstream_error\"},\"type\":\"error\"}"
+  },
+  {
+    "provider_id": "2d978fc3-6ca6-40ef-aa15-7bd04d5ec643",
+    "slug": "lmu-ai",
+    "data": {
+      "name": "灵眸",
+      "name_en": "LMU AI",
+      "website_url": "https://api.lmuai.com",
+      "description": "AI API Gateway 中转服务商，提供多模型 API 接入服务",
+      "features": [
+        "API Gateway",
+        "多模型支持"
+      ],
+      "min_topup": null,
+      "trial_credit": null,
+      "payment_methods": [],
+      "api_base_url": null,
+      "models": [],
+      "support": {
+        "email": null,
+        "qq": null,
+        "telegram": null,
+        "wechat": null,
+        "docs_url": null
+      },
+      "confidence_score": 15
+    }
+  },
+  {
+    "provider_id": "bce8e4a7-ff44-4448-ae20-3ddb104515cf",
+    "slug": "ls-api",
+    "error": "Error: 502 {\"error\":{\"message\":\"Upstream request failed\",\"type\":\"upstream_error\"},\"type\":\"error\"}"
+  },
+  {
+    "provider_id": "05affe0b-a183-47b4-baf0-3c735aa542d9",
+    "slug": "micu",
+    "error": "Error: 502 {\"error\":{\"message\":\"Upstream request failed\",\"type\":\"upstream_error\"},\"type\":\"error\"}"
+  },
+  {
+    "provider_id": "8dda87f3-8df4-4211-9dc5-62309e4895dc",
+    "slug": "openai-hk",
+    "error": "Error: 502 {\"error\":{\"message\":\"Upstream request failed\",\"type\":\"upstream_error\"},\"type\":\"error\"}"
+  },
+  {
+    "provider_id": "63f7f752-47c5-4c0c-a85e-2555f63f5e08",
+    "slug": "openox",
+    "error": "Error: 502 {\"error\":{\"message\":\"Upstream request failed\",\"type\":\"upstream_error\"},\"type\":\"error\"}"
+  },
+  {
+    "provider_id": "72fb6986-63a9-4202-89dc-c678989b1a82",
+    "slug": "packyapi",
+    "error": "Error: 502 {\"error\":{\"message\":\"Upstream request failed\",\"type\":\"upstream_error\"},\"type\":\"error\"}"
+  },
+  {
+    "provider_id": "574f7cc0-ba9e-4ec0-98d9-8296a4d0554c",
+    "slug": "runapi",
+    "error": "Error: 502 {\"error\":{\"message\":\"Upstream request failed\",\"type\":\"upstream_error\"},\"type\":\"error\"}"
+  },
+  {
+    "provider_id": "ccd352fa-237d-4d84-8d4c-2e0e734c9076",
+    "slug": "sssaicode",
+    "error": "Error: 访问失败: fetch failed"
+  },
+  {
+    "provider_id": "fe44ecce-0611-4764-a44c-fdb1cc28f337",
+    "slug": "uu-api",
+    "error": "Error: 502 {\"error\":{\"message\":\"Upstream request failed\",\"type\":\"upstream_error\"},\"type\":\"error\"}"
+  },
+  {
+    "provider_id": "48f8d63c-eb7e-43ec-befc-170b7110d4d7",
+    "slug": "wawapitop",
+    "error": "Error: 访问失败: fetch failed"
+  },
+  {
+    "provider_id": "9610b5b4-2a4d-4978-9779-a2dd2146fca5",
+    "slug": "santoniu",
+    "error": "Error: 502 {\"error\":{\"message\":\"Upstream request failed\",\"type\":\"upstream_error\"},\"type\":\"error\"}"
+  }
+]

@@ -1,0 +1,26 @@
+{
+  "name": "CCTQ",
+  "name_en": "CCTQ",
+  "website_url": "https://www.cctq.ai/",
+  "description": "统一API网关服务，通过标准接口接入海量AI模型，支持多协议配置和负载均衡",
+  "features": [
+    "统一网关",
+    "多模型支持",
+    "负载均衡",
+    "实时监控",
+    "开源自托管"
+  ],
+  "min_topup": null,
+  "trial_credit": null,
+  "payment_methods": null,
+  "api_base_url": null,
+  "models": [],
+  "support": {
+    "email": null,
+    "qq": null,
+    "telegram": null,
+    "wechat": null,
+    "docs_url": "https://www.cctq.ai/"
+  },
+  "confidence_score": 45
+}

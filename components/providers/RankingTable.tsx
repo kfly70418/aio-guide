@@ -7,20 +7,14 @@ export interface RankingProvider {
   id: string
   slug: string
   name: string
-  price_level: string | null
   min_topup: string | null
   trial_credit: string | null
-  refund_policy: string | null
-  invoice_policy: string | null
   invoice_support: boolean | null
-  coupon_note: string | null
-  coupon_code: string | null
   verification_status: string | null
   website_url: string | null
   description: string | null
   features: string[] | null
   is_recommended: boolean
-  /** 该服务商覆盖的模型家族，用于顶部筛选 */
   families: string[]
 }
 
@@ -180,19 +174,8 @@ export function RankingTable({ providers }: { providers: RankingProvider[] }) {
                     )}
                   </div>
 
-                  {p.coupon_note && (
-                    <p className="mt-1 text-xs text-gray-600 line-clamp-1" title={p.coupon_note}>
-                      {p.coupon_note}
-                    </p>
-                  )}
-
-                  {p.coupon_code && (
-                    <div className="mt-1.5 flex items-center gap-1.5">
-                      <code className="px-1.5 py-0.5 text-xs font-mono bg-orange-50 text-orange-700 rounded border border-orange-200">
-                        {p.coupon_code}
-                      </code>
-                      <CopyCoupon code={p.coupon_code} />
-                    </div>
+                  {p.description && (
+                    <p className="mt-1 text-xs text-gray-600 line-clamp-1">{p.description}</p>
                   )}
                 </div>
 
@@ -215,11 +198,15 @@ export function RankingTable({ providers }: { providers: RankingProvider[] }) {
                   )}
                 </div>
 
-                {/* 价格水平 */}
-                <div className="lg:col-span-1">
-                  <span className="lg:hidden text-xs text-gray-500 mr-2">价格</span>
-                  <PriceLevels value={p.price_level} />
-                </div>
+                  {/* 价格水平列移除，改显示验证状态 */}
+                  <div className="lg:col-span-1">
+                    <span className="lg:hidden text-xs text-gray-500 mr-2">验证</span>
+                    {p.verification_status === 'verified' ? (
+                      <span className="text-xs text-green-600">✓ 已验证</span>
+                    ) : (
+                      <span className="text-xs text-gray-400">—</span>
+                    )}
+                  </div>
 
                 {/* 起充 */}
                 <div className="lg:col-span-1">
@@ -250,22 +237,12 @@ export function RankingTable({ providers }: { providers: RankingProvider[] }) {
 
                 {/* 退款 / 开票 */}
                 <div className="lg:col-span-2 text-xs text-gray-700 min-w-0">
-                  <p className="truncate" title={p.refund_policy ?? ''}>
-                    <span className="lg:hidden text-gray-500">退款 </span>
-                    {(p.refund_policy ?? '—').replace(/^✓\s*/, '')}
-                  </p>
-                  <p className="truncate mt-0.5" title={p.invoice_policy ?? ''}>
+                  <p className="truncate">
                     <span className="text-gray-500">开票 </span>
-                    {p.invoice_policy ? (
-                      p.invoice_policy.includes('不可') ? (
-                        <span className="text-gray-400">不支持</span>
-                      ) : (
-                        <span className="text-green-700">
-                          {p.invoice_policy.replace(/^✓\s*/, '')}
-                        </span>
-                      )
+                    {p.invoice_support ? (
+                      <span className="text-green-700">支持</span>
                     ) : (
-                      '—'
+                      <span className="text-gray-400">不支持</span>
                     )}
                   </p>
                 </div>

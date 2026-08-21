@@ -1,0 +1,63 @@
+{
+  "name": "LS",
+  "name_en": "LS",
+  "website_url": "https://lsapi.cn/",
+  "description": "统一模型接入层，用一套OpenAI兼容接口接入200+主流大模型与多模态能力",
+  "features": [
+    "OpenAI兼容",
+    "智能路由",
+    "透明计价",
+    "多模型聚合",
+    "全球低延迟"
+  ],
+  "min_topup": null,
+  "trial_credit": null,
+  "payment_methods": null,
+  "api_base_url": "https://lsapi.ai/v1",
+  "models": [
+    {
+      "model_name": "Claude Opus 4.7",
+      "price_input": null,
+      "price_output": null,
+      "currency": "USD"
+    },
+    {
+      "model_name": "Claude Opus 4.6",
+      "price_input": null,
+      "price_output": null,
+      "currency": "USD"
+    },
+    {
+      "model_name": "GPT 5.5",
+      "price_input": null,
+      "price_output": null,
+      "currency": "USD"
+    },
+    {
+      "model_name": "Gemini 3.1 Pro",
+      "price_input": null,
+      "price_output": null,
+      "currency": "USD"
+    },
+    {
+      "model_name": "Gemini 3.5 Flash",
+      "price_input": null,
+      "price_output": null,
+      "currency": "USD"
+    },
+    {
+      "model_name": "DeepSeek V4",
+      "price_input": null,
+      "price_output": null,
+      "currency": "USD"
+    }
+  ],
+  "support": {
+    "email": null,
+    "qq": null,
+    "telegram": null,
+    "wechat": null,
+    "docs_url": "https://lsapi.cn/docs"
+  },
+  "confidence_score": 45
+}

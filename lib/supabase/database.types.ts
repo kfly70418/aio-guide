@@ -37,6 +37,12 @@ export interface Database {
           transaction_fee: string | null
           invoice_support: boolean
           verification_status: 'verified' | 'pending' | 'suspect' | 'failed' | null
+          price_level: string | null
+          payment_methods: string | null
+          refund_policy: string | null
+          invoice_policy: string | null
+          coupon_code: string | null
+          coupon_note: string | null
           created_by: string | null
           updated_by: string | null
           created_at: string
@@ -60,6 +66,12 @@ export interface Database {
           transaction_fee?: string | null
           invoice_support?: boolean
           verification_status?: 'verified' | 'pending' | 'suspect' | 'failed' | null
+          price_level?: string | null
+          payment_methods?: string | null
+          refund_policy?: string | null
+          invoice_policy?: string | null
+          coupon_code?: string | null
+          coupon_note?: string | null
           created_by?: string | null
           updated_by?: string | null
           created_at?: string
@@ -83,6 +95,12 @@ export interface Database {
           transaction_fee?: string | null
           invoice_support?: boolean
           verification_status?: 'verified' | 'pending' | 'suspect' | 'failed' | null
+          price_level?: string | null
+          payment_methods?: string | null
+          refund_policy?: string | null
+          invoice_policy?: string | null
+          coupon_code?: string | null
+          coupon_note?: string | null
           created_by?: string | null
           updated_by?: string | null
           created_at?: string
@@ -270,6 +288,7 @@ export interface Database {
           tags: string[] | null
           status: 'draft' | 'published' | 'archived'
           view_count: number
+          views: number
           sort_order: number
           published_at: string | null
           created_by: string | null
@@ -289,6 +308,7 @@ export interface Database {
           tags?: string[] | null
           status?: 'draft' | 'published' | 'archived'
           view_count?: number
+          views?: number
           sort_order?: number
           published_at?: string | null
           created_by?: string | null
@@ -308,6 +328,7 @@ export interface Database {
           tags?: string[] | null
           status?: 'draft' | 'published' | 'archived'
           view_count?: number
+          views?: number
           sort_order?: number
           published_at?: string | null
           created_by?: string | null
@@ -482,6 +503,39 @@ export interface Database {
           change_type?: 'created' | 'updated' | 'deleted'
           changed_by?: string | null
           changed_at?: string
+        }
+        Relationships: []
+      }
+      translations: {
+        Row: {
+          id: string
+          resource_type: string
+          resource_id: string
+          locale: 'zh' | 'ru'
+          field: string
+          value: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          resource_type: string
+          resource_id: string
+          locale: 'zh' | 'ru'
+          field: string
+          value: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          resource_type?: string
+          resource_id?: string
+          locale?: 'zh' | 'ru'
+          field?: string
+          value?: string
+          created_at?: string
+          updated_at?: string
         }
         Relationships: []
       }

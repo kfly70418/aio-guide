@@ -1,0 +1,51 @@
+{
+  "name": "Top-API",
+  "name_en": "Top-API",
+  "website_url": "https://api-top.com",
+  "description": "专注AI编程场景的API网关，统一接入OpenAI、Claude、Gemini等主流模型，支持Cursor等开发工具",
+  "features": [
+    "国内直连",
+    "多模型支持",
+    "按量计费",
+    "透明价格",
+    "开发者友好"
+  ],
+  "min_topup": null,
+  "trial_credit": "¥2",
+  "payment_methods": null,
+  "api_base_url": null,
+  "models": [
+    {
+      "model_name": "gpt-4o-mini",
+      "price_input": null,
+      "price_output": null,
+      "currency": null
+    },
+    {
+      "model_name": "GPT-5.6 Sol",
+      "price_input": null,
+      "price_output": null,
+      "currency": "CNY"
+    },
+    {
+      "model_name": "Claude Fable-5",
+      "price_input": null,
+      "price_output": null,
+      "currency": "CNY"
+    },
+    {
+      "model_name": "Gemini",
+      "price_input": null,
+      "price_output": null,
+      "currency": "CNY"
+    }
+  ],
+  "support": {
+    "email": null,
+    "qq": "1046295447",
+    "telegram": null,
+    "wechat": null,
+    "docs_url": "https://api-top.com/docs"
+  },
+  "confidence_score": 65
+}

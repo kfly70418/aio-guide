@@ -1,0 +1,28 @@
+# API Key 生命周期管理
+
+```mermaid
+flowchart LR
+    A[创建] --> B[配置]
+    B --> C[使用]
+    C --> D[监控]
+    D --> E{需要轮换?}
+
+    E -->|是| F[创建新Key]
+    E -->|否| D
+
+    F --> G[更新应用]
+    G --> H[验证]
+    H --> I[废弃旧Key]
+
+    I --> D
+
+    C --> J{发现泄露?}
+    J -->|是| K[紧急撤销]
+    J -->|否| D
+
+    K --> L[应急处理]
+    L --> F
+
+    style K fill:#ef4444
+    style D fill:#10b981
+```

@@ -1,0 +1,26 @@
+{
+  "name": "PackyAPI",
+  "name_en": "Packy API",
+  "website_url": "https://packyapi.ai",
+  "description": "企业级统一 LLM API 网关，连接全球 30+ 模型，提供智能调度和全栈可观测性",
+  "features": [
+    "统一接口",
+    "智能路由",
+    "多模型支持",
+    "实时监控",
+    "企业级SLA"
+  ],
+  "min_topup": null,
+  "trial_credit": null,
+  "payment_methods": null,
+  "api_base_url": "https://packyapi.ai/v1",
+  "models": null,
+  "support": {
+    "email": null,
+    "qq": null,
+    "telegram": null,
+    "wechat": null,
+    "docs_url": "https://packyapi.ai/documentation"
+  },
+  "confidence_score": 65
+}

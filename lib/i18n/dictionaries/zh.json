@@ -1,0 +1,209 @@
+{
+  "common": {
+    "site_name": "API选",
+    "site_description": "AI中转站评测，真实体验",
+    "loading": "加载中...",
+    "error": "出错了",
+    "no_data": "暂无数据",
+    "view_more": "查看更多",
+    "back": "返回",
+    "save": "保存",
+    "cancel": "取消",
+    "confirm": "确认",
+    "delete": "删除",
+    "edit": "编辑",
+    "search": "搜索",
+    "filter": "筛选",
+    "sort": "排序",
+    "all": "全部",
+    "view_details": "查看详情",
+    "visit_website": "访问官网"
+  },
+  "nav": {
+    "home": "首页",
+    "providers": "中转站",
+    "models": "模型价格",
+    "rankings": "排行榜",
+    "articles": "教程",
+    "faq": "FAQ",
+    "about": "关于",
+    "methodology": "评测方法",
+    "disclosure": "商业声明",
+    "compare": "对比工具"
+  },
+  "home": {
+    "hero": {
+      "title": "AI API 中转站精选导航",
+      "subtitle": "给 AI 使用者选中转站：比价格、看模型真假",
+      "note_1": "人工录入并标注核验时间，不做自动抓取",
+      "note_2": "最近核验",
+      "search_placeholder": "搜索服务商或模型...",
+      "view_comparison": "查看详细比价"
+    },
+    "sections": {
+      "providers": "精选中转站",
+      "tutorials": "新手教程",
+      "news": "最新动态",
+      "models": "热门模型"
+    },
+    "model_comparison": {
+      "badge": "特色",
+      "title": "模型价格详细对比",
+      "subtitle": "一个模型，各家中转站直通车对比 · 价格透明",
+      "description": "对比各中转站的 AI 模型价格"
+    },
+    "tutorials": {
+      "title": "使用教程",
+      "view_all": "查看全部教程",
+      "description": "从入门到精通"
+    },
+    "why_choose_us": {
+      "title": "为什么选择我们",
+      "verification": {
+        "title": "人工核验",
+        "description": "所有数据均由人工录入并定期核验，标注最后核验时间，确保信息准确"
+      },
+      "pricing": {
+        "title": "价格透明",
+        "description": "对比各家中转站的模型价格，帮你找到性价比最高的选择"
+      },
+      "tutorials": {
+        "title": "详细教程",
+        "description": "提供详细的使用教程和对比评测，帮你快速上手"
+      }
+    }
+  },
+  "providers": {
+    "title": "AI API 中转站排行榜",
+    "description": "精选 AI API 中转站排行榜：逐家对比模型真假检测、价格水平、起充金额、赠送额度、退款政策与开票支持。",
+    "verified": "已核验",
+    "recommended": "推荐",
+    "min_topup": "最低充值",
+    "trial_credit": "试用额度",
+    "transaction_fee": "手续费",
+    "invoice_support": "开票支持",
+    "refund_policy": "退款政策",
+    "payment_methods": "支付方式",
+    "verification_status": "核验状态",
+    "verified_at": "核验时间",
+    "view_details": "查看详情",
+    "visit_website": "访问官网",
+    "filter_by_model": "按模型筛选",
+    "filter_by_feature": "按特性筛选",
+    "no_providers": "暂无符合条件的服务商",
+    "stable": "稳定",
+    "features": "特性",
+    "supported_models": "支持模型",
+    "notes": "备注"
+  },
+  "models": {
+    "title": "AI 模型价格对比",
+    "description": "对比各中转站的 AI 模型价格，找到最优惠的选择。",
+    "input_price": "输入价格",
+    "output_price": "输出价格",
+    "per_million_tokens": "每百万 token",
+    "official_price": "官方价格",
+    "discount": "折扣",
+    "family": "系列",
+    "no_models": "暂无模型数据"
+  },
+  "articles": {
+    "title": "使用教程",
+    "description": "AI API 使用教程和行业资讯",
+    "tutorials": "新手教程",
+    "guides": "使用指南",
+    "news": "最新动态",
+    "read_more": "阅读全文",
+    "published_at": "发布于",
+    "updated_at": "更新于",
+    "views": "阅读",
+    "categories": {
+      "tutorial": "教程",
+      "guide": "指南",
+      "news": "资讯",
+      "faq": "常见问题"
+    },
+    "no_articles": "暂无文章"
+  },
+  "faq": {
+    "title": "常见问题",
+    "categories": {
+      "usage": "使用方法",
+      "safety": "安全性",
+      "technical": "技术问题",
+      "pricing": "价格相关",
+      "comparison": "对比选择"
+    }
+  },
+  "compare": {
+    "title": "服务商横向对比",
+    "description": "选择多个服务商进行详细对比",
+    "select_providers": "选择服务商",
+    "compare_button": "开始对比",
+    "min_providers": "至少选择 2 个服务商",
+    "max_providers": "最多选择 4 个服务商",
+    "basic_info": "基本信息",
+    "pricing": "价格",
+    "features": "特性",
+    "support": "客服支持",
+    "supported_models": "支持模型",
+    "notes": "备注"
+  },
+  "footer": {
+    "quick_links": "快速导航",
+    "disclaimer": "声明",
+    "disclaimer_text": "本站数据由人工录入并标注核验时间，不做实时监控或自动抓取。",
+    "disclaimer_detail": "服务商信息可能随时变化，建议使用前访问官网确认最新信息。本站不对服务商的服务质量负责。",
+    "contact": "联系我们",
+    "business_email": "商务合作"
+  },
+  "features": {
+    "domestic_access": "国内直连",
+    "multi_model": "多模型",
+    "stable": "稳定",
+    "low_price": "低价",
+    "fast": "快速",
+    "trial": "有试用",
+    "invoice": "可开票",
+    "refund": "可退款"
+  },
+  "payment": {
+    "alipay": "支付宝",
+    "wechat": "微信支付",
+    "usdt": "USDT",
+    "credit_card": "信用卡",
+    "crypto": "加密货币"
+  },
+  "currency": {
+    "cny": "¥",
+    "rub": "₽",
+    "usd": "$"
+  },
+  "status": {
+    "active": "正常",
+    "inactive": "停用",
+    "pending": "待审核",
+    "verified": "已核验",
+    "unverified": "未核验"
+  },
+  "about": {
+    "title": "关于我们",
+    "description": "了解 API选 的使命和价值观",
+    "mission": "API选致力于为 AI 开发者和使用者提供真实、可靠的 API 中转站评测信息，帮助用户找到最适合的服务。",
+    "what_we_do": "我们做什么",
+    "what_we_do_1": "人工录入并核验每一个中转站的信息，确保数据真实可靠。",
+    "what_we_do_2": "对比不同服务商的价格、功能和服务质量，帮助用户做出明智选择。",
+    "what_we_do_3": "定期更新评测数据，及时反映市场变化。",
+    "why_trust_us": "为什么信任我们",
+    "trust_1_title": "人工核验",
+    "trust_1_desc": "每条信息都经过人工核验，标注核验时间。",
+    "trust_2_title": "真实体验",
+    "trust_2_desc": "基于真实使用体验，不做虚假宣传。",
+    "trust_3_title": "中立客观",
+    "trust_3_desc": "保持独立评测立场，商业合作不影响评测结果。",
+    "trust_4_title": "持续更新",
+    "trust_4_desc": "定期更新数据，确保信息时效性。",
+    "contact_title": "联系我们",
+    "contact_desc": "如有疑问或建议，欢迎联系我们："
+  }
+}

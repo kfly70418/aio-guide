@@ -1,0 +1,39 @@
+{
+  "name": "API2D",
+  "name_en": "API2D",
+  "website_url": "https://api2d.com",
+  "description": "像用电一样用API，提供OpenAI等全球精选AI API中转服务，填Key即用",
+  "features": [
+    "国内直连",
+    "按量计费",
+    "多模型支持",
+    "参数兼容OpenAI",
+    "缓存优化"
+  ],
+  "min_topup": null,
+  "trial_credit": null,
+  "payment_methods": null,
+  "api_base_url": null,
+  "models": [
+    {
+      "model_name": "gpt-3.5-turbo",
+      "price_input": null,
+      "price_output": null,
+      "currency": "CNY"
+    },
+    {
+      "model_name": "gpt-4",
+      "price_input": null,
+      "price_output": null,
+      "currency": "CNY"
+    }
+  ],
+  "support": {
+    "email": null,
+    "qq": null,
+    "telegram": null,
+    "wechat": null,
+    "docs_url": "https://api2d.com"
+  },
+  "confidence_score": 45
+}

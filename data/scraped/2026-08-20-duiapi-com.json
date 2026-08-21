@@ -1,0 +1,45 @@
+{
+  "name": "DuiAPI",
+  "name_en": "DuiAPI",
+  "website_url": "https://duiapi.com",
+  "description": "正规合规的AI模型API中转服务，直连官方多家供应商，全模型享优惠折扣",
+  "features": [
+    "正规合规",
+    "ICP备案",
+    "官方直连",
+    "多重保障",
+    "优惠折扣"
+  ],
+  "min_topup": null,
+  "trial_credit": null,
+  "payment_methods": null,
+  "api_base_url": "https://duiapi.com/v1",
+  "models": [
+    {
+      "model_name": "DeepSeek-V4-Pro-0813",
+      "price_input": 3.15,
+      "price_output": 9.45,
+      "currency": "CNY"
+    },
+    {
+      "model_name": "DeepSeek-V4-Flash",
+      "price_input": 1.05,
+      "price_output": 3.15,
+      "currency": "CNY"
+    },
+    {
+      "model_name": "gpt-4o",
+      "price_input": null,
+      "price_output": null,
+      "currency": "CNY"
+    }
+  ],
+  "support": {
+    "email": null,
+    "qq": null,
+    "telegram": null,
+    "wechat": null,
+    "docs_url": "https://duiapi.com/docs"
+  },
+  "confidence_score": 75
+}

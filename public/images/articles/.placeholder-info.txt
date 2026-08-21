@@ -1,0 +1,7 @@
+需要创建的图片：
+1. test-01-hoppscotch-demo.png - Hoppscotch 测试工具截图
+2. test-02-chatbox-config.png - ChatBox 配置界面截图  
+3. test-03-cherry-verify.png - Cherry Studio 验证截图
+
+这些图片应该展示如何测试 API 连接。
+暂时使用现有的相似图片替代。

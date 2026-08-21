@@ -1,0 +1,26 @@
+{
+  "name": "Boxying",
+  "name_en": "Boxying",
+  "website_url": "https://www.boxying.com",
+  "description": "统一 API 网关，支持海量 AI 模型接入，提供高性能转发和企业级管理功能",
+  "features": [
+    "多协议兼容",
+    "高性能转发",
+    "负载均衡",
+    "透明计费",
+    "开源可自托管"
+  ],
+  "min_topup": null,
+  "trial_credit": null,
+  "payment_methods": null,
+  "api_base_url": null,
+  "models": [],
+  "support": {
+    "email": null,
+    "qq": null,
+    "telegram": null,
+    "wechat": null,
+    "docs_url": "https://www.boxying.com/docs"
+  },
+  "confidence_score": 45
+}

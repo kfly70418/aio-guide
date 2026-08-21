@@ -1,0 +1,120 @@
+[
+  {
+    "success": true,
+    "provider_name": "灵眸",
+    "errors": []
+  },
+  {
+    "success": true,
+    "provider_name": "三头牛",
+    "errors": []
+  },
+  {
+    "success": true,
+    "provider_name": "HHApi",
+    "errors": []
+  },
+  {
+    "success": false,
+    "provider_name": null,
+    "errors": [
+      "缺少服务商名称",
+      "缺少描述"
+    ]
+  },
+  {
+    "success": true,
+    "provider_name": "LMU AI · 灵眸",
+    "errors": []
+  },
+  {
+    "success": true,
+    "provider_name": "Top-API",
+    "errors": []
+  },
+  {
+    "success": true,
+    "provider_name": "API2D",
+    "errors": []
+  },
+  {
+    "success": true,
+    "provider_name": "APINebula",
+    "errors": []
+  },
+  {
+    "success": true,
+    "provider_name": "存 AI",
+    "errors": []
+  },
+  {
+    "success": true,
+    "provider_name": "DuiAPI",
+    "errors": []
+  },
+  {
+    "success": true,
+    "provider_name": "Link.AI",
+    "errors": []
+  },
+  {
+    "success": true,
+    "provider_name": "LinksAPI",
+    "errors": []
+  },
+  {
+    "success": true,
+    "provider_name": "LS",
+    "errors": []
+  },
+  {
+    "success": true,
+    "provider_name": "AIMZ",
+    "errors": []
+  },
+  {
+    "success": true,
+    "provider_name": "OpenAI-HK",
+    "errors": []
+  },
+  {
+    "success": true,
+    "provider_name": "OpenOx",
+    "errors": []
+  },
+  {
+    "success": true,
+    "provider_name": "PackyAPI",
+    "errors": []
+  },
+  {
+    "success": true,
+    "provider_name": "Run API",
+    "errors": []
+  },
+  {
+    "success": true,
+    "provider_name": "UU API",
+    "errors": []
+  },
+  {
+    "success": true,
+    "provider_name": "WawAPI",
+    "errors": []
+  },
+  {
+    "success": true,
+    "provider_name": "Boxying",
+    "errors": []
+  },
+  {
+    "success": true,
+    "provider_name": "CCTQ",
+    "errors": []
+  },
+  {
+    "success": true,
+    "provider_name": "米醋API",
+    "errors": []
+  }
+]

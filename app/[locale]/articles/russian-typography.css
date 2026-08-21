@@ -1,0 +1,110 @@
+/* 俄语排版优化样式 */
+
+/* 俄语文章正文 */
+[lang="ru-RU"] .prose {
+  line-height: 1.75;
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+}
+
+/* 段落间距 */
+[lang="ru-RU"] .prose p {
+  margin-bottom: 1.5em;
+  margin-top: 0.5em;
+}
+
+/* 标题间距 */
+[lang="ru-RU"] .prose h1 {
+  margin-top: 2.5em;
+  margin-bottom: 1em;
+  line-height: 1.2;
+}
+
+[lang="ru-RU"] .prose h2 {
+  margin-top: 2em;
+  margin-bottom: 0.8em;
+  line-height: 1.3;
+}
+
+[lang="ru-RU"] .prose h3 {
+  margin-top: 1.8em;
+  margin-bottom: 0.6em;
+  line-height: 1.4;
+}
+
+/* 列表样式 */
+[lang="ru-RU"] .prose ul,
+[lang="ru-RU"] .prose ol {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+  padding-left: 2em;
+}
+
+[lang="ru-RU"] .prose li {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  line-height: 1.7;
+}
+
+/* 表格样式 */
+[lang="ru-RU"] .prose table {
+  font-size: 0.95em;
+  line-height: 1.6;
+}
+
+[lang="ru-RU"] .prose th {
+  padding: 0.75em 1em;
+  font-weight: 600;
+}
+
+[lang="ru-RU"] .prose td {
+  padding: 0.75em 1em;
+}
+
+/* 引用块 */
+[lang="ru-RU"] .prose blockquote {
+  font-style: normal;
+  padding: 1em 1.5em;
+  margin: 1.5em 0;
+  line-height: 1.7;
+}
+
+/* 代码块 */
+[lang="ru-RU"] .prose pre {
+  margin: 1.5em 0;
+  padding: 1.25em;
+  line-height: 1.6;
+}
+
+/* 行内代码 */
+[lang="ru-RU"] .prose code {
+  padding: 0.2em 0.4em;
+  font-size: 0.9em;
+}
+
+/* 水平分割线 */
+[lang="ru-RU"] .prose hr {
+  margin: 2em 0;
+}
+
+/* 强调文本 */
+[lang="ru-RU"] .prose strong {
+  font-weight: 600;
+}
+
+[lang="ru-RU"] .prose em {
+  font-style: italic;
+}
+
+/* 链接 */
+[lang="ru-RU"] .prose a {
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  transition: border-color 0.2s;
+}
+
+[lang="ru-RU"] .prose a:hover {
+  border-bottom-color: transparent;
+}

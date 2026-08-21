@@ -1,0 +1,20 @@
+{
+  "name": null,
+  "name_en": null,
+  "website_url": "https://api.koozhan.com",
+  "description": null,
+  "features": [],
+  "min_topup": null,
+  "trial_credit": null,
+  "payment_methods": [],
+  "api_base_url": null,
+  "models": [],
+  "support": {
+    "email": null,
+    "qq": null,
+    "telegram": null,
+    "wechat": null,
+    "docs_url": null
+  },
+  "confidence_score": 0
+}

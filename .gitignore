@@ -45,5 +45,13 @@ Thumbs.db
 .claude
 scripts/.cache/
 scripts/exports/
+scripts/_archive/
+
+# documentation with sensitive data
+docs/
+scripts/*使用指南.md
+
+# database files
+*.db
 
 .vercel

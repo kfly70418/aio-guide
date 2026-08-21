@@ -1,0 +1,61 @@
+{
+  "name": "UU API",
+  "name_en": "UUAPI",
+  "website_url": "https://uuapi.shop",
+  "description": "面向开发者与企业的 AI 模型接入平台，¥1=$1 汇率，兼容 OpenAI 接口",
+  "features": [
+    "多模型聚合",
+    "¥1=$1 汇率",
+    "OpenAI 兼容",
+    "国内支付",
+    "Codex 0.2 折"
+  ],
+  "min_topup": null,
+  "trial_credit": "免费体验额度",
+  "payment_methods": [
+    "支付宝",
+    "微信支付",
+    "U币"
+  ],
+  "api_base_url": "https://uuapi.net",
+  "models": [
+    {
+      "model_name": "gpt-5.5",
+      "price_input": 0.5,
+      "price_output": 3,
+      "currency": "CNY"
+    },
+    {
+      "model_name": "codex",
+      "price_input": 0.5,
+      "price_output": 3,
+      "currency": "CNY"
+    },
+    {
+      "model_name": "claude-opus-4.8",
+      "price_input": 4,
+      "price_output": 20,
+      "currency": "CNY"
+    },
+    {
+      "model_name": "claude-sonnet-4.6",
+      "price_input": 2.4,
+      "price_output": 12,
+      "currency": "CNY"
+    },
+    {
+      "model_name": "gemini-3.1-pro-high",
+      "price_input": 0.8,
+      "price_output": 4.8,
+      "currency": "CNY"
+    }
+  ],
+  "support": {
+    "email": null,
+    "qq": "QQ Group",
+    "telegram": "Telegram",
+    "wechat": null,
+    "docs_url": "https://uuapi.shop/docs"
+  },
+  "confidence_score": 85
+}

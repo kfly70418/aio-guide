@@ -1,47 +1,59 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { SITE_NAME } from '@/lib/constants'
+import { LanguageSwitcher } from '@/components/LanguageSwitcher'
+import { getDictionary } from '@/lib/i18n/utils'
+import type { Locale } from '@/lib/i18n/config'
 
-export function Header() {
+interface HeaderProps {
+  locale?: Locale
+  dict?: any
+}
+
+export function Header({ locale = 'zh', dict }: HeaderProps = {}) {
+  // 如果没有传入 dict，使用默认中文字典
+  const dictionary = dict || getDictionary('zh')
+  const basePath = locale === 'zh' ? '' : `/${locale}`
+  const logoSrc = locale === 'ru' ? '/logo-ru.svg' : '/logo.svg'
+
   return (
     <header className="border-b border-gray-200 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link
-            href="/"
-            aria-label={`${SITE_NAME}首页`}
+            href={`${basePath}/`}
+            aria-label={`${dictionary.common.site_name}首页`}
             className="flex shrink-0 items-center transition-opacity hover:opacity-80"
           >
             <Image
               src="/logo-mark.svg"
-              alt="API选"
+              alt={dictionary.common.site_name}
               width={36}
               height={36}
-              preload
               className="h-9 w-9 sm:hidden"
             />
             <Image
-              src="/logo.svg"
-              alt="API选"
+              src={logoSrc}
+              alt={dictionary.common.site_name}
               width={204}
               height={56}
-              preload
               className="hidden h-10 w-auto sm:block"
             />
           </Link>
-          <nav className="flex gap-2 whitespace-nowrap text-xs font-medium sm:gap-6 sm:text-sm">
-            <Link href="/providers" className="text-gray-700 hover:text-blue-600 transition-colors">
-              中转站排行
+          <nav className="flex gap-2 whitespace-nowrap text-xs font-medium sm:gap-4 sm:text-sm items-center">
+            <Link href={`${basePath}/providers`} className="text-gray-700 hover:text-blue-600 transition-colors">
+              {dictionary.nav.providers}
             </Link>
-            <Link href="/models" className="text-gray-700 hover:text-blue-600 transition-colors">
-              模型价格
+            <Link href={`${basePath}/models`} className="text-gray-700 hover:text-blue-600 transition-colors">
+              {dictionary.nav.models}
             </Link>
-            <Link href="/articles" className="text-gray-700 hover:text-blue-600 transition-colors">
-              使用教程
+            <Link href={`${basePath}/articles`} className="text-gray-700 hover:text-blue-600 transition-colors">
+              {dictionary.nav.articles}
             </Link>
-            <Link href="/about" className="text-gray-700 hover:text-blue-600 transition-colors">
-              关于
+            <Link href={`${basePath}/about`} className="text-gray-700 hover:text-blue-600 transition-colors">
+              {dictionary.nav.about}
             </Link>
+            <LanguageSwitcher currentLocale={locale} />
           </nav>
         </div>
       </div>
@@ -49,61 +61,70 @@ export function Header() {
   )
 }
 
-export function Footer() {
+interface FooterProps {
+  locale?: Locale
+  dict?: any
+}
+
+export function Footer({ locale = 'zh', dict }: FooterProps = {}) {
+  // 如果没有传入 dict，使用默认中文字典
+  const dictionary = dict || getDictionary('zh')
+  const basePath = locale === 'zh' ? '' : `/${locale}`
+
   return (
     <footer className="border-t border-gray-200 bg-gray-50 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-4">关于我们</h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-4">{dictionary.nav.about}</h3>
             <ul className="space-y-2 text-sm text-gray-600">
               <li>
-                <Link href="/about" className="hover:text-blue-600">
-                  关于本站
+                <Link href={`${basePath}/about`} className="hover:text-blue-600">
+                  {dictionary.nav.about}
                 </Link>
               </li>
               <li>
-                <Link href="/methodology" className="hover:text-blue-600">
-                  评测方法
+                <Link href={`${basePath}/methodology`} className="hover:text-blue-600">
+                  {dictionary.nav.methodology}
                 </Link>
               </li>
               <li>
-                <Link href="/disclosure" className="hover:text-blue-600">
-                  商业合作披露
+                <Link href={`${basePath}/disclosure`} className="hover:text-blue-600">
+                  {dictionary.nav.disclosure}
                 </Link>
               </li>
             </ul>
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-4">快速导航</h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-4">{dictionary.footer.quick_links}</h3>
             <ul className="space-y-2 text-sm text-gray-600">
               <li>
-                <Link href="/providers" className="hover:text-blue-600">
-                  中转站排行
+                <Link href={`${basePath}/providers`} className="hover:text-blue-600">
+                  {dictionary.nav.providers}
                 </Link>
               </li>
               <li>
-                <Link href="/models" className="hover:text-blue-600">
-                  模型价格对比
+                <Link href={`${basePath}/models`} className="hover:text-blue-600">
+                  {dictionary.nav.models}
                 </Link>
               </li>
               <li>
-                <Link href="/articles" className="hover:text-blue-600">
-                  使用教程
+                <Link href={`${basePath}/articles`} className="hover:text-blue-600">
+                  {dictionary.nav.articles}
                 </Link>
               </li>
             </ul>
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-4">声明</h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-4">{dictionary.footer.disclaimer}</h3>
             <p className="text-sm text-gray-600 leading-relaxed">
-              本站数据由人工录入并标注核验时间，不做实时监控或自动抓取。
-              价格信息仅供参考，请以服务商官网为准。
+              {dictionary.footer.disclaimer_text}
+              {dictionary.footer.disclaimer_detail}
             </p>
           </div>
         </div>
         <div className="mt-8 pt-8 border-t border-gray-200 text-center text-sm text-gray-500">
-          © {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
+          © {new Date().getFullYear()} {dictionary.common.site_name}. All rights reserved.
         </div>
       </div>
     </footer>

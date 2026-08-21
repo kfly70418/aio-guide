@@ -1,0 +1,42 @@
+{
+  "scraped_at": "2026-08-18T07:00:40.869678",
+  "source": "https://www.helpaio.com/",
+  "count": 5,
+  "data": [
+    {
+      "rank": 1,
+      "name": "Micu",
+      "url": "",
+      "rating": "96.31%",
+      "description": ""
+    },
+    {
+      "rank": 2,
+      "name": "Packy Code",
+      "url": "",
+      "rating": "96.81%",
+      "description": ""
+    },
+    {
+      "rank": 3,
+      "name": "SSSAiCode",
+      "url": "",
+      "rating": "99.74%",
+      "description": ""
+    },
+    {
+      "rank": 4,
+      "name": "CCTQ",
+      "url": "",
+      "rating": "97.81%",
+      "description": ""
+    },
+    {
+      "rank": 5,
+      "name": "78 Code",
+      "url": "",
+      "rating": "95.08%",
+      "description": ""
+    }
+  ]
+}

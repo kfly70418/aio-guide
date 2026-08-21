@@ -1,0 +1,111 @@
+{
+  "name": "LMU AI · 灵眸",
+  "name_en": "LMU AI",
+  "website_url": "https://api.lmuai.com",
+  "description": "大模型统一接入网关，一个密钥畅用国产旗舰大模型，OpenAI/Anthropic 双协议兼容",
+  "features": [
+    "国内直连",
+    "多模型切换",
+    "账号风险隔离",
+    "按量付费",
+    "可开发票"
+  ],
+  "min_topup": null,
+  "trial_credit": "有免费试用额度",
+  "payment_methods": null,
+  "api_base_url": null,
+  "models": [
+    {
+      "model_name": "GLM-5.3",
+      "price_input": null,
+      "price_output": null,
+      "currency": null
+    },
+    {
+      "model_name": "GLM-5.2",
+      "price_input": null,
+      "price_output": null,
+      "currency": null
+    },
+    {
+      "model_name": "GLM-5-Turbo",
+      "price_input": null,
+      "price_output": null,
+      "currency": null
+    },
+    {
+      "model_name": "GLM-4.7",
+      "price_input": null,
+      "price_output": null,
+      "currency": null
+    },
+    {
+      "model_name": "Claude 全系",
+      "price_input": null,
+      "price_output": null,
+      "currency": null
+    },
+    {
+      "model_name": "GPT",
+      "price_input": null,
+      "price_output": null,
+      "currency": null
+    },
+    {
+      "model_name": "Gemini",
+      "price_input": null,
+      "price_output": null,
+      "currency": null
+    },
+    {
+      "model_name": "Kimi",
+      "price_input": null,
+      "price_output": null,
+      "currency": null
+    },
+    {
+      "model_name": "MiniMax",
+      "price_input": null,
+      "price_output": null,
+      "currency": null
+    },
+    {
+      "model_name": "DeepSeek",
+      "price_input": null,
+      "price_output": null,
+      "currency": null
+    },
+    {
+      "model_name": "qwen3-max",
+      "price_input": null,
+      "price_output": null,
+      "currency": null
+    },
+    {
+      "model_name": "qwen3-coder",
+      "price_input": null,
+      "price_output": null,
+      "currency": null
+    },
+    {
+      "model_name": "doubao-seed",
+      "price_input": null,
+      "price_output": null,
+      "currency": null
+    },
+    {
+      "model_name": "hunyuan",
+      "price_input": null,
+      "price_output": null,
+      "currency": null
+    }
+  ],
+  "support": {
+    "email": null,
+    "qq": null,
+    "telegram": null,
+    "wechat": "18599001010",
+    "docs_url": null
+  },
+  "confidence_score": 65
+}

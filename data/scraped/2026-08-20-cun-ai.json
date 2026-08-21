@@ -1,0 +1,51 @@
+{
+  "name": "存 AI",
+  "name_en": "CUN.AI",
+  "website_url": "https://cun.ai",
+  "description": "通过统一标准接口接入全球顶级 AI 模型的中转服务平台",
+  "features": [
+    "官方原生通道",
+    "多模型支持",
+    "价格透明",
+    "高并发稳定",
+    "OpenAI 兼容"
+  ],
+  "min_topup": null,
+  "trial_credit": "$5.8",
+  "payment_methods": null,
+  "api_base_url": "https://www.cun.ai/v1",
+  "models": [
+    {
+      "model_name": "gpt-5.6-sol",
+      "price_input": null,
+      "price_output": null,
+      "currency": null
+    },
+    {
+      "model_name": "claude-opus-5",
+      "price_input": null,
+      "price_output": null,
+      "currency": null
+    },
+    {
+      "model_name": "glm-5.2",
+      "price_input": null,
+      "price_output": null,
+      "currency": null
+    },
+    {
+      "model_name": "kimi-k3",
+      "price_input": null,
+      "price_output": null,
+      "currency": null
+    }
+  ],
+  "support": {
+    "email": "wintokenai@gmail.com",
+    "qq": null,
+    "telegram": "https://t.me/cun_ai",
+    "wechat": null,
+    "docs_url": null
+  },
+  "confidence_score": 65
+}

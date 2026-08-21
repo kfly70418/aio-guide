@@ -1,0 +1,65 @@
+{
+  "name": "Run API",
+  "name_en": "RunAPI",
+  "website_url": "https://runapi.host",
+  "description": "统一AI网关，单API密钥智能路由，提供批发价格访问多种AI模型",
+  "features": [
+    "国内直连",
+    "智能路由",
+    "批发价格",
+    "多模型支持",
+    "全球边缘网络"
+  ],
+  "min_topup": null,
+  "trial_credit": null,
+  "payment_methods": [
+    "支付宝"
+  ],
+  "api_base_url": null,
+  "models": [
+    {
+      "model_name": "deepseek-v4-pro",
+      "price_input": 2.9,
+      "price_output": 2.9,
+      "currency": "USD"
+    },
+    {
+      "model_name": "qwen3.7-max",
+      "price_input": 2.1,
+      "price_output": 2.1,
+      "currency": "USD"
+    },
+    {
+      "model_name": "kimi-k3",
+      "price_input": 1.64,
+      "price_output": 1.64,
+      "currency": "USD"
+    },
+    {
+      "model_name": "glm-5.2",
+      "price_input": 0.2,
+      "price_output": 0.2,
+      "currency": "USD"
+    },
+    {
+      "model_name": "minimax-m2.7",
+      "price_input": 2,
+      "price_output": 2,
+      "currency": "USD"
+    },
+    {
+      "model_name": "doubao-seed-2.0",
+      "price_input": 0.71,
+      "price_output": 0.71,
+      "currency": "USD"
+    }
+  ],
+  "support": {
+    "email": null,
+    "qq": null,
+    "telegram": null,
+    "wechat": null,
+    "docs_url": "https://runapi.host/docs"
+  },
+  "confidence_score": 75
+}

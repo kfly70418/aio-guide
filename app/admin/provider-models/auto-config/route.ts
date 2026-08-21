@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/admin'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { NextResponse } from 'next/server'
 
 const CONFIG: Record<string, 'full' | 'core' | 'common'> = {
@@ -120,10 +120,11 @@ export async function POST() {
       const prices = selectedModels.map(m => ({
         channel_id: channelId,
         model_id: m.id,
-        status: 'active',
-        input_price: 0,
-        output_price: 0,
-        currency: 'CNY'
+        status: 'active' as const,
+        price_input: 0,
+        price_output: 0,
+        currency: 'CNY' as const,
+        effective_date: new Date().toISOString().split('T')[0],
       }))
 
       const { error: pricesError } = await supabase

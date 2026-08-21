@@ -1,0 +1,33 @@
+{
+  "name": "WawAPI",
+  "name_en": "WawAPI",
+  "website_url": "https://wawapi.top",
+  "description": "一站式 AI 能力平台，一个 API Key 调用 GPT、Claude、Sora、Grok 等主流模型",
+  "features": [
+    "满血模型",
+    "99%缓存命中",
+    "智能路由",
+    "OpenAI兼容",
+    "多模型"
+  ],
+  "min_topup": null,
+  "trial_credit": "$5",
+  "payment_methods": null,
+  "api_base_url": null,
+  "models": [
+    {
+      "model_name": "gpt-5.6",
+      "price_input": null,
+      "price_output": null,
+      "currency": null
+    }
+  ],
+  "support": {
+    "email": null,
+    "qq": null,
+    "telegram": null,
+    "wechat": null,
+    "docs_url": null
+  },
+  "confidence_score": 45
+}

@@ -1,0 +1,17 @@
+# 多服务商架构示意图
+
+```mermaid
+graph TB
+    A[应用层] --> B{负载均衡器}
+    B --> C[主力服务商<br/>API2D]
+    B --> D[备用服务商1<br/>OpenAI-HK]
+    B --> E[备用服务商2<br/>LinkAI]
+
+    C --> F[Claude API]
+    D --> F
+    E --> F
+
+    style C fill:#4ade80
+    style D fill:#fbbf24
+    style E fill:#fbbf24
+```

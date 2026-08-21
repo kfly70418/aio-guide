@@ -1,0 +1,26 @@
+{
+  "name": "Link.AI",
+  "name_en": "Link.AI",
+  "website_url": "https://link-ai.tech",
+  "description": "企业级一站式AI智能体开发及应用平台，聚合多模态大模型、知识库、插件和工作流等Agent构建能力",
+  "features": [
+    "零代码搭建",
+    "多模态支持",
+    "Agent智能体",
+    "企业级安全",
+    "开源生态"
+  ],
+  "min_topup": null,
+  "trial_credit": null,
+  "payment_methods": null,
+  "api_base_url": null,
+  "models": [],
+  "support": {
+    "email": "sales@simple-future.tech",
+    "qq": null,
+    "telegram": null,
+    "wechat": "有（通过公众号/客服助手）",
+    "docs_url": "https://link-ai.tech"
+  },
+  "confidence_score": 45
+}

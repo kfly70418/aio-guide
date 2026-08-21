@@ -1,0 +1,995 @@
+[
+  {
+    "provider_id": "9a2a5865-29b8-4a64-abfe-136825efeb4d",
+    "slug": "aimz",
+    "error": "TypeError: Cannot read properties of null (reading 'length')"
+  },
+  {
+    "provider_id": "fabc2459-99ac-417b-bdcf-3aced24ed325",
+    "slug": "api-topcom",
+    "data": {
+      "name": "Top-API",
+      "name_en": "Top-API",
+      "website_url": "https://api-top.com",
+      "description": "专注AI编程场景的API网关，统一接入OpenAI、Claude、Gemini等主流模型，支持Cursor等开发工具",
+      "features": [
+        "国内直连",
+        "多模型支持",
+        "按量计费",
+        "透明价格",
+        "开发者友好"
+      ],
+      "min_topup": null,
+      "trial_credit": "¥2",
+      "payment_methods": null,
+      "api_base_url": null,
+      "models": [
+        {
+          "model_name": "gpt-4o-mini",
+          "price_input": null,
+          "price_output": null,
+          "currency": null
+        },
+        {
+          "model_name": "GPT-5.6 Sol",
+          "price_input": null,
+          "price_output": null,
+          "currency": "CNY"
+        },
+        {
+          "model_name": "Claude Fable-5",
+          "price_input": null,
+          "price_output": null,
+          "currency": "CNY"
+        },
+        {
+          "model_name": "Gemini",
+          "price_input": null,
+          "price_output": null,
+          "currency": "CNY"
+        }
+      ],
+      "support": {
+        "email": null,
+        "qq": "1046295447",
+        "telegram": null,
+        "wechat": null,
+        "docs_url": "https://api-top.com/docs"
+      },
+      "confidence_score": 65
+    }
+  },
+  {
+    "provider_id": "76001215-4fc7-4939-a5b0-9a1a9d397d1e",
+    "slug": "apikoozhancom",
+    "data": {
+      "name": null,
+      "name_en": null,
+      "website_url": "https://api.koozhan.com",
+      "description": null,
+      "features": [],
+      "min_topup": null,
+      "trial_credit": null,
+      "payment_methods": [],
+      "api_base_url": null,
+      "models": [],
+      "support": {
+        "email": null,
+        "qq": null,
+        "telegram": null,
+        "wechat": null,
+        "docs_url": null
+      },
+      "confidence_score": 0
+    }
+  },
+  {
+    "provider_id": "1b972e74-6208-4ffd-8343-409a41289129",
+    "slug": "api2d",
+    "data": {
+      "name": "API2D",
+      "name_en": "API2D",
+      "website_url": "https://api2d.com",
+      "description": "像用电一样用API，提供OpenAI等全球精选AI API中转服务，填Key即用",
+      "features": [
+        "国内直连",
+        "按量计费",
+        "多模型支持",
+        "参数兼容OpenAI",
+        "缓存优化"
+      ],
+      "min_topup": null,
+      "trial_credit": null,
+      "payment_methods": null,
+      "api_base_url": null,
+      "models": [
+        {
+          "model_name": "gpt-3.5-turbo",
+          "price_input": null,
+          "price_output": null,
+          "currency": "CNY"
+        },
+        {
+          "model_name": "gpt-4",
+          "price_input": null,
+          "price_output": null,
+          "currency": "CNY"
+        }
+      ],
+      "support": {
+        "email": null,
+        "qq": null,
+        "telegram": null,
+        "wechat": null,
+        "docs_url": "https://api2d.com"
+      },
+      "confidence_score": 45
+    }
+  },
+  {
+    "provider_id": "d1d80b05-02d2-437f-8fad-b48cd3a863b3",
+    "slug": "apinebula",
+    "data": {
+      "name": "APINebula",
+      "name_en": "APINebula",
+      "website_url": "https://apinebula.ai",
+      "description": "统一接入 Anthropic 和 OpenAI 模型的 API 中转服务，支付宝充值，稳定直连",
+      "features": [
+        "国内直连",
+        "支付宝充值",
+        "多模型统一",
+        "99.9% SLA",
+        "OpenAI 兼容"
+      ],
+      "min_topup": "¥20",
+      "trial_credit": null,
+      "payment_methods": [
+        "支付宝"
+      ],
+      "api_base_url": null,
+      "models": [
+        {
+          "model_name": "gpt-5.5",
+          "price_input": 1.95,
+          "price_output": 11.7,
+          "currency": "CNY"
+        },
+        {
+          "model_name": "claude-opus-4-8",
+          "price_input": 2.5,
+          "price_output": 12.5,
+          "currency": "CNY"
+        },
+        {
+          "model_name": "gpt-5.4",
+          "price_input": 0.975,
+          "price_output": 5.85,
+          "currency": "CNY"
+        },
+        {
+          "model_name": "claude-sonnet-4-6",
+          "price_input": 1.5,
+          "price_output": 7.5,
+          "currency": "CNY"
+        },
+        {
+          "model_name": "gpt-image-2",
+          "price_input": 0.05,
+          "price_output": null,
+          "currency": "CNY"
+        },
+        {
+          "model_name": "gemini-3.5-flash",
+          "price_input": 1.35,
+          "price_output": 8.1,
+          "currency": "CNY"
+        }
+      ],
+      "support": {
+        "email": null,
+        "qq": null,
+        "telegram": null,
+        "wechat": "微信群",
+        "docs_url": "https://apinebula.ai/docs"
+      },
+      "confidence_score": 92
+    }
+  },
+  {
+    "provider_id": "f99969b8-8491-4ff6-90b9-1a8308c7ff5f",
+    "slug": "boxying",
+    "data": {
+      "name": "Boxying",
+      "name_en": "Boxying",
+      "website_url": "https://www.boxying.com",
+      "description": "统一 API 网关，支持海量 AI 模型接入，提供高性能转发和企业级管理功能",
+      "features": [
+        "多协议兼容",
+        "高性能转发",
+        "负载均衡",
+        "透明计费",
+        "开源可自托管"
+      ],
+      "min_topup": null,
+      "trial_credit": null,
+      "payment_methods": null,
+      "api_base_url": null,
+      "models": [],
+      "support": {
+        "email": null,
+        "qq": null,
+        "telegram": null,
+        "wechat": null,
+        "docs_url": "https://www.boxying.com/docs"
+      },
+      "confidence_score": 45
+    }
+  },
+  {
+    "provider_id": "828256af-2738-4e44-84d0-afff6539f56a",
+    "slug": "cctq",
+    "data": {
+      "name": "CCTQ",
+      "name_en": "CCTQ",
+      "website_url": "https://www.cctq.ai/",
+      "description": "统一API网关服务，通过标准接口接入海量AI模型，支持多协议配置和负载均衡",
+      "features": [
+        "统一网关",
+        "多模型支持",
+        "负载均衡",
+        "实时监控",
+        "开源自托管"
+      ],
+      "min_topup": null,
+      "trial_credit": null,
+      "payment_methods": null,
+      "api_base_url": null,
+      "models": [],
+      "support": {
+        "email": null,
+        "qq": null,
+        "telegram": null,
+        "wechat": null,
+        "docs_url": "https://www.cctq.ai/"
+      },
+      "confidence_score": 45
+    }
+  },
+  {
+    "provider_id": "9981149e-2158-49bd-a11e-ee56bb573815",
+    "slug": "cunai",
+    "data": {
+      "name": "存 AI",
+      "name_en": "CUN.AI",
+      "website_url": "https://cun.ai",
+      "description": "通过统一标准接口接入全球顶级 AI 模型的中转服务平台",
+      "features": [
+        "官方原生通道",
+        "多模型支持",
+        "价格透明",
+        "高并发稳定",
+        "OpenAI 兼容"
+      ],
+      "min_topup": null,
+      "trial_credit": "$5.8",
+      "payment_methods": null,
+      "api_base_url": "https://www.cun.ai/v1",
+      "models": [
+        {
+          "model_name": "gpt-5.6-sol",
+          "price_input": null,
+          "price_output": null,
+          "currency": null
+        },
+        {
+          "model_name": "claude-opus-5",
+          "price_input": null,
+          "price_output": null,
+          "currency": null
+        },
+        {
+          "model_name": "glm-5.2",
+          "price_input": null,
+          "price_output": null,
+          "currency": null
+        },
+        {
+          "model_name": "kimi-k3",
+          "price_input": null,
+          "price_output": null,
+          "currency": null
+        }
+      ],
+      "support": {
+        "email": "wintokenai@gmail.com",
+        "qq": null,
+        "telegram": "https://t.me/cun_ai",
+        "wechat": null,
+        "docs_url": null
+      },
+      "confidence_score": 65
+    }
+  },
+  {
+    "provider_id": "f070e0e1-cf50-487b-873a-79e427338a1b",
+    "slug": "duiapi",
+    "data": {
+      "name": "DuiAPI",
+      "name_en": "DuiAPI",
+      "website_url": "https://duiapi.com",
+      "description": "正规合规的AI模型API中转服务，直连官方多家供应商，全模型享优惠折扣",
+      "features": [
+        "正规合规",
+        "ICP备案",
+        "官方直连",
+        "多重保障",
+        "优惠折扣"
+      ],
+      "min_topup": null,
+      "trial_credit": null,
+      "payment_methods": null,
+      "api_base_url": "https://duiapi.com/v1",
+      "models": [
+        {
+          "model_name": "DeepSeek-V4-Pro-0813",
+          "price_input": 3.15,
+          "price_output": 9.45,
+          "currency": "CNY"
+        },
+        {
+          "model_name": "DeepSeek-V4-Flash",
+          "price_input": 1.05,
+          "price_output": 3.15,
+          "currency": "CNY"
+        },
+        {
+          "model_name": "gpt-4o",
+          "price_input": null,
+          "price_output": null,
+          "currency": "CNY"
+        }
+      ],
+      "support": {
+        "email": null,
+        "qq": null,
+        "telegram": null,
+        "wechat": null,
+        "docs_url": "https://duiapi.com/docs"
+      },
+      "confidence_score": 75
+    }
+  },
+  {
+    "provider_id": "141d6919-6258-4828-bb7a-f488971e84c6",
+    "slug": "h-api",
+    "data": {
+      "name": "HHApi",
+      "name_en": "HHApi",
+      "website_url": "https://api.hanhanapi.top",
+      "description": "稳定的 AI 中转平台，不超售、定价合理，提供纯血 Claude 和 GPT 系列模型",
+      "features": [
+        "不超售",
+        "纯血CCMAX",
+        "定价透明",
+        "真人客服",
+        "无汇率损失"
+      ],
+      "min_topup": null,
+      "trial_credit": null,
+      "payment_methods": null,
+      "api_base_url": null,
+      "models": [
+        {
+          "model_name": "claude-sonnet-4.6",
+          "price_input": 3.6,
+          "price_output": 18,
+          "currency": "CNY"
+        },
+        {
+          "model_name": "claude-opus-4.7",
+          "price_input": 6,
+          "price_output": 30,
+          "currency": "CNY"
+        },
+        {
+          "model_name": "claude-haiku-4.5",
+          "price_input": 1.2,
+          "price_output": 6,
+          "currency": "CNY"
+        },
+        {
+          "model_name": "gpt-5.5",
+          "price_input": 1,
+          "price_output": 6,
+          "currency": "CNY"
+        },
+        {
+          "model_name": "gpt-5.4",
+          "price_input": 0.5,
+          "price_output": 3,
+          "currency": "CNY"
+        },
+        {
+          "model_name": "gpt-5.4-mini",
+          "price_input": 0.15,
+          "price_output": 0.9,
+          "currency": "CNY"
+        }
+      ],
+      "support": {
+        "email": null,
+        "qq": "1091197364",
+        "telegram": null,
+        "wechat": null,
+        "docs_url": null
+      },
+      "confidence_score": 85
+    }
+  },
+  {
+    "provider_id": "41748da9-875b-4fb2-b393-e4573acd9f76",
+    "slug": "linkai",
+    "data": {
+      "name": "Link.AI",
+      "name_en": "Link.AI",
+      "website_url": "https://link-ai.tech",
+      "description": "企业级一站式AI智能体开发及应用平台，聚合多模态大模型、知识库、插件和工作流等Agent构建能力",
+      "features": [
+        "零代码搭建",
+        "多模态支持",
+        "Agent智能体",
+        "企业级安全",
+        "开源生态"
+      ],
+      "min_topup": null,
+      "trial_credit": null,
+      "payment_methods": null,
+      "api_base_url": null,
+      "models": [],
+      "support": {
+        "email": "sales@simple-future.tech",
+        "qq": null,
+        "telegram": null,
+        "wechat": "有（通过公众号/客服助手）",
+        "docs_url": "https://link-ai.tech"
+      },
+      "confidence_score": 45
+    }
+  },
+  {
+    "provider_id": "e5f1e977-87c6-483f-a497-e8776c9a8e5f",
+    "slug": "linksapi",
+    "data": {
+      "name": "LinksAPI",
+      "name_en": "LinksAPI",
+      "website_url": "https://linksapi.cn/",
+      "description": "国内直连Claude Code的API中转站，支持OpenAI兼容协议，企业可开票对公结算",
+      "features": [
+        "国内直连",
+        "Claude官方渠道",
+        "OpenAI兼容",
+        "企业开票",
+        "按量计费"
+      ],
+      "min_topup": "¥8",
+      "trial_credit": "$0.60",
+      "payment_methods": [
+        "微信",
+        "支付宝",
+        "USDT(TRC20)"
+      ],
+      "api_base_url": "https://linksapi.cn/v1",
+      "models": [
+        {
+          "model_name": "claude-haiku-4-5",
+          "price_input": null,
+          "price_output": null,
+          "currency": "USD"
+        },
+        {
+          "model_name": "claude-sonnet-4-5",
+          "price_input": null,
+          "price_output": null,
+          "currency": "USD"
+        },
+        {
+          "model_name": "claude-opus-4-6",
+          "price_input": null,
+          "price_output": null,
+          "currency": "USD"
+        },
+        {
+          "model_name": "claude-opus-4-8",
+          "price_input": null,
+          "price_output": null,
+          "currency": "USD"
+        }
+      ],
+      "support": {
+        "email": "links-api@qq.com",
+        "qq": "2981356048 / 群号593687637",
+        "telegram": null,
+        "wechat": "有群但需扫码",
+        "docs_url": "https://linksapi.cn/docs"
+      },
+      "confidence_score": 85
+    }
+  },
+  {
+    "provider_id": "2d978fc3-6ca6-40ef-aa15-7bd04d5ec643",
+    "slug": "lmu-ai",
+    "data": {
+      "name": "LMU AI · 灵眸",
+      "name_en": "LMU AI",
+      "website_url": "https://api.lmuai.com",
+      "description": "大模型统一接入网关，一个密钥畅用国产旗舰大模型，OpenAI/Anthropic 双协议兼容",
+      "features": [
+        "国内直连",
+        "多模型切换",
+        "账号风险隔离",
+        "按量付费",
+        "可开发票"
+      ],
+      "min_topup": null,
+      "trial_credit": "有免费试用额度",
+      "payment_methods": null,
+      "api_base_url": null,
+      "models": [
+        {
+          "model_name": "GLM-5.3",
+          "price_input": null,
+          "price_output": null,
+          "currency": null
+        },
+        {
+          "model_name": "GLM-5.2",
+          "price_input": null,
+          "price_output": null,
+          "currency": null
+        },
+        {
+          "model_name": "GLM-5-Turbo",
+          "price_input": null,
+          "price_output": null,
+          "currency": null
+        },
+        {
+          "model_name": "GLM-4.7",
+          "price_input": null,
+          "price_output": null,
+          "currency": null
+        },
+        {
+          "model_name": "Claude 全系",
+          "price_input": null,
+          "price_output": null,
+          "currency": null
+        },
+        {
+          "model_name": "GPT",
+          "price_input": null,
+          "price_output": null,
+          "currency": null
+        },
+        {
+          "model_name": "Gemini",
+          "price_input": null,
+          "price_output": null,
+          "currency": null
+        },
+        {
+          "model_name": "Kimi",
+          "price_input": null,
+          "price_output": null,
+          "currency": null
+        },
+        {
+          "model_name": "MiniMax",
+          "price_input": null,
+          "price_output": null,
+          "currency": null
+        },
+        {
+          "model_name": "DeepSeek",
+          "price_input": null,
+          "price_output": null,
+          "currency": null
+        },
+        {
+          "model_name": "qwen3-max",
+          "price_input": null,
+          "price_output": null,
+          "currency": null
+        },
+        {
+          "model_name": "qwen3-coder",
+          "price_input": null,
+          "price_output": null,
+          "currency": null
+        },
+        {
+          "model_name": "doubao-seed",
+          "price_input": null,
+          "price_output": null,
+          "currency": null
+        },
+        {
+          "model_name": "hunyuan",
+          "price_input": null,
+          "price_output": null,
+          "currency": null
+        }
+      ],
+      "support": {
+        "email": null,
+        "qq": null,
+        "telegram": null,
+        "wechat": "18599001010",
+        "docs_url": null
+      },
+      "confidence_score": 65
+    }
+  },
+  {
+    "provider_id": "bce8e4a7-ff44-4448-ae20-3ddb104515cf",
+    "slug": "ls-api",
+    "data": {
+      "name": "LS",
+      "name_en": "LS",
+      "website_url": "https://lsapi.cn/",
+      "description": "统一模型接入层，用一套OpenAI兼容接口接入200+主流大模型与多模态能力",
+      "features": [
+        "OpenAI兼容",
+        "智能路由",
+        "透明计价",
+        "多模型聚合",
+        "全球低延迟"
+      ],
+      "min_topup": null,
+      "trial_credit": null,
+      "payment_methods": null,
+      "api_base_url": "https://lsapi.ai/v1",
+      "models": [
+        {
+          "model_name": "Claude Opus 4.7",
+          "price_input": null,
+          "price_output": null,
+          "currency": "USD"
+        },
+        {
+          "model_name": "Claude Opus 4.6",
+          "price_input": null,
+          "price_output": null,
+          "currency": "USD"
+        },
+        {
+          "model_name": "GPT 5.5",
+          "price_input": null,
+          "price_output": null,
+          "currency": "USD"
+        },
+        {
+          "model_name": "Gemini 3.1 Pro",
+          "price_input": null,
+          "price_output": null,
+          "currency": "USD"
+        },
+        {
+          "model_name": "Gemini 3.5 Flash",
+          "price_input": null,
+          "price_output": null,
+          "currency": "USD"
+        },
+        {
+          "model_name": "DeepSeek V4",
+          "price_input": null,
+          "price_output": null,
+          "currency": "USD"
+        }
+      ],
+      "support": {
+        "email": null,
+        "qq": null,
+        "telegram": null,
+        "wechat": null,
+        "docs_url": "https://lsapi.cn/docs"
+      },
+      "confidence_score": 45
+    }
+  },
+  {
+    "provider_id": "05affe0b-a183-47b4-baf0-3c735aa542d9",
+    "slug": "micu",
+    "error": "TypeError: Cannot read properties of null (reading 'length')"
+  },
+  {
+    "provider_id": "8dda87f3-8df4-4211-9dc5-62309e4895dc",
+    "slug": "openai-hk",
+    "data": {
+      "name": "OpenAI-HK",
+      "name_en": "OpenAI-HK",
+      "website_url": "https://openai-hk.com",
+      "description": "提供OpenAI、Claude、Gemini等多模型API中转服务，支持AI绘图、音乐、视频生成，无需科学上网",
+      "features": [
+        "国内直连",
+        "多模型支持",
+        "无需科学上网",
+        "按量计费",
+        "账号池轮训"
+      ],
+      "min_topup": "¥10",
+      "trial_credit": null,
+      "payment_methods": null,
+      "api_base_url": null,
+      "models": [
+        {
+          "model_name": "gpt-3.5-turbo",
+          "price_input": 4,
+          "price_output": 4,
+          "currency": "CNY"
+        },
+        {
+          "model_name": "gpt-4",
+          "price_input": 213,
+          "price_output": 426,
+          "currency": "CNY"
+        },
+        {
+          "model_name": "suno",
+          "price_input": 0.35,
+          "price_output": 0.35,
+          "currency": "CNY"
+        }
+      ],
+      "support": {
+        "email": "help@openai-hk.com",
+        "qq": "1853719782",
+        "telegram": null,
+        "wechat": null,
+        "docs_url": "https://openai-hk.com/docs"
+      },
+      "confidence_score": 75
+    }
+  },
+  {
+    "provider_id": "63f7f752-47c5-4c0c-a85e-2555f63f5e08",
+    "slug": "openox",
+    "data": {
+      "name": "OpenOx",
+      "name_en": "OpenOx",
+      "website_url": "https://openox.tech/r/34533",
+      "description": "企业级稳定低价中转，统一API接入主流AI模型，订阅最低约0.29折起",
+      "features": [
+        "多模型接入",
+        "企业级安全",
+        "极速响应",
+        "低价中转",
+        "智能路由"
+      ],
+      "min_topup": null,
+      "trial_credit": "$3",
+      "payment_methods": null,
+      "api_base_url": null,
+      "models": [],
+      "support": {
+        "email": null,
+        "qq": null,
+        "telegram": null,
+        "wechat": null,
+        "docs_url": null
+      },
+      "confidence_score": 65
+    }
+  },
+  {
+    "provider_id": "72fb6986-63a9-4202-89dc-c678989b1a82",
+    "slug": "packyapi",
+    "error": "TypeError: Cannot read properties of null (reading 'length')"
+  },
+  {
+    "provider_id": "574f7cc0-ba9e-4ec0-98d9-8296a4d0554c",
+    "slug": "runapi",
+    "data": {
+      "name": "Run API",
+      "name_en": "RunAPI",
+      "website_url": "https://runapi.host",
+      "description": "统一AI网关，单API密钥智能路由，提供批发价格访问多种AI模型",
+      "features": [
+        "国内直连",
+        "智能路由",
+        "批发价格",
+        "多模型支持",
+        "全球边缘网络"
+      ],
+      "min_topup": null,
+      "trial_credit": null,
+      "payment_methods": [
+        "支付宝"
+      ],
+      "api_base_url": null,
+      "models": [
+        {
+          "model_name": "deepseek-v4-pro",
+          "price_input": 2.9,
+          "price_output": 2.9,
+          "currency": "USD"
+        },
+        {
+          "model_name": "qwen3.7-max",
+          "price_input": 2.1,
+          "price_output": 2.1,
+          "currency": "USD"
+        },
+        {
+          "model_name": "kimi-k3",
+          "price_input": 1.64,
+          "price_output": 1.64,
+          "currency": "USD"
+        },
+        {
+          "model_name": "glm-5.2",
+          "price_input": 0.2,
+          "price_output": 0.2,
+          "currency": "USD"
+        },
+        {
+          "model_name": "minimax-m2.7",
+          "price_input": 2,
+          "price_output": 2,
+          "currency": "USD"
+        },
+        {
+          "model_name": "doubao-seed-2.0",
+          "price_input": 0.71,
+          "price_output": 0.71,
+          "currency": "USD"
+        }
+      ],
+      "support": {
+        "email": null,
+        "qq": null,
+        "telegram": null,
+        "wechat": null,
+        "docs_url": "https://runapi.host/docs"
+      },
+      "confidence_score": 75
+    }
+  },
+  {
+    "provider_id": "ccd352fa-237d-4d84-8d4c-2e0e734c9076",
+    "slug": "sssaicode",
+    "error": "Error: 访问失败: TimeoutError: page.goto: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"https://sssaicode.com/\", waiting until \"networkidle\"\u001b[22m\n"
+  },
+  {
+    "provider_id": "fe44ecce-0611-4764-a44c-fdb1cc28f337",
+    "slug": "uu-api",
+    "data": {
+      "name": "UU API",
+      "name_en": "UUAPI",
+      "website_url": "https://uuapi.shop",
+      "description": "面向开发者与企业的 AI 模型接入平台，¥1=$1 汇率，兼容 OpenAI 接口",
+      "features": [
+        "多模型聚合",
+        "¥1=$1 汇率",
+        "OpenAI 兼容",
+        "国内支付",
+        "Codex 0.2 折"
+      ],
+      "min_topup": null,
+      "trial_credit": "免费体验额度",
+      "payment_methods": [
+        "支付宝",
+        "微信支付",
+        "U币"
+      ],
+      "api_base_url": "https://uuapi.net",
+      "models": [
+        {
+          "model_name": "gpt-5.5",
+          "price_input": 0.5,
+          "price_output": 3,
+          "currency": "CNY"
+        },
+        {
+          "model_name": "codex",
+          "price_input": 0.5,
+          "price_output": 3,
+          "currency": "CNY"
+        },
+        {
+          "model_name": "claude-opus-4.8",
+          "price_input": 4,
+          "price_output": 20,
+          "currency": "CNY"
+        },
+        {
+          "model_name": "claude-sonnet-4.6",
+          "price_input": 2.4,
+          "price_output": 12,
+          "currency": "CNY"
+        },
+        {
+          "model_name": "gemini-3.1-pro-high",
+          "price_input": 0.8,
+          "price_output": 4.8,
+          "currency": "CNY"
+        }
+      ],
+      "support": {
+        "email": null,
+        "qq": "QQ Group",
+        "telegram": "Telegram",
+        "wechat": null,
+        "docs_url": "https://uuapi.shop/docs"
+      },
+      "confidence_score": 85
+    }
+  },
+  {
+    "provider_id": "48f8d63c-eb7e-43ec-befc-170b7110d4d7",
+    "slug": "wawapitop",
+    "data": {
+      "name": "WawAPI",
+      "name_en": "WawAPI",
+      "website_url": "https://wawapi.top",
+      "description": "一站式 AI 能力平台，一个 API Key 调用 GPT、Claude、Sora、Grok 等主流模型",
+      "features": [
+        "满血模型",
+        "99%缓存命中",
+        "智能路由",
+        "OpenAI兼容",
+        "多模型"
+      ],
+      "min_topup": null,
+      "trial_credit": "$5",
+      "payment_methods": null,
+      "api_base_url": null,
+      "models": [
+        {
+          "model_name": "gpt-5.6",
+          "price_input": null,
+          "price_output": null,
+          "currency": null
+        }
+      ],
+      "support": {
+        "email": null,
+        "qq": null,
+        "telegram": null,
+        "wechat": null,
+        "docs_url": null
+      },
+      "confidence_score": 45
+    }
+  },
+  {
+    "provider_id": "9610b5b4-2a4d-4978-9779-a2dd2146fca5",
+    "slug": "santoniu",
+    "data": {
+      "name": "三头牛",
+      "name_en": "36niu",
+      "website_url": "https://36niu.com",
+      "description": "统一 API 网关，支持多协议配置，接入海量 AI 模型的中转服务平台",
+      "features": [
+        "多协议兼容",
+        "全球覆盖",
+        "实时监控",
+        "负载均衡",
+        "开源"
+      ],
+      "min_topup": null,
+      "trial_credit": null,
+      "payment_methods": null,
+      "api_base_url": null,
+      "models": [],
+      "support": {
+        "email": null,
+        "qq": "1051464986",
+        "telegram": null,
+        "wechat": null,
+        "docs_url": null
+      },
+      "confidence_score": 45
+    }
+  }
+]

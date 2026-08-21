@@ -1,0 +1,26 @@
+{
+  "name": "米醋API",
+  "name_en": "MICU API",
+  "website_url": "https://www.micuapi.ai/",
+  "description": "统一的大模型接口网关，支持30+模型供应商，多模型统一接入",
+  "features": [
+    "多模型统一接入",
+    "国内直连",
+    "优选路线",
+    "按量计费",
+    "无理由退款"
+  ],
+  "min_topup": null,
+  "trial_credit": null,
+  "payment_methods": null,
+  "api_base_url": "https://api-slb.micuapi.ai/v1",
+  "models": null,
+  "support": {
+    "email": null,
+    "qq": "售后群（见网站）",
+    "telegram": null,
+    "wechat": "小助理（见网站）",
+    "docs_url": "https://www.micuapi.ai/docs"
+  },
+  "confidence_score": 65
+}

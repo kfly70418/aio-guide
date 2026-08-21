@@ -1,0 +1,178 @@
+[
+  {
+    "success": false,
+    "provider_name": "灵眸",
+    "errors": [
+      "创建渠道失败: Could not find the 'api_base_url' column of 'channels' in the schema cache"
+    ],
+    "provider_id": "9438edfc-4cce-40c3-af53-976c348f8e90"
+  },
+  {
+    "success": false,
+    "provider_name": "三头牛",
+    "errors": [
+      "创建渠道失败: Could not find the 'api_base_url' column of 'channels' in the schema cache"
+    ],
+    "provider_id": "a08d4f70-7276-4c55-adb1-e00aff6e2e26"
+  },
+  {
+    "success": false,
+    "provider_name": "HHApi",
+    "errors": [
+      "创建渠道失败: Could not find the 'api_base_url' column of 'channels' in the schema cache"
+    ],
+    "provider_id": "4d0a459f-7c5d-491d-9e4c-2d22d26a7535"
+  },
+  {
+    "success": false,
+    "provider_name": null,
+    "errors": [
+      "缺少服务商名称",
+      "缺少描述"
+    ]
+  },
+  {
+    "success": false,
+    "provider_name": "LMU AI · 灵眸",
+    "errors": [
+      "创建渠道失败: Could not find the 'api_base_url' column of 'channels' in the schema cache"
+    ],
+    "provider_id": "57b74f85-6c5b-44c5-9053-1e4e545739e1"
+  },
+  {
+    "success": false,
+    "provider_name": "Top-API",
+    "errors": [
+      "创建渠道失败: Could not find the 'api_base_url' column of 'channels' in the schema cache"
+    ],
+    "provider_id": "84883175-4a8d-4a7c-a994-6ea83c7b38a1"
+  },
+  {
+    "success": true,
+    "provider_name": "API2D",
+    "errors": [],
+    "provider_id": "1b972e74-6208-4ffd-8343-409a41289129",
+    "prices_created": 0
+  },
+  {
+    "success": true,
+    "provider_name": "APINebula",
+    "errors": [],
+    "provider_id": "d1d80b05-02d2-437f-8fad-b48cd3a863b3",
+    "prices_created": 0
+  },
+  {
+    "success": false,
+    "provider_name": "存 AI",
+    "errors": [
+      "创建渠道失败: Could not find the 'api_base_url' column of 'channels' in the schema cache"
+    ],
+    "provider_id": "b744efb8-90d0-46e5-87f8-2012593f9f2f"
+  },
+  {
+    "success": true,
+    "provider_name": "DuiAPI",
+    "errors": [],
+    "provider_id": "f070e0e1-cf50-487b-873a-79e427338a1b",
+    "prices_created": 0
+  },
+  {
+    "success": true,
+    "provider_name": "Link.AI",
+    "errors": [],
+    "provider_id": "41748da9-875b-4fb2-b393-e4573acd9f76"
+  },
+  {
+    "success": true,
+    "provider_name": "LinksAPI",
+    "errors": [],
+    "provider_id": "e5f1e977-87c6-483f-a497-e8776c9a8e5f",
+    "prices_created": 0
+  },
+  {
+    "success": false,
+    "provider_name": "LS",
+    "errors": [
+      "创建渠道失败: Could not find the 'api_base_url' column of 'channels' in the schema cache"
+    ],
+    "provider_id": "261c543d-c9df-42de-a168-a27bfab03bea"
+  },
+  {
+    "success": true,
+    "provider_name": "AIMZ",
+    "errors": [],
+    "provider_id": "9a2a5865-29b8-4a64-abfe-136825efeb4d"
+  },
+  {
+    "success": true,
+    "provider_name": "OpenAI-HK",
+    "errors": [],
+    "provider_id": "8dda87f3-8df4-4211-9dc5-62309e4895dc",
+    "prices_created": 0
+  },
+  {
+    "success": true,
+    "provider_name": "OpenOx",
+    "errors": [],
+    "provider_id": "63f7f752-47c5-4c0c-a85e-2555f63f5e08"
+  },
+  {
+    "success": true,
+    "provider_name": "PackyAPI",
+    "errors": [],
+    "provider_id": "72fb6986-63a9-4202-89dc-c678989b1a82"
+  },
+  {
+    "success": false,
+    "provider_name": "Run API",
+    "errors": [
+      "创建渠道失败: Could not find the 'api_base_url' column of 'channels' in the schema cache"
+    ],
+    "provider_id": "15009da3-4ea7-4afa-b343-e4a8732482af"
+  },
+  {
+    "success": true,
+    "provider_name": "UU API",
+    "errors": [],
+    "provider_id": "fe44ecce-0611-4764-a44c-fdb1cc28f337",
+    "prices_created": 0
+  },
+  {
+    "success": false,
+    "provider_name": "WawAPI",
+    "errors": [
+      "创建渠道失败: Could not find the 'api_base_url' column of 'channels' in the schema cache"
+    ],
+    "provider_id": "aee14603-0d3a-49f1-89eb-75c05edd8b7c"
+  },
+  {
+    "success": true,
+    "provider_name": "Boxying",
+    "errors": [],
+    "provider_id": "f99969b8-8491-4ff6-90b9-1a8308c7ff5f"
+  },
+  {
+    "success": false,
+    "provider_name": "CCTQ",
+    "errors": [
+      "创建渠道失败: Could not find the 'api_base_url' column of 'channels' in the schema cache"
+    ],
+    "provider_id": "828256af-2738-4e44-84d0-afff6539f56a"
+  },
+  {
+    "success": false,
+    "provider_name": "米醋API",
+    "errors": [
+      "创建渠道失败: Could not find the 'api_base_url' column of 'channels' in the schema cache"
+    ],
+    "provider_id": "d8939c88-cef2-4bd0-a16b-bcf4ae081e76"
+  },
+  {
+    "success": false,
+    "errors": [
+      "缺少服务商名称",
+      "缺少官网地址",
+      "缺少描述"
+    ]
+  }
+]

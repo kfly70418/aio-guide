@@ -1,0 +1,24 @@
+# 泄露检测方法
+
+```mermaid
+graph LR
+    A[检测方法] --> B[主动检测]
+    A --> C[被动监控]
+
+    B --> B1[GitHub扫描]
+    B --> B2[代码审查]
+    B --> B3[依赖检查]
+
+    C --> C1[用量异常]
+    C --> C2[IP异常]
+    C --> C3[调用模式异常]
+
+    B1 --> D[GitGuardian]
+    B2 --> D[SonarQube]
+    C1 --> E[实时告警]
+    C2 --> E
+    C3 --> E
+
+    style E fill:#ef4444
+    style D fill:#10b981
+```

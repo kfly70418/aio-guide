@@ -1,25 +1,31 @@
 # 文章图片补充清单
 
 > 生成时间：2026-08-15
-> 状态：待补充
+> 最后更新：2026-08-18
+> 状态：进行中
 
 ## 概述
 
 - **总文章数**：21 篇
 - **需要图片**：13 篇
+- **已完成**：2 篇（API Key 泄露止损清单 + API 中转站跑路预案）
+- **剩余**：11 篇
 - **优先级**：按文章重要性和图片数量排序
 
 ---
 
 ## 高优先级（提及 ≥ 5 处）
 
-### 1. what-if-api-service-shuts-down（18 处）
+### 1. ~~what-if-api-service-shuts-down（18 处）~~ ✅ 已完成
 **文章**：API 中转站跑路或停止服务怎么办？提前做好这 8 件事  
-**需要的图片类型**：
-- 多账号配置截图
-- 备用服务商对比表
-- 数据迁移流程图
-- 预警机制示意图
+**配图状态**：已完成 7 张配图（2026-08-18）
+- ✅ backup-01-failure-case.png - 服务中断真实案例
+- ✅ backup-02-comparison.png - 备用服务商对比
+- ✅ backup-03-task-priority-template.png - 任务优先级模板
+- ✅ backup-04-config-comparison.png - 多账号配置对比
+- ✅ backup-05-client-switch.png - 客户端切换流程
+- ✅ backup-06-drill-checklist.png - 演练检查清单
+- ✅ backup-07-incident-report.png - 故障复盘记录
 
 ### 2. what-to-do-if-api-key-leaked（16 处）
 **文章**：API Key 泄露止损清单  

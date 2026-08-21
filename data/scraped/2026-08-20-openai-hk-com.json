@@ -1,0 +1,45 @@
+{
+  "name": "OpenAI-HK",
+  "name_en": "OpenAI-HK",
+  "website_url": "https://openai-hk.com",
+  "description": "提供OpenAI、Claude、Gemini等多模型API中转服务，支持AI绘图、音乐、视频生成，无需科学上网",
+  "features": [
+    "国内直连",
+    "多模型支持",
+    "无需科学上网",
+    "按量计费",
+    "账号池轮训"
+  ],
+  "min_topup": "¥10",
+  "trial_credit": null,
+  "payment_methods": null,
+  "api_base_url": null,
+  "models": [
+    {
+      "model_name": "gpt-3.5-turbo",
+      "price_input": 4,
+      "price_output": 4,
+      "currency": "CNY"
+    },
+    {
+      "model_name": "gpt-4",
+      "price_input": 213,
+      "price_output": 426,
+      "currency": "CNY"
+    },
+    {
+      "model_name": "suno",
+      "price_input": 0.35,
+      "price_output": 0.35,
+      "currency": "CNY"
+    }
+  ],
+  "support": {
+    "email": "help@openai-hk.com",
+    "qq": "1853719782",
+    "telegram": null,
+    "wechat": null,
+    "docs_url": "https://openai-hk.com/docs"
+  },
+  "confidence_score": 75
+}
