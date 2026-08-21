@@ -65,16 +65,51 @@ export default async function ArticlesPage({
     category: validCategory
   })
 
-  // 分类统计
-  const { data: categoriesData } = await supabase
-    .from('articles')
-    .select('category')
-    .eq('status', 'published')
+  // 分类统计 - 对于非中文语言，只统计有翻译的文章
+  let categoryCount: Record<string, number> = {}
 
-  const categoryCount = (categoriesData || []).reduce((acc, item) => {
-    acc[item.category] = (acc[item.category] || 0) + 1
-    return acc
-  }, {} as Record<string, number>)
+  if (locale === 'zh') {
+    // 中文站：统计所有文章
+    const { data: categoriesData } = await supabase
+      .from('articles')
+      .select('category')
+      .eq('status', 'published')
+
+    categoryCount = (categoriesData || []).reduce((acc, item) => {
+      acc[item.category] = (acc[item.category] || 0) + 1
+      return acc
+    }, {} as Record<string, number>)
+  } else {
+    // 非中文站：获取所有文章并检查翻译
+    const { data: allArticles } = await supabase
+      .from('articles')
+      .select('id, category')
+      .eq('status', 'published')
+
+    if (allArticles) {
+      const articleIds = allArticles.map(a => a.id)
+
+      // 批量获取翻译
+      const { data: translations } = await supabase
+        .from('translations')
+        .select('resource_id, field')
+        .eq('resource_type', 'article')
+        .in('resource_id', articleIds)
+        .eq('locale', locale)
+        .eq('field', 'title')
+
+      // 创建有翻译的文章ID集合
+      const translatedIds = new Set(translations?.map(t => t.resource_id) || [])
+
+      // 只统计有翻译的文章
+      categoryCount = allArticles
+        .filter(article => translatedIds.has(article.id))
+        .reduce((acc, item) => {
+          acc[item.category] = (acc[item.category] || 0) + 1
+          return acc
+        }, {} as Record<string, number>)
+    }
+  }
 
   const categories = [
     { key: 'tutorial', label: dict.articles.categories.tutorial, count: categoryCount.tutorial || 0 },
