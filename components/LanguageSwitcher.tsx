@@ -6,6 +6,7 @@
 import { usePathname, useRouter } from 'next/navigation'
 import { localeNames, locales, type Locale } from '@/lib/i18n/config'
 import { useState } from 'react'
+import { getDictionary } from '@/lib/i18n/utils'
 
 interface LanguageSwitcherProps {
   currentLocale: Locale
@@ -16,6 +17,7 @@ export function LanguageSwitcher({ currentLocale, className = '' }: LanguageSwit
   const pathname = usePathname()
   const router = useRouter()
   const [isOpen, setIsOpen] = useState(false)
+  const dict = getDictionary(currentLocale)
 
   // 获取其他语言选项（排除当前语言）
   const otherLocales = locales.filter(locale => locale !== currentLocale)
@@ -52,7 +54,7 @@ export function LanguageSwitcher({ currentLocale, className = '' }: LanguageSwit
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:text-blue-600 transition-colors border border-gray-300 rounded-md bg-white"
-        aria-label="切换语言"
+        aria-label={dict.common.switch_language}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

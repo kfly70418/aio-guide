@@ -17,7 +17,9 @@
     "sort": "排序",
     "all": "全部",
     "view_details": "查看详情",
-    "visit_website": "访问官网"
+    "visit_website": "访问官网",
+    "switch_language": "切换语言",
+    "home_aria_label": "API选首页"
   },
   "nav": {
     "home": "首页",

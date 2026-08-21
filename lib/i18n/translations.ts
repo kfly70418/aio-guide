@@ -97,7 +97,18 @@ export function applyTranslations<T extends Record<string, any>>(
 
   for (const field in translations) {
     if (field in result) {
-      result[field] = translations[field]
+      // 特殊处理：如果原始值是数组，尝试解析翻译值为数组
+      if (Array.isArray(result[field])) {
+        try {
+          const parsed = JSON.parse(translations[field])
+          result[field] = Array.isArray(parsed) ? parsed : translations[field]
+        } catch {
+          // 如果解析失败，保持原值
+          result[field] = translations[field]
+        }
+      } else {
+        result[field] = translations[field]
+      }
     }
   }
 

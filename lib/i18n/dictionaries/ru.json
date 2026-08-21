@@ -17,7 +17,9 @@
     "sort": "Сортировка",
     "all": "Все",
     "view_details": "Подробнее",
-    "visit_website": "Перейти на сайт"
+    "visit_website": "Перейти на сайт",
+    "switch_language": "Сменить язык",
+    "home_aria_label": "Главная — Выбор API"
   },
   "nav": {
     "home": "Главная",

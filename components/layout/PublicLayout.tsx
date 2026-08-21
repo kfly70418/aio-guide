@@ -22,7 +22,7 @@ export function Header({ locale = 'zh', dict }: HeaderProps = {}) {
         <div className="flex items-center justify-between h-16">
           <Link
             href={`${basePath}/`}
-            aria-label={`${dictionary.common.site_name}首页`}
+            aria-label={dictionary.common.home_aria_label}
             className="flex shrink-0 items-center transition-opacity hover:opacity-80"
           >
             <Image
