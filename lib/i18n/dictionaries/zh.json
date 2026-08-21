@@ -99,6 +99,8 @@
   "models": {
     "title": "AI 模型价格对比",
     "description": "对比各中转站的 AI 模型价格，找到最优惠的选择。",
+    "model_name": "模型",
+    "model_description": "描述",
     "input_price": "输入价格",
     "output_price": "输出价格",
     "per_million_tokens": "每百万 token",

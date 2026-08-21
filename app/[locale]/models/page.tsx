@@ -129,7 +129,7 @@ export default async function ModelsPage({
               {families.map((familyName) => (
                 <div key={familyName}>
                   <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                    {familyName} {dict.models.family}
+                    {locale === 'ru' ? `${dict.models.family} ${familyName}` : `${familyName} ${dict.models.family}`}
                   </h2>
                   <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
                     <div className="overflow-x-auto">
@@ -137,10 +137,10 @@ export default async function ModelsPage({
                         <thead className="bg-gray-50">
                           <tr>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              {dict.models.title}
+                              {dict.models.model_name}
                             </th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              {dict.models.description}
+                              {dict.models.model_description}
                             </th>
                             <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                               {dict.models.input_price}
