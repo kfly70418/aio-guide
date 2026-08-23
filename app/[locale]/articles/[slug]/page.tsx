@@ -80,7 +80,7 @@ export default async function ArticleDetailPage({
   // 更新浏览次数
   await supabase
     .from('articles')
-    .update({ views: (article.views || 0) + 1 })
+    .update({ view_count: (article.view_count || 0) + 1 })
     .eq('id', article.id)
 
   // 获取相关文章
@@ -141,7 +141,7 @@ export default async function ArticleDetailPage({
                     {dict.articles.published_at}: {article.published_at ? new Date(article.published_at).toLocaleDateString(locale === 'zh' ? 'zh-CN' : 'ru-RU') : '-'}
                   </span>
                   <span className="text-sm text-gray-500">
-                    • {article.views || 0} {dict.articles.views}
+                    • {article.view_count || 0} {dict.articles.views}
                   </span>
                 </div>
 

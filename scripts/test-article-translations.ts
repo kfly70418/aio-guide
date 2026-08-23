@@ -23,7 +23,7 @@ async function testGetTranslatedArticles() {
   // 1. 获取文章
   let query = supabase
     .from('articles')
-    .select('id, slug, title, summary, category, published_at, views')
+    .select('id, slug, title, summary, category, published_at, view_count')
     .eq('status', 'published')
 
   if (category) {
