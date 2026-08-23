@@ -194,7 +194,7 @@ export default async function ArticlesPage({
                       {article.summary}
                     </p>
                     <div className="flex items-center justify-between text-xs text-gray-500">
-                      <span>{dict.articles.views}: {article.views || 0}</span>
+                      <span>{dict.articles.views}: {article.view_count || 0}</span>
                       <span className="text-blue-600 group-hover:text-blue-700">
                         {dict.articles.read_more} →
                       </span>

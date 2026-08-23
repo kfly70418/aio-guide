@@ -175,7 +175,7 @@ export async function getTranslatedArticles(locale: Locale, options?: {
 
   let query = supabase
     .from('articles')
-    .select('id, slug, title, summary, category, published_at, views')
+    .select('id, slug, title, summary, category, published_at, view_count')
     .eq('status', 'published')
 
   if (options?.category) {
