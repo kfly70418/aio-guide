@@ -11,6 +11,10 @@ import { getDictionary } from '@/lib/i18n/utils'
 import { locales, type Locale } from '@/lib/i18n/config'
 import { getTranslatedArticles } from '@/lib/i18n/translated-data'
 
+// 强制动态渲染
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export function generateStaticParams() {
   return locales.map(locale => ({ locale }))
 }
