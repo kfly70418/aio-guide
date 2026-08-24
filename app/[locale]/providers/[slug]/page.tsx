@@ -180,21 +180,38 @@ export default async function ProviderDetailPage({
             </div>
 
             {/* 特性和功能 */}
-            {provider.features && provider.features.length > 0 && (
-              <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
-                <h2 className="text-xl font-bold text-gray-900 mb-4">{dict.providers.features}</h2>
-                <div className="flex flex-wrap gap-3">
-                  {provider.features.map((feature: string) => (
-                    <span
-                      key={feature}
-                      className="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium bg-blue-100 text-blue-800"
-                    >
-                      ✓ {feature}
-                    </span>
-                  ))}
+            {(() => {
+              // 安全处理 features 字段，可能是数组或 JSON 字符串
+              let featuresArray: string[] = []
+              if (provider.features) {
+                if (Array.isArray(provider.features)) {
+                  featuresArray = provider.features
+                } else if (typeof provider.features === 'string') {
+                  try {
+                    const parsed = JSON.parse(provider.features)
+                    featuresArray = Array.isArray(parsed) ? parsed : []
+                  } catch {
+                    featuresArray = []
+                  }
+                }
+              }
+
+              return featuresArray.length > 0 ? (
+                <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
+                  <h2 className="text-xl font-bold text-gray-900 mb-4">{dict.providers.features}</h2>
+                  <div className="flex flex-wrap gap-3">
+                    {featuresArray.map((feature: string, index: number) => (
+                      <span
+                        key={`${feature}-${index}`}
+                        className="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium bg-blue-100 text-blue-800"
+                      >
+                        ✓ {feature}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              ) : null
+            })()}
 
             {/* 支付方式 */}
             {provider.payment_methods && Array.isArray(provider.payment_methods) && provider.payment_methods.length > 0 && (
