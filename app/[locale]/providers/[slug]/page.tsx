@@ -17,11 +17,8 @@ type ExtendedProvider = Awaited<ReturnType<typeof getTranslatedProvider>> & {
   notes?: string
 }
 
-export function generateStaticParams() {
-  // 这里应该返回所有 locale + slug 的组合
-  // 简化版：只返回 locale
-  return locales.map(locale => ({ locale }))
-}
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 export async function generateMetadata({
   params

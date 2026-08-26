@@ -25,6 +25,9 @@ export async function getTranslatedProvider(providerId: string, locale: Locale) 
   // 如果不是中文，应用翻译
   if (locale !== 'zh') {
     const translations = await getTranslations('provider', providerId, locale)
+    if (!translations.description?.trim()) {
+      return null
+    }
     return applyTranslations(provider, translations)
   }
 
@@ -70,7 +73,10 @@ export async function getTranslatedProviders(locale: Locale, options?: {
   if (locale !== 'zh') {
     const providerIds = providers.map(p => p.id)
     const translationsMap = await getBatchTranslations('provider', providerIds, locale)
-    return applyBatchTranslations(providers, translationsMap)
+    const translatedProviders = providers.filter(provider =>
+      translationsMap.get(provider.id)?.description?.trim()
+    )
+    return applyBatchTranslations(translatedProviders, translationsMap)
   }
 
   return providers
@@ -158,6 +164,9 @@ export async function getTranslatedArticle(slug: string, locale: Locale) {
 
   if (locale !== 'zh') {
     const translations = await getTranslations('article', article.id, locale)
+    if (!translations.title?.trim() || !translations.content?.trim()) {
+      return null
+    }
     return applyTranslations(article, translations)
   }
 
@@ -198,11 +207,11 @@ export async function getTranslatedArticles(locale: Locale, options?: {
     const articleIds = articles.map(a => a.id)
     const translationsMap = await getBatchTranslations('article', articleIds, locale)
 
-    // 只返回有翻译的文章（至少有 title 翻译）
+    // 标题和正文都存在时才公开俄语文章，避免回退成中文内容。
     const translatedArticles = articles
       .filter(article => {
         const translations = translationsMap.get(article.id)
-        return translations && translations.title
+        return translations?.title?.trim() && translations.content?.trim()
       })
       .map(article => {
         const translations = translationsMap.get(article.id)!

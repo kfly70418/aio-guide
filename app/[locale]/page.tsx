@@ -43,8 +43,6 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   })
 }
 
-export const revalidate = 300 // ISR: 5分钟
-
 export default async function HomePage({ params }: { params: { locale: string } }) {
   const { locale } = await params
 
@@ -135,7 +133,7 @@ export default async function HomePage({ params }: { params: { locale: string } 
                         {group.items.map((item) => (
                           <Link
                             key={item.slug}
-                            href={`${basePath}/models/${item.slug}`}
+                            href={`/models/${item.slug}`}
                             className="px-2 py-1 text-xs border border-gray-200 rounded hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
                           >
                             {formatModelName(item.name)} →

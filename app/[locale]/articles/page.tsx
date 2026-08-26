@@ -42,8 +42,6 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   })
 }
 
-export const revalidate = 600 // ISR: 10分钟
-
 export default async function ArticlesPage({
   params,
   searchParams
@@ -99,11 +97,22 @@ export default async function ArticlesPage({
         .select('resource_id, field')
         .eq('resource_type', 'article')
         .in('resource_id', articleIds)
-        .eq('locale', locale)
-        .eq('field', 'title')
+        .eq('locale', locale as Locale)
 
-      // 创建有翻译的文章ID集合
-      const translatedIds = new Set(translations?.map(t => t.resource_id) || [])
+      // 只有标题和正文都已翻译的文章才属于完整俄语内容。
+      const translatedFields = new Map<string, Set<string>>()
+      translations?.forEach(translation => {
+        if (!translatedFields.has(translation.resource_id)) {
+          translatedFields.set(translation.resource_id, new Set())
+        }
+        translatedFields.get(translation.resource_id)!.add(translation.field)
+      })
+      const translatedIds = new Set(
+        articleIds.filter(id => {
+          const fields = translatedFields.get(id)
+          return fields?.has('title') && fields.has('content')
+        })
+      )
 
       // 只统计有翻译的文章
       categoryCount = allArticles

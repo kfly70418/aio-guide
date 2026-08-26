@@ -1,7 +1,16 @@
 import { MetadataRoute } from 'next'
 import { SITE_URL } from '@/lib/constants'
 import { createPublicClient } from '@/lib/supabase/public'
-import { locales } from '@/lib/i18n/config'
+
+export const revalidate = 3600
+
+function getLatestModified(items: Array<{ updated_at: string | null }> | null | undefined) {
+  const timestamps = (items || [])
+    .map(item => item.updated_at ? new Date(item.updated_at).getTime() : Number.NaN)
+    .filter(Number.isFinite)
+
+  return timestamps.length > 0 ? new Date(Math.max(...timestamps)) : undefined
+}
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const supabase = createPublicClient()
@@ -21,14 +30,36 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // 获取所有已发布的文章
   const { data: articles } = await supabase
     .from('articles')
-    .select('id, slug, updated_at')
+    .select('id, slug, updated_at, category')
     .eq('status', 'published')
+
+  // 只有存在有效报价的模型详情页才允许索引。
+  const { data: activePrices } = await supabase
+    .from('prices')
+    .select(`
+      model_id,
+      channel:channels!inner(
+        provider:providers!inner(status)
+      )
+    `)
+    .eq('status', 'active')
+
+  const modelIdsWithPublishedPrices = new Set(
+    (activePrices || [])
+      .filter(price => price.channel?.provider?.status === 'published')
+      .map(price => price.model_id)
+  )
+
+  const indexableModels = (models || []).filter(model =>
+    modelIdsWithPublishedPrices.has(model.id)
+  )
+  const indexableArticles = (articles || []).filter(article => article.category !== 'news')
 
   // 获取所有俄语翻译（检查哪些资源有俄语版本）
   const allResourceIds = [
     ...(providers?.map(p => p.id) || []),
-    ...(models?.map(m => m.id) || []),
-    ...(articles?.map(a => a.id) || [])
+    ...indexableModels.map(model => model.id),
+    ...indexableArticles.map(article => article.id)
   ]
 
   const { data: translations } = await supabase
@@ -37,24 +68,35 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .eq('locale', 'ru')
     .in('resource_id', allResourceIds)
 
-  // 创建翻译映射：哪些资源有俄语标题翻译
-  const hasRuTranslation = new Map<string, Set<string>>()
+  // 记录每个资源已经存在的翻译字段。
+  const translatedFields = new Map<string, Set<string>>()
   translations?.forEach(t => {
-    if (t.field === 'title' || t.field === 'name') {
-      if (!hasRuTranslation.has(t.resource_type)) {
-        hasRuTranslation.set(t.resource_type, new Set())
-      }
-      hasRuTranslation.get(t.resource_type)!.add(t.resource_id)
+    const key = `${t.resource_type}:${t.resource_id}`
+    if (!translatedFields.has(key)) {
+      translatedFields.set(key, new Set())
     }
+    translatedFields.get(key)!.add(t.field)
   })
 
-  const now = new Date()
+  const hasFields = (resourceType: string, resourceId: string, fields: string[]) => {
+    const availableFields = translatedFields.get(`${resourceType}:${resourceId}`)
+    return fields.every(field => availableFields?.has(field))
+  }
+
+  const providersLastModified = getLatestModified(providers)
+  const modelsLastModified = getLatestModified(indexableModels)
+  const articlesLastModified = getLatestModified(indexableArticles)
+  const homeLastModified = getLatestModified([
+    ...(providers || []),
+    ...indexableModels,
+    ...indexableArticles,
+  ])
   const sitemap: MetadataRoute.Sitemap = []
 
   // 首页（中文和俄语都存在）
   sitemap.push({
     url: SITE_URL,
-    lastModified: now,
+    lastModified: homeLastModified,
     changeFrequency: 'daily',
     priority: 1,
     alternates: {
@@ -67,7 +109,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   sitemap.push({
     url: `${SITE_URL}/ru`,
-    lastModified: now,
+    lastModified: homeLastModified,
     changeFrequency: 'daily',
     priority: 1,
     alternates: {
@@ -81,7 +123,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // 服务商列表页（中文和俄语都存在）
   sitemap.push({
     url: `${SITE_URL}/providers`,
-    lastModified: now,
+    lastModified: providersLastModified,
     changeFrequency: 'daily',
     priority: 0.9,
     alternates: {
@@ -94,7 +136,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   sitemap.push({
     url: `${SITE_URL}/ru/providers`,
-    lastModified: now,
+    lastModified: providersLastModified,
     changeFrequency: 'daily',
     priority: 0.9,
     alternates: {
@@ -108,7 +150,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // 模型列表页（中文和俄语都存在）
   sitemap.push({
     url: `${SITE_URL}/models`,
-    lastModified: now,
+    lastModified: modelsLastModified,
     changeFrequency: 'daily',
     priority: 0.9,
     alternates: {
@@ -121,7 +163,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   sitemap.push({
     url: `${SITE_URL}/ru/models`,
-    lastModified: now,
+    lastModified: modelsLastModified,
     changeFrequency: 'daily',
     priority: 0.9,
     alternates: {
@@ -135,7 +177,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // 文章列表页（中文和俄语都存在）
   sitemap.push({
     url: `${SITE_URL}/articles`,
-    lastModified: now,
+    lastModified: articlesLastModified,
     changeFrequency: 'daily',
     priority: 0.8,
     alternates: {
@@ -148,7 +190,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   sitemap.push({
     url: `${SITE_URL}/ru/articles`,
-    lastModified: now,
+    lastModified: articlesLastModified,
     changeFrequency: 'daily',
     priority: 0.8,
     alternates: {
@@ -161,7 +203,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // 服务商详情页
   providers?.forEach(provider => {
-    const hasRu = hasRuTranslation.get('provider')?.has(provider.id)
+    const hasRu = hasFields('provider', provider.id, ['description'])
 
     // 中文版本（总是存在）
     sitemap.push({
@@ -195,7 +237,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   })
 
   // 模型详情页（暂时只添加中文版本，因为俄语模型详情页路由不存在）
-  models?.forEach(model => {
+  indexableModels.forEach(model => {
     sitemap.push({
       url: `${SITE_URL}/models/${model.slug}`,
       lastModified: new Date(model.updated_at),
@@ -205,8 +247,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   })
 
   // 文章详情页
-  articles?.forEach(article => {
-    const hasRu = hasRuTranslation.get('article')?.has(article.id)
+  indexableArticles.forEach(article => {
+    const hasRu = hasFields('article', article.id, ['title', 'content'])
 
     // 中文版本（总是存在）
     sitemap.push({
@@ -251,7 +293,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // 中文版本
     sitemap.push({
       url: `${SITE_URL}/${page.slug}`,
-      lastModified: now,
       changeFrequency: 'monthly',
       priority: 0.5,
       alternates: page.hasRu ? {
@@ -266,7 +307,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     if (page.hasRu) {
       sitemap.push({
         url: `${SITE_URL}/ru/${page.slug}`,
-        lastModified: now,
         changeFrequency: 'monthly',
         priority: 0.5,
         alternates: {

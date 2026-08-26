@@ -13,9 +13,8 @@ import { locales, type Locale } from '@/lib/i18n/config'
 import { getTranslatedArticle } from '@/lib/i18n/translated-data'
 import '../russian-typography.css'
 
-export function generateStaticParams() {
-  return locales.map(locale => ({ locale }))
-}
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 export async function generateMetadata({
   params
@@ -46,14 +45,13 @@ export async function generateMetadata({
     locale: locale,
     alternateUrls,
     type: 'article',
+    noindex: article.category === 'news',
     publishedTime: article.published_at || article.created_at,
     modifiedTime: article.updated_at,
     image: article.cover_image_url || undefined,
     siteName: dict.common.site_name,
   })
 }
-
-export const revalidate = 600 // ISR: 10分钟
 
 export default async function ArticleDetailPage({
   params

@@ -7,6 +7,25 @@ import { Header, Footer } from '@/components/layout/PublicLayout'
 
 export const revalidate = 300
 
+type PriceChannel = {
+  id: string
+  name: string
+  is_primary: boolean | null
+  provider: {
+    id: string
+    slug: string
+    name: string
+    status: string
+    is_recommended: boolean | null
+    min_topup: string | null
+    coupon_code: string | null
+  }
+}
+
+function getPriceChannel(price: { channel: unknown }) {
+  return price.channel as PriceChannel | null
+}
+
 async function getModel(slug: string) {
   const supabase = createPublicClient()
   const { data } = await supabase
@@ -16,6 +35,28 @@ async function getModel(slug: string) {
     .eq('status', 'published')
     .maybeSingle()
   return data
+}
+
+async function getPublishedModelPrices(modelId: string) {
+  const supabase = createPublicClient()
+  const { data: prices } = await supabase
+    .from('prices')
+    .select(
+      `
+      id, price_input, price_output, currency, verified_at, notes,
+      channel:channels!inner(
+        id, name, is_primary,
+        provider:providers!inner(id, slug, name, status, is_recommended, min_topup, coupon_code)
+      )
+    `
+    )
+    .eq('model_id', modelId)
+    .eq('status', 'active')
+
+  type Row = NonNullable<typeof prices>[number]
+  return ((prices ?? []) as Row[])
+    .filter(price => getPriceChannel(price)?.provider.status === 'published')
+    .sort((a, b) => Number(a.price_input) - Number(b.price_input))
 }
 
 export async function generateMetadata({
@@ -35,12 +76,15 @@ export async function generateMetadata({
     })
   }
 
+  const rows = await getPublishedModelPrices(model.id)
+
   return generateSEOMetadata({
     title: `${model.name} 各中转站价格对比`,
     description:
       model.description ||
       `对比 ${model.name} 在各家 AI API 中转站的输入输出价格，逐条渠道直接比价，数据人工核验。`,
     path: `/models/${model.slug}`,
+    noindex: rows.length === 0,
   })
 }
 
@@ -56,33 +100,9 @@ export default async function ModelDetailPage({
     notFound()
   }
 
-  const supabase = createPublicClient()
-
-  // 取该模型的所有在售报价，带渠道与服务商
-  const { data: prices } = await supabase
-    .from('prices')
-    .select(
-      `
-      id, price_input, price_output, currency, verified_at, notes,
-      channel:channels!inner(
-        id, name, is_primary,
-        provider:providers!inner(id, slug, name, status, is_recommended, min_topup, coupon_code)
-      )
-    `
-    )
-    .eq('model_id', model.id)
-    .eq('status', 'active')
-
-  // 只保留服务商已发布的报价，并按输入价升序
-  type Row = NonNullable<typeof prices>[number]
-  const rows = ((prices ?? []) as Row[])
-    .filter((p) => (p.channel as any)?.provider?.status === 'published')
-    .sort((a, b) => Number(a.price_input) - Number(b.price_input))
+  const rows = await getPublishedModelPrices(model.id)
 
   const lowestInput = rows.length > 0 ? Number(rows[0].price_input) : null
-
-  // 数据不足的页面不索引，避免产出空壳页
-  const thin = rows.length === 0
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: '首页', url: '/' },
@@ -99,8 +119,6 @@ export default async function ModelDetailPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      {thin && <meta name="robots" content="noindex, follow" />}
-
       <div className="min-h-screen flex flex-col bg-gray-50">
         <Header />
 
@@ -178,16 +196,22 @@ export default async function ModelDetailPage({
               <section className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
                 <h2 className="text-xl font-bold text-gray-900 mb-4">支持该模型的服务商</h2>
                 <div className="flex flex-wrap gap-2">
-                  {Array.from(new Set(rows.map(r => (r.channel as any)?.provider?.slug).filter(Boolean))).map((slug) => {
-                    const provider = rows.find(r => (r.channel as any)?.provider?.slug === slug)?.channel as any
-                    if (!provider?.provider) return null
+                  {Array.from(new Set(
+                    rows
+                      .map(row => getPriceChannel(row)?.provider.slug)
+                      .filter((slug): slug is string => Boolean(slug))
+                  )).map((slug) => {
+                    const provider = getPriceChannel(
+                      rows.find(row => getPriceChannel(row)?.provider.slug === slug)!
+                    )?.provider
+                    if (!provider) return null
                     return (
                       <Link
                         key={slug}
                         href={`/providers/${slug}`}
                         className="inline-flex items-center px-3 py-1.5 bg-green-50 hover:bg-green-100 border border-green-200 rounded-lg text-sm text-green-700 hover:text-green-800 transition-colors"
                       >
-                        {provider.provider.name}
+                        {provider.name}
                       </Link>
                     )
                   })}
@@ -227,7 +251,7 @@ export default async function ModelDetailPage({
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
                         {rows.map((price) => {
-                          const channel = price.channel as any
+                          const channel = getPriceChannel(price)
                           const provider = channel?.provider
                           const isLowest =
                             lowestInput != null && Number(price.price_input) === lowestInput

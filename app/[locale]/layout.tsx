@@ -1,8 +1,6 @@
 import { notFound } from 'next/navigation'
 import { Inter } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/react'
-import { locales, type Locale, localeFullNames } from '@/lib/i18n/config'
-import { getDictionary } from '@/lib/i18n/utils'
+import { locales, type Locale } from '@/lib/i18n/config'
 import YandexMetrica from '@/components/YandexMetrica'
 import '@/app/globals.css'
 
@@ -26,18 +24,10 @@ export default async function LocaleLayout({
     notFound()
   }
 
-  const dict = getDictionary(locale as Locale)
-
   return (
-    <html lang={localeFullNames[locale as Locale]} suppressHydrationWarning>
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </head>
-      <body className={inter.className}>
-        {children}
-        <Analytics />
-        {locale === 'ru' && <YandexMetrica id="111802664" />}
-      </body>
-    </html>
+    <div className={inter.className}>
+      {children}
+      {locale === 'ru' && <YandexMetrica id="111802664" />}
+    </div>
   )
 }

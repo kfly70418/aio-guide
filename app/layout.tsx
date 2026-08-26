@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { headers } from "next/headers";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
@@ -27,10 +28,13 @@ export const viewport: Viewport = {
   themeColor: '#2563EB',
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const requestHeaders = await headers();
+  const lang = requestHeaders.get("x-site-locale") === "ru" ? "ru-RU" : "zh-CN";
+
   return (
     <html
-      lang="zh-CN"
+      lang={lang}
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">

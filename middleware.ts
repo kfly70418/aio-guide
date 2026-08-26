@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { locales, defaultLocale } from './lib/i18n/config'
+import { locales, defaultLocale, type Locale } from './lib/i18n/config'
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
@@ -10,7 +10,10 @@ export function middleware(request: NextRequest) {
   )
 
   if (pathnameHasLocale) {
-    return NextResponse.next()
+    const locale = locales.find(
+      item => pathname.startsWith(`/${item}/`) || pathname === `/${item}`
+    ) || defaultLocale
+    return continueWithLocale(request, locale)
   }
 
   // 排除不需要国际化的路径
@@ -35,7 +38,7 @@ export function middleware(request: NextRequest) {
 
   // 如果是默认语言（中文），不添加前缀
   if (locale === defaultLocale) {
-    return NextResponse.next()
+    return continueWithLocale(request, locale)
   }
 
   // 重定向到带语言前缀的路径
@@ -43,10 +46,21 @@ export function middleware(request: NextRequest) {
   return NextResponse.redirect(request.nextUrl)
 }
 
+function continueWithLocale(request: NextRequest, locale: string) {
+  const requestHeaders = new Headers(request.headers)
+  requestHeaders.set('x-site-locale', locale)
+
+  return NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  })
+}
+
 function getLocaleFromRequest(request: NextRequest): string {
   // 1. 检查 Cookie 中的语言偏好
   const cookieLocale = request.cookies.get('NEXT_LOCALE')?.value
-  if (cookieLocale && locales.includes(cookieLocale as any)) {
+  if (cookieLocale && locales.includes(cookieLocale as Locale)) {
     return cookieLocale
   }
 
@@ -65,7 +79,7 @@ function getLocaleFromRequest(request: NextRequest): string {
 
     // 查找支持的语言
     for (const { code } of languages) {
-      if (locales.includes(code as any)) {
+      if (locales.includes(code as Locale)) {
         return code
       }
     }

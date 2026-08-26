@@ -37,6 +37,10 @@ export function generateSEOMetadata({
   const fullTitle = title === siteNameToUse ? title : `${title} - ${siteNameToUse}`
   const url = `${SITE_URL}${path}`
   const ogImage = image || `${SITE_URL}/og-default.png`
+  const languageAlternates = alternateUrls.reduce((acc, alt) => {
+    acc[alt.locale] = `${SITE_URL}${alt.url}`
+    return acc
+  }, { [locale]: url } as Record<string, string>)
 
   // 语言映射
   const localeMap: Record<string, string> = {
@@ -51,10 +55,7 @@ export function generateSEOMetadata({
     keywords: keywords.length > 0 ? keywords.join(', ') : undefined,
     alternates: {
       canonical: url,
-      languages: alternateUrls.length > 0 ? alternateUrls.reduce((acc, alt) => {
-        acc[alt.locale] = `${SITE_URL}${alt.url}`
-        return acc
-      }, {} as Record<string, string>) : undefined,
+      languages: languageAlternates,
     },
     openGraph: {
       title: fullTitle,
