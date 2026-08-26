@@ -2,6 +2,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { createPublicClient } from '@/lib/supabase/public'
 import { generateSEOMetadata, generateBreadcrumbSchema, generateArticleSchema } from '@/lib/seo'
 import { Header, Footer } from '@/components/layout/PublicLayout'
@@ -194,6 +195,7 @@ export default async function ArticleDetailPage({
             <div className="bg-white rounded-xl border border-gray-200 p-8 mb-6">
               <div className="prose prose-gray max-w-none">
                 <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
                   components={{
                     h1: ({ children }) => (
                       <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">{children}</h2>
@@ -210,6 +212,21 @@ export default async function ArticleDetailPage({
                     ),
                     ol: ({ children }) => (
                       <ol className="list-decimal pl-6 mb-4 space-y-2">{children}</ol>
+                    ),
+                    table: ({ children }) => (
+                      <div className="overflow-x-auto mb-6">
+                        <table className="w-full border-collapse text-sm">{children}</table>
+                      </div>
+                    ),
+                    th: ({ children }) => (
+                      <th className="border border-gray-300 bg-gray-50 px-3 py-2 text-left font-semibold text-gray-900">
+                        {children}
+                      </th>
+                    ),
+                    td: ({ children }) => (
+                      <td className="border border-gray-300 px-3 py-2 align-top text-gray-700">
+                        {children}
+                      </td>
                     ),
                     code: ({ children }) => (
                       <code className="bg-gray-100 px-1.5 py-0.5 rounded text-sm font-mono text-pink-600">
