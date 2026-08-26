@@ -2,10 +2,12 @@ import { NextResponse } from 'next/server'
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { logAction } from '@/lib/auditLog'
+import { notifyIndexNow } from '@/lib/indexnow'
 
 function refreshProviderPages(slug?: string) {
   revalidatePath('/')
   revalidatePath('/providers')
+  revalidatePath('/sitemap.xml')
   if (slug) {
     revalidatePath(`/providers/${slug}`)
   }
@@ -46,6 +48,9 @@ export async function POST(request: Request) {
     })
 
     refreshProviderPages(data.slug)
+    if (data.status === 'published') {
+      await notifyIndexNow(['/', '/providers', `/providers/${data.slug}`])
+    }
 
     return NextResponse.json(data)
   } catch (error) {
@@ -109,6 +114,14 @@ export async function PUT(request: Request) {
     if (before?.slug && before.slug !== data.slug) {
       revalidatePath(`/providers/${before.slug}`)
     }
+    if (before?.status === 'published' || data.status === 'published') {
+      await notifyIndexNow([
+        '/',
+        '/providers',
+        `/providers/${data.slug}`,
+        ...(before?.slug && before.slug !== data.slug ? [`/providers/${before.slug}`] : []),
+      ])
+    }
 
     return NextResponse.json(data)
   } catch (error) {
@@ -159,6 +172,9 @@ export async function DELETE(request: Request) {
     })
 
     refreshProviderPages(provider?.slug)
+    if (provider?.slug) {
+      await notifyIndexNow(['/', '/providers', `/providers/${provider.slug}`])
+    }
 
     return NextResponse.json({ success: true })
   } catch (error) {
@@ -207,6 +223,9 @@ export async function PATCH(request: Request) {
     })
 
     refreshProviderPages(data.slug)
+    if (data.status === 'published') {
+      await notifyIndexNow(['/', '/providers', `/providers/${data.slug}`])
+    }
 
     return NextResponse.json(data)
   } catch (error) {

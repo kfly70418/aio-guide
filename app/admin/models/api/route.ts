@@ -1,6 +1,17 @@
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { logAction } from '@/lib/auditLog'
+import { notifyIndexNow } from '@/lib/indexnow'
+
+function refreshModelPages(slug?: string) {
+  revalidatePath('/')
+  revalidatePath('/models')
+  revalidatePath('/sitemap.xml')
+  if (slug) {
+    revalidatePath(`/models/${slug}`)
+  }
+}
 
 export async function POST(request: Request) {
   try {
@@ -34,6 +45,11 @@ export async function POST(request: Request) {
       details: { name: data.name },
     })
 
+    refreshModelPages(data.slug)
+    if (data.status === 'published') {
+      await notifyIndexNow(['/', '/models', `/models/${data.slug}`])
+    }
+
     return NextResponse.json(data)
   } catch (error) {
     const message = error instanceof Error ? error.message : '服务器错误'
@@ -59,6 +75,12 @@ export async function PUT(request: Request) {
 
     const body = await request.json()
 
+    const { data: before } = await supabase
+      .from('models')
+      .select('status, slug')
+      .eq('id', id)
+      .single()
+
     const { data, error } = await supabase
       .from('models')
       .update({
@@ -79,6 +101,19 @@ export async function PUT(request: Request) {
       resourceId: data.id,
       details: { name: data.name },
     })
+
+    refreshModelPages(data.slug)
+    if (before?.slug && before.slug !== data.slug) {
+      revalidatePath(`/models/${before.slug}`)
+    }
+    if (before?.status === 'published' || data.status === 'published') {
+      await notifyIndexNow([
+        '/',
+        '/models',
+        `/models/${data.slug}`,
+        ...(before?.slug && before.slug !== data.slug ? [`/models/${before.slug}`] : []),
+      ])
+    }
 
     return NextResponse.json(data)
   } catch (error) {
@@ -105,7 +140,7 @@ export async function DELETE(request: Request) {
 
     const { data: model } = await supabase
       .from('models')
-      .select('name')
+      .select('name, slug')
       .eq('id', id)
       .single()
 
@@ -124,6 +159,11 @@ export async function DELETE(request: Request) {
       resourceId: id,
       details: { name: model?.name },
     })
+
+    refreshModelPages(model?.slug)
+    if (model?.slug) {
+      await notifyIndexNow(['/', '/models', `/models/${model.slug}`])
+    }
 
     return NextResponse.json({ success: true })
   } catch (error) {

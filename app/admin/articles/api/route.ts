@@ -2,6 +2,16 @@ import { NextResponse } from 'next/server'
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { logAction } from '@/lib/auditLog'
+import { notifyIndexNow } from '@/lib/indexnow'
+
+function refreshArticlePages(slug?: string) {
+  revalidatePath('/')
+  revalidatePath('/articles')
+  revalidatePath('/sitemap.xml')
+  if (slug) {
+    revalidatePath(`/articles/${slug}`)
+  }
+}
 
 export async function POST(request: Request) {
   try {
@@ -38,8 +48,10 @@ export async function POST(request: Request) {
       details: { title: data.title, status: data.status },
     })
 
-    revalidatePath('/articles')
-    revalidatePath(`/articles/${data.slug}`)
+    refreshArticlePages(data.slug)
+    if (data.status === 'published' && data.category !== 'news') {
+      await notifyIndexNow(['/', '/articles', `/articles/${data.slug}`])
+    }
 
     return NextResponse.json(data)
   } catch (error) {
@@ -69,7 +81,7 @@ export async function PUT(request: Request) {
 
     const { data: before } = await supabase
       .from('articles')
-      .select('status, published_at, slug')
+      .select('status, category, published_at, slug')
       .eq('id', id)
       .single()
 
@@ -105,10 +117,20 @@ export async function PUT(request: Request) {
       },
     })
 
-    revalidatePath('/articles')
-    revalidatePath(`/articles/${data.slug}`)
+    refreshArticlePages(data.slug)
     if (before?.slug && before.slug !== data.slug) {
       revalidatePath(`/articles/${before.slug}`)
+    }
+
+    const wasIndexable = before?.status === 'published' && before.category !== 'news'
+    const isIndexable = data.status === 'published' && data.category !== 'news'
+    if (wasIndexable || isIndexable) {
+      await notifyIndexNow([
+        '/',
+        '/articles',
+        `/articles/${data.slug}`,
+        ...(before?.slug && before.slug !== data.slug ? [`/articles/${before.slug}`] : []),
+      ])
     }
 
     return NextResponse.json(data)
@@ -154,9 +176,9 @@ export async function DELETE(request: Request) {
       details: article ?? undefined,
     })
 
-    revalidatePath('/articles')
+    refreshArticlePages(article?.slug)
     if (article?.slug) {
-      revalidatePath(`/articles/${article.slug}`)
+      await notifyIndexNow(['/', '/articles', `/articles/${article.slug}`])
     }
 
     return NextResponse.json({ success: true })
