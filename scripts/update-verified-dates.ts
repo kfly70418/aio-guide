@@ -22,11 +22,12 @@ async function updateVerifiedDates() {
 
   console.log('🔄 开始更新服务商核验时间...')
 
-  // 更新所有已核验服务商的核验时间为今天
+  // 更新网站中所有已发布服务商，避免遗漏尚未填写核验时间的记录。
   const { data, error } = await supabase
     .from('providers')
-    .update({ verified_at: today })
-    .not('verified_at', 'is', null)
+    .update({ verified_at: today, updated_at: today })
+    .eq('status', 'published')
+    .select('id')
 
   if (error) {
     console.error('❌ 更新失败:', error)
@@ -36,8 +37,8 @@ async function updateVerifiedDates() {
   // 查询更新后的数据
   const { data: providers, error: queryError } = await supabase
     .from('providers')
-    .select('id, name, verified_at')
-    .not('verified_at', 'is', null)
+    .select('id, name, verified_at, status')
+    .eq('status', 'published')
     .order('name')
 
   if (queryError) {
@@ -45,7 +46,7 @@ async function updateVerifiedDates() {
     process.exit(1)
   }
 
-  console.log(`\n✅ 已更新 ${providers?.length || 0} 个服务商的核验时间为今天 (${today.split('T')[0]})`)
+  console.log(`\n✅ 已更新 ${data?.length || 0} 个服务商的核验时间为今天 (${today.split('T')[0]})`)
   console.log('\n已核验服务商列表:')
   providers?.forEach((p, i) => {
     console.log(`${i + 1}. ${p.name} - ${p.verified_at.split('T')[0]}`)
