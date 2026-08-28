@@ -2,7 +2,7 @@ import type { Locale } from './i18n/config'
 
 // 首页和服务商列表使用语言独立的编辑优先级，避免中文站和俄语站共用 sort_order。
 const LOCALE_PRIORITY: Record<Locale, string[]> = {
-  zh: ['uu-api', 'h-api', 'openox'],
+  zh: ['uu-api', 'h-api', 'openox', 'moacode'],
   ru: ['aitunnel', 'bothub'],
 }
 
