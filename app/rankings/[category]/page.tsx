@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { generateSEOMetadata, generateItemListSchema } from '@/lib/seo';
 import Breadcrumb from '@/components/Breadcrumb';
+import { sortProvidersByLocale } from '@/lib/provider-order';
 
 interface RankingPageProps {
   params: Promise<{
@@ -237,8 +238,8 @@ export default async function RankingPage({ params }: RankingPageProps) {
       return b.sort_order - a.sort_order;
     });
   } else {
-    // 默认按 sort_order 排序
-    providers.sort((a, b) => b.sort_order - a.sort_order);
+    // 默认列表采用中文站编辑优先级，再按原有排序字段兜底。
+    providers = sortProvidersByLocale(providers, 'zh');
   }
 
   // 生成结构化数据

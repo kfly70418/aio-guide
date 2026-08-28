@@ -10,6 +10,7 @@ import { generateRuBreadcrumbSchema } from '@/lib/seo-ru'
 import { Header, Footer } from '@/components/layout/PublicLayout'
 import Breadcrumb from '@/components/Breadcrumb'
 import { RANKING_CATEGORIES } from '../../../rankings/[category]/page'
+import { sortProvidersByLocale } from '@/lib/provider-order'
 
 export const revalidate = 300
 
@@ -63,7 +64,7 @@ export default async function RussianRankingPage({ params }: { params: Promise<{
   let providers = Array.from(unique.values())
   const translations = await getBatchTranslations('provider', providers.map(p => p.id), 'ru')
   providers = applyBatchTranslations(providers.filter(p => translations.get(p.id)?.description?.trim()), translations)
-  providers.sort((a, b) => (b.is_recommended ? 1 : 0) - (a.is_recommended ? 1 : 0) || (b.sort_order || 0) - (a.sort_order || 0))
+  providers = sortProvidersByLocale(providers, 'ru')
   const dict = getDictionary('ru')
   const items = providers.map(p => ({ name: p.name, url: `/ru/providers/${p.slug}`, description: p.description || '' }))
   const itemListSchema = generateItemListSchema({ name: copy.title, description: copy.description, url: `/ru/rankings/${category}`, items })

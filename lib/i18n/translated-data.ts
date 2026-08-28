@@ -5,6 +5,7 @@
 import { createPublicClient } from '@/lib/supabase/public'
 import { getTranslations, applyTranslations, getBatchTranslations, applyBatchTranslations } from '@/lib/i18n/translations'
 import type { Locale } from '@/lib/i18n/config'
+import { sortProvidersByLocale } from '@/lib/provider-order'
 
 /**
  * 获取带翻译的单个服务商
@@ -76,10 +77,10 @@ export async function getTranslatedProviders(locale: Locale, options?: {
     const translatedProviders = providers.filter(provider =>
       translationsMap.get(provider.id)?.description?.trim()
     )
-    return applyBatchTranslations(translatedProviders, translationsMap)
+    return sortProvidersByLocale(applyBatchTranslations(translatedProviders, translationsMap), locale)
   }
 
-  return providers
+  return sortProvidersByLocale(providers, locale)
 }
 
 /**

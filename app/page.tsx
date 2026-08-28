@@ -5,6 +5,7 @@ import { SITE_DESCRIPTION, SITE_URL } from '@/lib/constants'
 import { generateSEOMetadata, generateOrganizationSchema, generateWebSiteSchema } from '@/lib/seo'
 import { Header, Footer } from '@/components/layout/PublicLayout'
 import { Badge } from '@/components/ui'
+import { sortProvidersByLocale } from '@/lib/provider-order'
 
 export const metadata: Metadata = generateSEOMetadata({
   title: 'AI API 中转站排行榜、价格对比与使用教程',
@@ -48,6 +49,8 @@ export default async function HomePage() {
       .order('sort_order', { ascending: false }),
   ])
 
+  const orderedProviders = sortProvidersByLocale(providers ?? [], 'zh')
+
   // 按家族分组模型，用于顶部比价筛选区
   const FAMILY_ORDER = ['GPT', 'Claude', 'Gemini', 'Grok']
   const FAMILY_LABEL: Record<string, string> = {
@@ -62,9 +65,9 @@ export default async function HomePage() {
     items: (models ?? []).filter((m) => m.family === family),
   })).filter((g) => g.items.length > 0)
 
-  const topThree = (providers ?? []).slice(0, 3)
-  const restProviders = (providers ?? []).slice(3)
-  const latestVerifiedAt = (providers ?? []).reduce<string | null>((latest, provider) => {
+  const topThree = orderedProviders.slice(0, 3)
+  const restProviders = orderedProviders.slice(3)
+  const latestVerifiedAt = orderedProviders.reduce<string | null>((latest, provider) => {
     if (!provider.verified_at) return latest
     if (!latest || new Date(provider.verified_at) > new Date(latest)) return provider.verified_at
     return latest
@@ -378,7 +381,7 @@ export default async function HomePage() {
                 </Link>
               </div>
 
-              {providers && providers.length > 0 ? (
+              {orderedProviders.length > 0 ? (
                 <>
                   {/* 前三名：卡片 */}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

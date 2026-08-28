@@ -4,6 +4,7 @@ import { createPublicClient } from '@/lib/supabase/public'
 import { generateSEOMetadata, generateBreadcrumbSchema, generateItemListSchema } from '@/lib/seo'
 import { Header, Footer } from '@/components/layout/PublicLayout'
 import { ProvidersClient, type RankingProvider } from './ProvidersClient'
+import { sortProvidersByLocale } from '@/lib/provider-order'
 
 export const metadata: Metadata = generateSEOMetadata({
   title: 'AI API 中转站排行榜',
@@ -28,7 +29,7 @@ export default async function ProvidersPage() {
   const query = supabase
     .from('providers')
     .select(
-      `id, slug, name, description, features, is_recommended, verified_at,
+      `id, slug, name, description, features, is_recommended, sort_order, verified_at,
        price_level, min_topup, trial_credit, refund_policy, invoice_policy,
        invoice_support, coupon_note, coupon_code, verification_status, website_url`
     )
@@ -64,7 +65,7 @@ export default async function ProvidersPage() {
     providerFamilies.get(providerId)!.add(family)
   }
 
-  const rows: RankingProvider[] = (providers ?? []).map((p) => ({
+  const rows: RankingProvider[] = sortProvidersByLocale(providers ?? [], 'zh').map((p) => ({
     id: p.id,
     slug: p.slug,
     name: p.name,
