@@ -70,6 +70,7 @@ export async function generateMetadata({
     type: 'article',
     publishedTime: article.published_at || undefined,
     modifiedTime: article.updated_at,
+    image: article.cover_image_url || undefined,
   })
 }
 
