@@ -4,6 +4,13 @@ import { locales, defaultLocale, type Locale } from './lib/i18n/config'
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
+  // 中文是默认语言，统一将带 /zh 前缀的重复地址 308 到无前缀版本。
+  if (pathname === '/zh' || pathname.startsWith('/zh/')) {
+    const url = request.nextUrl.clone()
+    url.pathname = pathname === '/zh' ? '/' : pathname.slice(3)
+    return NextResponse.redirect(url, 308)
+  }
+
   // 检查路径是否已包含语言前缀
   const pathnameHasLocale = locales.some(
     locale => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`

@@ -238,12 +238,33 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // 模型详情页（暂时只添加中文版本，因为俄语模型详情页路由不存在）
   indexableModels.forEach(model => {
+    const hasRu = hasFields('model', model.id, ['name'])
     sitemap.push({
       url: `${SITE_URL}/models/${model.slug}`,
       lastModified: new Date(model.updated_at),
       changeFrequency: 'weekly',
-      priority: 0.7
+      priority: 0.7,
+      alternates: hasRu ? {
+        languages: {
+          zh: `${SITE_URL}/models/${model.slug}`,
+          ru: `${SITE_URL}/ru/models/${model.slug}`
+        }
+      } : undefined
     })
+    if (hasRu) {
+      sitemap.push({
+        url: `${SITE_URL}/ru/models/${model.slug}`,
+        lastModified: new Date(model.updated_at),
+        changeFrequency: 'weekly',
+        priority: 0.7,
+        alternates: {
+          languages: {
+            zh: `${SITE_URL}/models/${model.slug}`,
+            ru: `${SITE_URL}/ru/models/${model.slug}`
+          }
+        }
+      })
+    }
   })
 
   // 文章详情页
@@ -285,7 +306,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const existingStaticPages = [
     { slug: 'about', hasRu: true },
     { slug: 'methodology', hasRu: true },
-    { slug: 'disclosure', hasRu: true }
+    { slug: 'disclosure', hasRu: true },
+    { slug: 'faq', hasRu: true }
     // terms 和 privacy 暂时不添加，因为页面不存在
   ]
 
@@ -317,6 +339,33 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         }
       })
     }
+  })
+
+  // 榜单页面是稳定的落地页，纳入 Sitemap 便于搜索引擎发现长尾入口。
+  const rankingCategories = ['claude-api', 'gpt-api', 'cheap', 'stable', 'domestic', 'free', 'newbie', 'enterprise', 'fast', 'multimodel']
+  rankingCategories.forEach(category => {
+    sitemap.push({
+      url: `${SITE_URL}/rankings/${category}`,
+      changeFrequency: 'daily',
+      priority: 0.7,
+      alternates: {
+        languages: {
+          zh: `${SITE_URL}/rankings/${category}`,
+          ru: `${SITE_URL}/ru/rankings/${category}`
+        }
+      }
+    })
+    sitemap.push({
+      url: `${SITE_URL}/ru/rankings/${category}`,
+      changeFrequency: 'daily',
+      priority: 0.7,
+      alternates: {
+        languages: {
+          zh: `${SITE_URL}/rankings/${category}`,
+          ru: `${SITE_URL}/ru/rankings/${category}`
+        }
+      }
+    })
   })
 
   return sitemap

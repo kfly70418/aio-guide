@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { createPublicClient } from '@/lib/supabase/public'
 import { generateSEOMetadata } from '@/lib/seo'
+import { generateRuBreadcrumbSchema } from '@/lib/seo-ru'
 import { ruKeywords } from '@/lib/seo-ru'
 import { Header, Footer } from '@/components/layout/PublicLayout'
 import { Badge } from '@/components/ui'
@@ -11,9 +12,7 @@ import { getDictionary } from '@/lib/i18n/utils'
 import { locales, type Locale } from '@/lib/i18n/config'
 import { getTranslatedArticles } from '@/lib/i18n/translated-data'
 
-// 强制动态渲染
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+export const revalidate = 3600
 
 export function generateStaticParams() {
   return locales.map(locale => ({ locale }))
@@ -130,9 +129,14 @@ export default async function ArticlesPage({
     { key: 'news', label: dict.articles.categories.news, count: categoryCount.news || 0 },
     { key: 'faq', label: dict.articles.categories.faq, count: categoryCount.faq || 0 },
   ]
+  const breadcrumbSchema = generateRuBreadcrumbSchema([
+    { name: dict.nav.home, url: locale === 'ru' ? 'https://www.apixuan.com/ru' : 'https://www.apixuan.com' },
+    { name: dict.articles.title, url: `https://www.apixuan.com${basePath}/articles` },
+  ])
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <div className="min-h-screen flex flex-col bg-white">
         <Header locale={locale as Locale} dict={dict} />
 

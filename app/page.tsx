@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { createPublicClient } from '@/lib/supabase/public'
-import { SITE_NAME, SITE_DESCRIPTION, SITE_URL } from '@/lib/constants'
+import { SITE_DESCRIPTION, SITE_URL } from '@/lib/constants'
 import { generateSEOMetadata, generateOrganizationSchema, generateWebSiteSchema } from '@/lib/seo'
 import { Header, Footer } from '@/components/layout/PublicLayout'
 import { Badge } from '@/components/ui'
 
 export const metadata: Metadata = generateSEOMetadata({
-  title: SITE_NAME,
+  title: 'AI API 中转站排行榜、价格对比与使用教程',
   description: SITE_DESCRIPTION,
   path: '/',
 })
@@ -64,6 +64,11 @@ export default async function HomePage() {
 
   const topThree = (providers ?? []).slice(0, 3)
   const restProviders = (providers ?? []).slice(3)
+  const latestVerifiedAt = (providers ?? []).reduce<string | null>((latest, provider) => {
+    if (!provider.verified_at) return latest
+    if (!latest || new Date(provider.verified_at) > new Date(latest)) return provider.verified_at
+    return latest
+  }, null)
 
   const organizationSchema = generateOrganizationSchema()
   const websiteSchema = generateWebSiteSchema()
@@ -94,7 +99,7 @@ export default async function HomePage() {
                 <span className="mx-2 text-gray-300">·</span>
                 人工录入并标注核验时间，不做自动抓取
                 <span className="mx-2 text-gray-300">·</span>
-                最近核验 {new Date().toLocaleDateString('zh-CN')}
+                最近核验 {latestVerifiedAt ? new Date(latestVerifiedAt).toLocaleDateString('zh-CN') : '-'}
               </p>
 
               {/* 模型详细比价 */}

@@ -100,6 +100,9 @@ export async function getTranslatedModel(modelId: string, locale: Locale) {
 
   if (locale !== 'zh') {
     const translations = await getTranslations('model', modelId, locale)
+    if (!translations.name?.trim()) {
+      return null
+    }
     return applyTranslations(model, translations)
   }
 
@@ -139,7 +142,9 @@ export async function getTranslatedModels(locale: Locale, options?: {
   if (locale !== 'zh') {
     const modelIds = models.map(m => m.id)
     const translationsMap = await getBatchTranslations('model', modelIds, locale)
-    return applyBatchTranslations(models, translationsMap)
+    // 未完成名称翻译的模型不在俄语页面展示，避免混入中文内容。
+    const translatedModels = models.filter(model => translationsMap.get(model.id)?.name?.trim())
+    return applyBatchTranslations(translatedModels, translationsMap)
   }
 
   return models

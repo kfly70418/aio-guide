@@ -26,7 +26,7 @@ interface RankingCategory {
 }
 
 // 定义长尾词分类
-const RANKING_CATEGORIES: Record<string, RankingCategory> = {
+export const RANKING_CATEGORIES: Record<string, RankingCategory> = {
   'claude-api': {
     title: 'Claude 中转站推荐',
     fullTitle: 'Claude 中转站推荐 - 2026年最新Claude API中转站排行榜',
@@ -40,7 +40,7 @@ const RANKING_CATEGORIES: Record<string, RankingCategory> = {
     fullTitle: 'GPT 中转站推荐 - 支持 GPT-5.6 的 API 中转服务',
     description: '精选支持 GPT-5.6/GPT-4o/GPT-4o Mini 的 API 中转站，价格透明、稳定可靠。对比国内主流 ChatGPT API 服务商。',
     keywords: ['gpt中转站', 'chatgpt api', 'gpt5.6', 'gpt中转站推荐', 'gpt api中转'],
-    filter: { models: ['gpt-5-6', 'gpt-4o', 'gpt-4o-mini'] },
+    filter: { models: ['gpt-56-sol', 'gpt-56-terra', 'gpt-56-luna', 'gpt-55'] },
     icon: '💬',
   },
   'cheap': {
@@ -72,7 +72,7 @@ const RANKING_CATEGORIES: Record<string, RankingCategory> = {
     fullTitle: '免费的 API 中转站推荐 - 有免费额度的 AI API 服务商',
     description: '精选提供免费额度、试用额度的 API 中转站。新用户注册即送免费 Token，适合测试和小规模使用。',
     keywords: ['免费api中转站', '免费的中转站', 'api中转站免费额度', '免费试用中转站'],
-    filter: { tags: ['免费试用'] },
+    filter: { tags: ['注册有赠送'] },
     icon: '🎁',
   },
   'newbie': {
@@ -80,7 +80,7 @@ const RANKING_CATEGORIES: Record<string, RankingCategory> = {
     fullTitle: '新人优惠中转站推荐 - 首充优惠最多的 API 服务商',
     description: '精选新人优惠力度大的 API 中转站。首充送余额、折扣码、免费额度，新手入门首选。',
     keywords: ['新人优惠中转站', '首充优惠', 'api中转站新人福利', '中转站优惠码'],
-    filter: { tags: ['新人优惠'] },
+    filter: { tags: ['优惠折扣'] },
     icon: '🎉',
   },
   'enterprise': {
@@ -88,7 +88,7 @@ const RANKING_CATEGORIES: Record<string, RankingCategory> = {
     fullTitle: '企业级 API 中转站推荐 - 支持开票和合同的 AI API 服务商',
     description: '精选支持企业服务的 API 中转站。可开发票、签合同、专属客服、定制服务，适合企业用户。',
     keywords: ['企业级api中转站', 'api中转站开票', '企业中转站', '可开发票的中转站'],
-    filter: { tags: ['开发票'] },
+    filter: { tags: ['可开发票'] },
     icon: '🏢',
   },
   'fast': {
@@ -96,7 +96,7 @@ const RANKING_CATEGORIES: Record<string, RankingCategory> = {
     fullTitle: '速度快的 API 中转站推荐 - 低延迟高响应的 AI API 服务商',
     description: '精选响应速度快、延迟低的 API 中转站。国内节点优化，平均响应时间 <500ms，适合实时对话场景。',
     keywords: ['速度快的中转站', 'api中转站速度', '低延迟中转站', '快速响应中转站'],
-    filter: { tags: ['速度快'] },
+    filter: { tags: ['极速响应'] },
     icon: '⚡',
   },
   'multimodel': {
@@ -104,7 +104,7 @@ const RANKING_CATEGORIES: Record<string, RankingCategory> = {
     fullTitle: '多模型 API 中转站推荐 - 支持 10+ AI 模型的服务商',
     description: '精选支持多种 AI 模型的 API 中转站。同时支持 Claude、GPT、Gemini、文心一言等 10+ 主流模型，一站式解决方案。',
     keywords: ['多模型中转站', 'api中转站多模型', '支持多模型的中转站', '全模型中转站'],
-    filter: { tags: ['多模型'] },
+    filter: { tags: ['多模型支持'] },
     icon: '🎯',
   },
 };
@@ -119,7 +119,7 @@ type RankingCategoryKey = keyof typeof RANKING_CATEGORIES;
 // }
 
 export const dynamicParams = true;
-export const dynamic = 'force-dynamic';
+export const revalidate = 300;
 
 export async function generateMetadata({ params }: RankingPageProps): Promise<Metadata> {
   const { category } = await params;
@@ -178,10 +178,12 @@ export default async function RankingPage({ params }: RankingPageProps) {
     }
 
     if (filter.tags) {
-      // 筛选包含特定标签的服务商
-      filter.tags.forEach(tag => {
-        query = query.contains('features', [tag]);
-      });
+      // 多标签分类采用 OR 逻辑，避免要求同一服务商同时拥有所有同义标签。
+      if (filter.tags.length === 1) {
+        query = query.contains('features', filter.tags);
+      } else {
+        query = query.or(filter.tags.map(tag => `features.cs.{${tag}}`).join(','));
+      }
     }
 
     if (filter.verified !== undefined) {

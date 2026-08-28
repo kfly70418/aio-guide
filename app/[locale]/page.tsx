@@ -1,10 +1,8 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { createPublicClient } from '@/lib/supabase/public'
-import { SITE_NAME, SITE_DESCRIPTION } from '@/lib/constants'
 import { generateSEOMetadata, generateOrganizationSchema, generateWebSiteSchema } from '@/lib/seo'
-import { generateRuOrganizationSchema, ruKeywords } from '@/lib/seo-ru'
+import { generateRuOrganizationSchema, generateRuWebSiteSchema, ruKeywords } from '@/lib/seo-ru'
 import { Header, Footer } from '@/components/layout/PublicLayout'
 import { Badge } from '@/components/ui'
 import { getDictionary } from '@/lib/i18n/utils'
@@ -12,9 +10,7 @@ import { locales, type Locale } from '@/lib/i18n/config'
 import { getTranslatedProviders, getTranslatedModels, getTranslatedArticles } from '@/lib/i18n/translated-data'
 import { formatModelName } from '@/lib/format-model-name'
 
-// 强制动态渲染
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+export const revalidate = 300
 
 export function generateStaticParams() {
   return locales.map(locale => ({ locale }))
@@ -33,7 +29,9 @@ export async function generateMetadata({ params }: { params: { locale: string } 
     }))
 
   return generateSEOMetadata({
-    title: dict.common.site_name,
+    title: locale === 'ru'
+      ? 'Рейтинг API-прокси, сравнение цен и руководства'
+      : 'AI API 中转站排行榜、价格对比与使用教程',
     description: dict.common.site_description,
     path: `/${locale === 'zh' ? '' : locale}`,
     locale: locale,
@@ -51,7 +49,6 @@ export default async function HomePage({ params }: { params: { locale: string } 
   }
 
   const dict = getDictionary(locale as Locale)
-  const supabase = createPublicClient()
 
   // 获取翻译后的数据
   const [providers, tutorials, news, models] = await Promise.all([
@@ -79,8 +76,13 @@ export default async function HomePage({ params }: { params: { locale: string } 
   const topThree = providers.slice(0, 3)
   const restProviders = providers.slice(3)
 
+  const latestVerifiedAt = providers.reduce<string | null>((latest, provider) => {
+    if (!provider.verified_at) return latest
+    if (!latest || new Date(provider.verified_at) > new Date(latest)) return provider.verified_at
+    return latest
+  }, null)
   const organizationSchema = locale === 'ru' ? generateRuOrganizationSchema() : generateOrganizationSchema()
-  const websiteSchema = generateWebSiteSchema()
+  const websiteSchema = locale === 'ru' ? generateRuWebSiteSchema() : generateWebSiteSchema()
 
   return (
     <>
@@ -108,7 +110,9 @@ export default async function HomePage({ params }: { params: { locale: string } 
                 <span className="mx-2 text-gray-300">·</span>
                 {dict.home.hero.note_1}
                 <span className="mx-2 text-gray-300">·</span>
-                {dict.home.hero.note_2} {new Date().toLocaleDateString(locale === 'zh' ? 'zh-CN' : 'ru-RU')}
+                {dict.home.hero.note_2} {latestVerifiedAt
+                  ? new Date(latestVerifiedAt).toLocaleDateString(locale === 'zh' ? 'zh-CN' : 'ru-RU')
+                  : '-'}
               </p>
 
               {/* 模型详细比价 */}
@@ -133,7 +137,7 @@ export default async function HomePage({ params }: { params: { locale: string } 
                         {group.items.map((item) => (
                           <Link
                             key={item.slug}
-                            href={`/models/${item.slug}`}
+                            href={`${basePath}/models/${item.slug}`}
                             className="px-2 py-1 text-xs border border-gray-200 rounded hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
                           >
                             {formatModelName(item.name)} →

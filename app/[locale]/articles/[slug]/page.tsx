@@ -4,7 +4,8 @@ import { notFound } from 'next/navigation'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { createPublicClient } from '@/lib/supabase/public'
-import { generateSEOMetadata } from '@/lib/seo'
+import { generateSEOMetadata, generateBreadcrumbSchema } from '@/lib/seo'
+import { generateRuArticleSchema, generateRuBreadcrumbSchema } from '@/lib/seo-ru'
 import { Header, Footer } from '@/components/layout/PublicLayout'
 import { Badge } from '@/components/ui'
 import Breadcrumb from '@/components/Breadcrumb'
@@ -13,8 +14,7 @@ import { locales, type Locale } from '@/lib/i18n/config'
 import { getTranslatedArticle } from '@/lib/i18n/translated-data'
 import '../russian-typography.css'
 
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+export const revalidate = 3600
 
 export async function generateMetadata({
   params
@@ -113,8 +113,33 @@ export default async function ArticleDetailPage({
       })
   }
 
+  const articleUrl = `${basePath}/articles/${slug}`
+  const breadcrumbSchema = locale === 'ru'
+    ? generateRuBreadcrumbSchema([
+        { name: dict.nav.home, url: 'https://www.apixuan.com/ru' },
+        { name: dict.articles.title, url: 'https://www.apixuan.com/ru/articles' },
+        { name: article.title, url: `https://www.apixuan.com${articleUrl}` },
+      ])
+    : generateBreadcrumbSchema([
+        { name: dict.nav.home, url: '/' },
+        { name: dict.articles.title, url: '/articles' },
+        { name: article.title, url: articleUrl },
+      ])
+  const articleSchema = locale === 'ru'
+    ? generateRuArticleSchema({
+        title: article.title,
+        description: article.summary || '',
+        url: `https://www.apixuan.com${articleUrl}`,
+        image: article.cover_image_url || undefined,
+        datePublished: article.published_at || article.created_at,
+        dateModified: article.updated_at || article.published_at || article.created_at,
+      })
+    : undefined
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      {articleSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />}
       <div className="min-h-screen flex flex-col bg-white">
         <Header locale={locale as Locale} dict={dict} />
 

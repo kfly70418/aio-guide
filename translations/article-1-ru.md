@@ -112,7 +112,7 @@ Authorization: Bearer sk-xxxxxxxxxxxxxxxxxxxxx
 2. Копируйте и вставляйте, не вводите вручную
 3. Обратите внимание на регистр и дефисы
 
-Справка: [Что такое Base URL/Model ID/Token](/articles/base-url-model-id-token-explained)
+Справка: [Что такое Base URL/Model ID/Token](/ru/articles/base-url-model-id-token-explained)
 
 ---
 
@@ -189,7 +189,7 @@ Authorization: Bearer sk-xxxxxxxxxxxxxxxxxxxxx
            time.sleep(wait)
    ```
 
-Справка: [Как решить ошибку 429 API](/articles/api-429-rate-limit-error)
+Справка: [Как решить ошибку 429 API](/ru/articles/fix-api-429-error)
 
 ---
 
@@ -222,7 +222,7 @@ Authorization: Bearer sk-xxxxxxxxxxxxxxxxxxxxx
    - Если есть резервный API
    - Временно переключитесь на него
 
-Справка: [Как подготовить резервные каналы API](/articles/build-multi-provider-backup)
+Справка: [Как подготовить резервные каналы API](/ru/articles/build-multi-provider-backup)
 
 ---
 
@@ -257,7 +257,7 @@ Authorization: Bearer sk-xxxxxxxxxxxxxxxxxxxxx
    - Избегайте часов пик
    - Трафик ниже в ночное время
 
-Справка: [Как решить тайм-аут API](/articles/api-timeout-diagnosis)
+Справка: [Как решить тайм-аут API](/ru/articles/fix-api-timeout)
 
 ---
 

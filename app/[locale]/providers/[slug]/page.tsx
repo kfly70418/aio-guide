@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { createPublicClient } from '@/lib/supabase/public'
 import { generateSEOMetadata } from '@/lib/seo'
+import { generateRuServiceSchema, generateRuBreadcrumbSchema } from '@/lib/seo-ru'
 import { Header, Footer } from '@/components/layout/PublicLayout'
 import { Badge } from '@/components/ui'
 import Breadcrumb from '@/components/Breadcrumb'
@@ -17,8 +18,7 @@ type ExtendedProvider = Awaited<ReturnType<typeof getTranslatedProvider>> & {
   notes?: string
 }
 
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+export const revalidate = 300
 
 export async function generateMetadata({
   params
@@ -97,8 +97,24 @@ export default async function ProviderDetailPage({
     notFound()
   }
 
+  const providerUrl = `${basePath}/providers/${slug}`
+  const providerFeatures = Array.isArray(provider.features) ? provider.features : []
+  const serviceSchema = locale === 'ru' ? generateRuServiceSchema({
+    name: provider.name,
+    description: provider.description || '',
+    url: `https://www.apixuan.com${providerUrl}`,
+    features: providerFeatures,
+  }) : undefined
+  const breadcrumbSchema = locale === 'ru' ? generateRuBreadcrumbSchema([
+    { name: dict.nav.home, url: 'https://www.apixuan.com/ru' },
+    { name: dict.providers.title, url: 'https://www.apixuan.com/ru/providers' },
+    { name: provider.name, url: `https://www.apixuan.com${providerUrl}` },
+  ]) : undefined
+
   return (
     <>
+      {serviceSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />}
+      {breadcrumbSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />}
       <div className="min-h-screen flex flex-col bg-white">
         <Header locale={locale as Locale} dict={dict} />
 

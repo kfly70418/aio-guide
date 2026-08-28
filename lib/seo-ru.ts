@@ -149,10 +149,29 @@ export function generateRuArticleSchema(article: {
       'name': 'API Guide',
       'logo': {
         '@type': 'ImageObject',
-        'url': 'https://www.apixuan.com/logo.png'
+        'url': 'https://www.apixuan.com/logo.svg'
       }
     },
     'inLanguage': 'ru'
+  }
+}
+
+export function generateRuWebSiteSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    'name': 'Выбор API',
+    'url': 'https://www.apixuan.com/ru',
+    'description': 'Рейтинг и сравнение API-прокси для моделей ИИ, цены и практические руководства.',
+    'inLanguage': 'ru-RU',
+    'potentialAction': {
+      '@type': 'SearchAction',
+      'target': {
+        '@type': 'EntryPoint',
+        'urlTemplate': 'https://www.apixuan.com/ru/providers?q={search_term_string}'
+      },
+      'query-input': 'required name=search_term_string'
+    }
   }
 }
 
@@ -163,8 +182,8 @@ export function generateRuOrganizationSchema() {
     'name': 'API Guide',
     'alternateName': 'Гид по API сервисам',
     'url': 'https://www.apixuan.com/ru',
-    'logo': 'https://www.apixuan.com/logo.png',
-    'description': 'Сравнение и рейтинг API сервисов для работы с нейросетями',
+    'logo': 'https://www.apixuan.com/logo.svg',
+    'description': 'Рейтинг и сравнение API-прокси для моделей искусственного интеллекта, цены и практические руководства.',
     'sameAs': [
       // Добавить ссылки на социальные сети
     ],
