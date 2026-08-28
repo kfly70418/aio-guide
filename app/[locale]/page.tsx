@@ -9,6 +9,7 @@ import { getDictionary } from '@/lib/i18n/utils'
 import { locales, type Locale } from '@/lib/i18n/config'
 import { getTranslatedProviders, getTranslatedModels, getTranslatedArticles } from '@/lib/i18n/translated-data'
 import { formatModelName } from '@/lib/format-model-name'
+import { ModelComparison } from '@/components/home/ModelComparison'
 
 export const revalidate = 300
 
@@ -100,12 +101,12 @@ export default async function HomePage({ params }: { params: { locale: string } 
 
         <main className="flex-1">
           {/* Hero + 模型比价入口 */}
-          <section className="bg-gradient-to-b from-blue-50 to-white pt-8 pb-6">
+          <section className="bg-gradient-to-b from-blue-50 to-white pt-6 pb-4 sm:pt-8 sm:pb-6">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2">
                 {dict.home.hero.title}
               </h1>
-              <p className="text-sm text-gray-600 mb-5">
+              <p className="text-xs leading-5 text-gray-600 mb-4 sm:text-sm sm:mb-5">
                 {dict.home.hero.subtitle}
                 <span className="mx-2 text-gray-300">·</span>
                 {dict.home.hero.note_1}
@@ -117,37 +118,25 @@ export default async function HomePage({ params }: { params: { locale: string } 
 
               {/* 模型详细比价 */}
               {modelGroups.length > 0 && (
-                <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
-                  <div className="flex flex-wrap items-center gap-2 mb-4">
-                    <span className="px-2 py-0.5 text-xs font-medium bg-blue-100 text-blue-700 rounded">
-                      {dict.home.model_comparison.badge}
-                    </span>
-                    <h2 className="text-lg font-bold text-gray-900">{dict.home.model_comparison.title}</h2>
-                    <span className="text-xs text-gray-500">
-                      {dict.home.model_comparison.subtitle}
-                    </span>
-                  </div>
-
-                  <div className="space-y-3">
-                    {modelGroups.map((group) => (
-                      <div key={group.family} className="flex flex-wrap items-center gap-2">
-                        <span className="w-16 shrink-0 text-xs font-medium text-gray-400 tracking-wider">
-                          {group.label}
-                        </span>
-                        {group.items.map((item) => (
-                          <Link
-                            key={item.slug}
-                            href={`${basePath}/models/${item.slug}`}
-                            className="px-2 py-1 text-xs border border-gray-200 rounded hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
-                          >
-                            {formatModelName(item.name)} →
-                          </Link>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                <ModelComparison
+                  groups={modelGroups.map((group) => ({
+                    family: group.family,
+                    label: group.label,
+                    items: group.items.map((item) => ({ slug: item.slug, name: formatModelName(item.name) })),
+                  }))}
+                  basePath={basePath}
+                  badge={dict.home.model_comparison.badge}
+                  title={dict.home.model_comparison.title}
+                  subtitle={dict.home.model_comparison.subtitle}
+                  expandLabel={locale === 'ru' ? 'Открыть' : '展开'}
+                />
               )}
+
+              <nav className="mt-3 grid grid-cols-3 gap-2 sm:mt-4 sm:flex sm:flex-wrap" aria-label={locale === 'ru' ? 'Быстрая навигация' : '快速浏览'}>
+                <Link href={`${basePath}/providers`} className="rounded-lg border border-blue-200 bg-white px-2 py-2 text-center text-xs font-medium text-blue-700 transition-colors hover:bg-blue-50 sm:px-3">{locale === 'ru' ? 'Провайдеры' : '找中转站'}</Link>
+                <Link href={`${basePath}/models`} className="rounded-lg border border-gray-200 bg-white px-2 py-2 text-center text-xs font-medium text-gray-700 transition-colors hover:border-blue-300 hover:text-blue-600 sm:px-3">{locale === 'ru' ? 'Цены моделей' : '查模型价格'}</Link>
+                <Link href={`${basePath}/articles`} className="rounded-lg border border-gray-200 bg-white px-2 py-2 text-center text-xs font-medium text-gray-700 transition-colors hover:border-blue-300 hover:text-blue-600 sm:px-3">{locale === 'ru' ? 'Руководства' : '看实用教程'}</Link>
+              </nav>
             </div>
           </section>
 
