@@ -36,7 +36,8 @@ export function generateSEOMetadata({
   const siteNameToUse = siteName || SITE_NAME
   const fullTitle = title === siteNameToUse ? title : `${title} - ${siteNameToUse}`
   const url = `${SITE_URL}${path}`
-  const ogImage = image || `${SITE_URL}/og-default.png`
+  // Metadata image URLs must be absolute for crawlers and social platforms.
+  const ogImage = image ? new URL(image, `${SITE_URL}/`).toString() : `${SITE_URL}/og-default.png`
   const languageAlternates = alternateUrls.reduce((acc, alt) => {
     acc[alt.locale] = `${SITE_URL}${alt.url}`
     return acc
