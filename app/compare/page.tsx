@@ -354,7 +354,7 @@ function ComparisonTable({
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full">
+        <table className="min-w-[640px] w-full">
           <thead>
             <tr className="bg-gray-50 border-b">
               <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700 w-48">

@@ -141,14 +141,14 @@ export default async function ArticleDetailPage({
             </nav>
 
             {/* 文章头部 */}
-            <div className="bg-white rounded-xl border border-gray-200 p-8 mb-6">
+            <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-8 mb-6">
               {article.category && (
                 <Badge variant="info" size="sm" className="mb-4">
                   {CATEGORY_LABEL[article.category] ?? article.category}
                 </Badge>
               )}
 
-              <h1 className="text-4xl font-bold text-gray-900 mb-4">{article.title}</h1>
+              <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">{article.title}</h1>
 
               {article.summary && (
                 <p className="text-lg text-gray-600 mb-6 leading-relaxed">{article.summary}</p>
@@ -193,7 +193,7 @@ export default async function ArticleDetailPage({
             </div>
 
             {/* 文章内容 */}
-            <div className="bg-white rounded-xl border border-gray-200 p-8 mb-6">
+            <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-8 mb-6">
               <div className="prose prose-gray max-w-none">
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}

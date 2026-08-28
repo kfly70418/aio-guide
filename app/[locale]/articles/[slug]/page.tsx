@@ -168,12 +168,12 @@ export default async function ArticleDetailPage({
                   </span>
                 </div>
 
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
                   {article.title}
                 </h1>
 
                 {article.summary && (
-                  <p className="text-xl text-gray-600 leading-relaxed">
+                  <p className="text-lg sm:text-xl text-gray-600 leading-relaxed">
                     {article.summary}
                   </p>
                 )}
@@ -192,14 +192,23 @@ export default async function ArticleDetailPage({
 
               {/* 文章内容 */}
               <div
-                className="prose prose-lg max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-strong:text-gray-900 prose-strong:font-semibold prose-ul:list-disc prose-ol:list-decimal prose-li:text-gray-700 prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:pl-4 prose-blockquote:italic prose-code:text-sm prose-code:bg-gray-100 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-gray-900 prose-pre:text-gray-100"
+                className="prose prose-lg max-w-none min-w-0 prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-strong:text-gray-900 prose-strong:font-semibold prose-ul:list-disc prose-ol:list-decimal prose-li:text-gray-700 prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:pl-4 prose-blockquote:italic prose-code:text-sm prose-code:bg-gray-100 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:max-w-full prose-pre:overflow-x-auto prose-pre:bg-gray-900 prose-pre:text-gray-100"
                 style={locale === 'ru' ? {
                   lineHeight: '1.75',
                   textAlign: 'justify' as const,
                   hyphens: 'auto' as const,
                 } : {}}
               >
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    pre: ({ children }) => (
+                      <pre className="max-w-full overflow-x-auto bg-gray-900 p-4 text-sm text-gray-100 rounded-lg">
+                        {children}
+                      </pre>
+                    ),
+                  }}
+                >
                   {article.content || ''}
                 </ReactMarkdown>
               </div>

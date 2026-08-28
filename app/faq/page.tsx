@@ -1311,7 +1311,7 @@ export default function FAQPage() {
                   </h3>
 
                   <div
-                    className="prose max-w-none text-gray-700"
+                    className="prose max-w-none min-w-0 break-words text-gray-700"
                     dangerouslySetInnerHTML={{
                       __html: faq.answer
                         .replace(/\n\n/g, '</p><p className="mb-4">')

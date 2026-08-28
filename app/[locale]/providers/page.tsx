@@ -84,9 +84,9 @@ export default async function ProvidersPage({ params }: { params: { locale: stri
                   href={`${basePath}/providers/${provider.slug}`}
                   className="block bg-white border border-gray-200 rounded-lg p-6 hover:border-blue-400 hover:shadow-md transition-all"
                 >
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                    <div className="min-w-0 w-full sm:flex-1">
+                      <div className="flex flex-wrap items-center gap-3 mb-2">
                         <h2 className="text-xl font-semibold text-gray-900 hover:text-blue-600">
                           {provider.name}
                         </h2>
@@ -153,7 +153,7 @@ export default async function ProvidersPage({ params }: { params: { locale: stri
                       )}
                     </div>
 
-                    <div className="ml-4 flex flex-col items-end">
+                    <div className="ml-0 flex w-full flex-row items-center justify-between sm:ml-4 sm:w-auto sm:flex-col sm:items-end">
                       <div className="text-2xl font-bold text-gray-900">#{index + 1}</div>
                       {provider.verified_at && (
                         <div className="text-xs text-gray-500 mt-1">

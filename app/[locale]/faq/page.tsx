@@ -91,8 +91,19 @@ export default async function RussianFAQPage({ params }: { params: Promise<{ loc
                     {entries.map(faq => (
                       <article key={faq.id} id={faq.id} className="border border-gray-200 rounded-lg p-5">
                         <h3 className="text-lg font-semibold text-gray-900 mb-3">{faq.question}</h3>
-                        <div className="prose max-w-none text-gray-700">
-                          <ReactMarkdown remarkPlugins={[remarkGfm]}>{localizeLinks(faq.answer)}</ReactMarkdown>
+                        <div className="prose max-w-none min-w-0 break-words text-gray-700">
+                          <ReactMarkdown
+                            remarkPlugins={[remarkGfm]}
+                            components={{
+                              table: ({ children }) => (
+                                <div className="my-4 overflow-x-auto">
+                                  <table className="min-w-[560px]">{children}</table>
+                                </div>
+                              ),
+                            }}
+                          >
+                            {localizeLinks(faq.answer)}
+                          </ReactMarkdown>
                         </div>
                       </article>
                     ))}

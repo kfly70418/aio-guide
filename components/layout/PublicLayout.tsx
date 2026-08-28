@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { SITE_NAME } from '@/lib/constants'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
+import { MobileNav } from '@/components/layout/MobileNav'
 import { getDictionary } from '@/lib/i18n/utils'
 import type { Locale } from '@/lib/i18n/config'
 
@@ -17,7 +18,7 @@ export function Header({ locale = 'zh', dict }: HeaderProps = {}) {
   const logoSrc = locale === 'ru' ? '/logo-ru.svg' : '/logo.svg'
 
   return (
-    <header className="border-b border-gray-200 bg-white">
+    <header className="relative z-50 border-b border-gray-200 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link
@@ -40,7 +41,7 @@ export function Header({ locale = 'zh', dict }: HeaderProps = {}) {
               className="hidden h-10 w-auto sm:block"
             />
           </Link>
-          <nav className="flex gap-2 whitespace-nowrap text-xs font-medium sm:gap-4 sm:text-sm items-center">
+          <nav className="hidden items-center gap-2 whitespace-nowrap text-xs font-medium sm:gap-4 sm:text-sm md:flex">
             <Link href={`${basePath}/providers`} className="text-gray-700 hover:text-blue-600 transition-colors">
               {dictionary.nav.providers}
             </Link>
@@ -55,6 +56,7 @@ export function Header({ locale = 'zh', dict }: HeaderProps = {}) {
             </Link>
             <LanguageSwitcher currentLocale={locale} />
           </nav>
+          <MobileNav locale={locale} dict={dictionary} />
         </div>
       </div>
     </header>
