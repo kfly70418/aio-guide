@@ -31,7 +31,7 @@ export default async function ProvidersPage() {
     .select(
       `id, slug, name, description, features, is_recommended, sort_order, verified_at,
        price_level, min_topup, trial_credit, refund_policy, invoice_policy,
-       invoice_support, coupon_note, coupon_code, verification_status, website_url`
+       invoice_support, verification_status, website_url`
     )
     .eq('status', 'published')
 
@@ -75,8 +75,6 @@ export default async function ProvidersPage() {
     refund_policy: p.refund_policy,
     invoice_policy: p.invoice_policy,
     invoice_support: p.invoice_support,
-    coupon_note: p.coupon_note,
-    coupon_code: p.coupon_code,
     verification_status: p.verification_status,
     website_url: p.website_url,
     description: p.description,

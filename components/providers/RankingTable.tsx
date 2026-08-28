@@ -59,30 +59,6 @@ function PriceLevels({ value }: { value: string | null }) {
   )
 }
 
-function CopyCoupon({ code }: { code: string }) {
-  const [copied, setCopied] = useState(false)
-
-  return (
-    <button
-      type="button"
-      onClick={async (e) => {
-        e.preventDefault()
-        e.stopPropagation()
-        try {
-          await navigator.clipboard.writeText(code)
-          setCopied(true)
-          setTimeout(() => setCopied(false), 1800)
-        } catch {
-          setCopied(false)
-        }
-      }}
-      className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium bg-orange-500 text-white rounded hover:bg-orange-600 transition-colors"
-    >
-      {copied ? '已复制' : '复制优惠码'}
-    </button>
-  )
-}
-
 export function RankingTable({ providers }: { providers: RankingProvider[] }) {
   const [filter, setFilter] = useState('all')
 

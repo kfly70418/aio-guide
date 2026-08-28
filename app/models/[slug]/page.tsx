@@ -18,7 +18,6 @@ type PriceChannel = {
     status: string
     is_recommended: boolean | null
     min_topup: string | null
-    coupon_code: string | null
   }
 }
 
@@ -46,7 +45,7 @@ async function getPublishedModelPrices(modelId: string) {
       id, price_input, price_output, currency, verified_at, notes,
       channel:channels!inner(
         id, name, is_primary,
-        provider:providers!inner(id, slug, name, status, is_recommended, min_topup, coupon_code)
+      provider:providers!inner(id, slug, name, status, is_recommended, min_topup)
       )
     `
     )
@@ -275,11 +274,6 @@ export default async function ModelDetailPage({
                                     </span>
                                   )}
                                 </div>
-                                {provider?.coupon_code && (
-                                  <p className="text-xs text-orange-600 mt-0.5">
-                                    优惠码 {provider.coupon_code}
-                                  </p>
-                                )}
                               </td>
                               <td className="px-4 py-3 text-gray-600">
                                 {channel?.name || '—'}

@@ -236,12 +236,6 @@ export default async function ProviderDetailPage({
                         </dd>
                       </div>
                     )}
-                    {provider.coupon_code && (
-                      <div>
-                        <dt className="text-gray-500 mb-1">优惠码</dt>
-                        <dd className="text-gray-900 font-medium font-mono">{provider.coupon_code}</dd>
-                      </div>
-                    )}
                   </dl>
                 </section>
 

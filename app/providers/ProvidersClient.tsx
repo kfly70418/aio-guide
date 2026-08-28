@@ -14,8 +14,6 @@ export interface RankingProvider {
   refund_policy: string | null
   invoice_policy: string | null
   invoice_support: boolean
-  coupon_note: string | null
-  coupon_code: string | null
   verification_status: string | null
   website_url: string | null
   description: string | null
@@ -88,9 +86,6 @@ export function ProvidersClient({ providers }: ProvidersClientProps) {
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   开票政策
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  优惠码
-                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -145,15 +140,6 @@ export function ProvidersClient({ providers }: ProvidersClientProps) {
                       <span className="text-green-600">支持</span>
                     ) : (
                       <span className="text-gray-400">不支持</span>
-                    )}
-                  </td>
-                  <td className="px-4 py-3">
-                    {provider.coupon_code ? (
-                      <code className="px-2 py-1 text-xs bg-yellow-50 text-yellow-800 rounded border border-yellow-200">
-                        {provider.coupon_code}
-                      </code>
-                    ) : (
-                      <span className="text-gray-400">-</span>
                     )}
                   </td>
                 </tr>
