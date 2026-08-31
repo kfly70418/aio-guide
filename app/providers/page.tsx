@@ -15,14 +15,6 @@ export const metadata: Metadata = generateSEOMetadata({
 
 export const revalidate = 300
 
-const FAMILY_ORDER = ['GPT', 'Claude', 'Gemini', 'Grok']
-const FAMILY_LABEL: Record<string, string> = {
-  GPT: 'OPENAI',
-  Claude: 'CLAUDE',
-  Gemini: 'GEMINI',
-  Grok: 'GROK',
-}
-
 export default async function ProvidersPage() {
   const supabase = createPublicClient()
 
@@ -82,13 +74,6 @@ export default async function ProvidersPage() {
     is_recommended: p.is_recommended,
     families: [...(providerFamilies.get(p.id) ?? [])],
   }))
-
-  // 顶部模型比价分组
-  const modelGroups = FAMILY_ORDER.map((family) => ({
-    family,
-    label: FAMILY_LABEL[family] ?? family.toUpperCase(),
-    items: (models ?? []).filter((m) => m.family === family),
-  })).filter((g) => g.items.length > 0)
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: '首页', url: '/' },
@@ -150,43 +135,6 @@ export default async function ProvidersPage() {
                 最近核验 {new Date().toLocaleDateString('zh-CN')}
               </p>
             </div>
-
-            {/* 模型详细比价 */}
-            {modelGroups.length > 0 && (
-              <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm mb-6">
-                <div className="flex flex-wrap items-center gap-2 mb-5">
-                  <span className="px-2 py-0.5 text-xs font-medium bg-blue-100 text-blue-700 rounded">
-                    特色
-                  </span>
-                  <h2 className="text-lg font-bold text-gray-900">模型详细比价</h2>
-                  <span className="text-xs text-gray-500">
-                    同一个模型，每家中转站每条渠道直接比 · 价格透明
-                  </span>
-                </div>
-
-                <div className="space-y-3">
-                  {modelGroups.map((group) => (
-                    <div key={group.family} className="flex flex-wrap items-center gap-2">
-                      <span className="w-16 shrink-0 text-xs font-medium text-gray-400 tracking-wider">
-                        {group.label}
-                      </span>
-                      {group.items.map((model) => (
-                        <Link
-                          key={model.id}
-                          href={`/models/${model.slug}`}
-                          className="inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50 transition-colors"
-                        >
-                          {model.name}
-                          <span aria-hidden="true" className="text-gray-400">
-                            →
-                          </span>
-                        </Link>
-                      ))}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
 
             {/* 排行榜表格（含搜索和模型筛选） */}
             <ProvidersClient providers={rows} />

@@ -42,7 +42,7 @@ export default async function HomePage() {
       .eq('status', 'published')
       .eq('category', 'news')
       .order('published_at', { ascending: false })
-      .limit(8),
+      .limit(3),
     supabase
       .from('models')
       .select('id, slug, name, family, sort_order')
@@ -91,9 +91,9 @@ export default async function HomePage() {
       <div className="min-h-screen flex flex-col bg-white">
         <Header />
 
-        <main className="flex-1">
-          {/* Hero + 模型比价入口 */}
-          <section className="bg-gradient-to-b from-blue-50 to-white pt-6 pb-4 sm:pt-8 sm:pb-6">
+        <main className="flex flex-col flex-1">
+          {/* Hero + 快速入口 */}
+          <section className="order-1 bg-gradient-to-b from-blue-50 to-white pt-6 pb-4 sm:pt-8 sm:pb-6">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2">
                 AI API 中转站 <span className="text-blue-600">精选导航</span>
@@ -106,30 +106,22 @@ export default async function HomePage() {
                 最近核验 {latestVerifiedAt ? new Date(latestVerifiedAt).toLocaleDateString('zh-CN') : '-'}
               </p>
 
-              {/* 模型详细比价 */}
-              {modelGroups.length > 0 && (
-                <ModelComparison
-                  groups={modelGroups.map((group) => ({
-                    family: group.family,
-                    label: group.label,
-                    items: group.items.map((model) => ({ slug: model.slug, name: model.name })),
-                  }))}
-                  badge="特色"
-                  title="模型详细比价"
-                  subtitle="同一个模型，每家中转站每条渠道直接比 · 价格透明"
-                />
-              )}
-
               <nav className="mt-3 grid grid-cols-3 gap-2 sm:mt-4 sm:flex sm:flex-wrap" aria-label="快速浏览">
                 <Link href="/providers" className="rounded-lg border border-blue-200 bg-white px-2 py-2 text-center text-xs font-medium text-blue-700 transition-colors hover:bg-blue-50 sm:px-3">找中转站</Link>
                 <Link href="/models" className="rounded-lg border border-gray-200 bg-white px-2 py-2 text-center text-xs font-medium text-gray-700 transition-colors hover:border-blue-300 hover:text-blue-600 sm:px-3">查模型价格</Link>
                 <Link href="/articles" className="rounded-lg border border-gray-200 bg-white px-2 py-2 text-center text-xs font-medium text-gray-700 transition-colors hover:border-blue-300 hover:text-blue-600 sm:px-3">看实用教程</Link>
               </nav>
+              <nav className="mt-2 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap" aria-label="按需求选择">
+                <Link href="/rankings/cheap" className="rounded-lg border border-gray-200 bg-white px-2 py-1.5 text-center text-xs text-gray-600 transition-colors hover:border-blue-300 hover:text-blue-600 sm:px-3">便宜的中转站</Link>
+                <Link href="/rankings/stable" className="rounded-lg border border-gray-200 bg-white px-2 py-1.5 text-center text-xs text-gray-600 transition-colors hover:border-blue-300 hover:text-blue-600 sm:px-3">稳定的中转站</Link>
+                <Link href="/rankings/claude-api" className="rounded-lg border border-gray-200 bg-white px-2 py-1.5 text-center text-xs text-gray-600 transition-colors hover:border-blue-300 hover:text-blue-600 sm:px-3">Claude 中转站</Link>
+                <Link href="/rankings/gpt-api" className="rounded-lg border border-gray-200 bg-white px-2 py-1.5 text-center text-xs text-gray-600 transition-colors hover:border-blue-300 hover:text-blue-600 sm:px-3">GPT 中转站</Link>
+              </nav>
             </div>
           </section>
 
           {/* 热门榜单推荐 - 新增 SEO 导流模块 */}
-          <section className="hidden py-12 bg-gradient-to-b from-gray-50 to-white sm:block">
+          <section className="order-3 hidden py-12 bg-gradient-to-b from-gray-50 to-white sm:block">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center mb-8">
                 <h2 className="text-2xl font-bold text-gray-900 mb-2">🏆 热门榜单推荐</h2>
@@ -350,7 +342,7 @@ export default async function HomePage() {
           </section>
 
           {/* 推荐中转站 */}
-          <section className="pt-8 pb-12 bg-white">
+          <section className="order-2 pt-8 pb-12 bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-gray-900">推荐中转站</h2>
@@ -402,6 +394,12 @@ export default async function HomePage() {
                             )}
                           </div>
                         </div>
+
+                        {provider.description && (
+                          <p className="text-sm leading-5 text-gray-600 line-clamp-2 mb-4">
+                            {provider.description}
+                          </p>
+                        )}
 
                         {/* 底部：核验时间 */}
                         {provider.verified_at && (
@@ -504,8 +502,26 @@ export default async function HomePage() {
             </div>
           </section>
 
+          {/* 模型详细比价：放在服务商推荐之后，避免首屏分散选择意图 */}
+          {modelGroups.length > 0 && (
+            <div className="order-4 bg-white py-8 sm:py-10">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <ModelComparison
+                  groups={modelGroups.map((group) => ({
+                    family: group.family,
+                    label: group.label,
+                    items: group.items.map((model) => ({ slug: model.slug, name: model.name })),
+                  }))}
+                  badge="特色"
+                  title="模型详细比价"
+                  subtitle="同一个模型，每家中转站每条渠道直接比 · 价格透明"
+                />
+              </div>
+            </div>
+          )}
+
           {/* 特色说明 */}
-          <section className="py-12 bg-white">
+          <section className="order-5 py-12 bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">为什么选择我们</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -550,7 +566,7 @@ export default async function HomePage() {
 
           {/* 最新教程 */}
           {tutorials && tutorials.length > 0 && (
-            <section className="py-12 bg-gray-50">
+            <section className="order-6 py-12 bg-gray-50">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold text-gray-900">最新教程</h2>
@@ -593,7 +609,7 @@ export default async function HomePage() {
           )}
 
           {/* AI快讯 */}
-          <section className="py-12 bg-gray-50">
+          <section className="order-7 py-12 bg-gray-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex items-center justify-between mb-6">
                 <div>

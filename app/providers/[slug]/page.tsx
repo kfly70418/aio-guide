@@ -7,6 +7,7 @@ import { generateSEOMetadata, generateBreadcrumbSchema, generateServiceSchema } 
 import { Header, Footer } from '@/components/layout/PublicLayout'
 import { Badge } from '@/components/ui'
 import { isExpired } from '@/lib/utils'
+import { TrackedExternalLink } from '@/components/analytics/TrackedExternalLink'
 
 export const revalidate = 300 // ISR: 5分钟
 
@@ -153,14 +154,16 @@ export default async function ProviderDetailPage({
                   )}
                 </div>
                 {provider.website_url && (
-                  <a
+                  <TrackedExternalLink
                     href={provider.website_url}
                     target="_blank"
                     rel="noopener noreferrer sponsored"
+                    providerSlug={provider.slug}
+                    placement="provider_detail"
                     className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors whitespace-nowrap font-medium"
                   >
                     访问官网
-                  </a>
+                  </TrackedExternalLink>
                 )}
               </div>
 

@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { generateSEOMetadata } from '@/lib/seo'
 import Breadcrumb from '@/components/Breadcrumb'
+import { TrackedExternalLink } from '@/components/analytics/TrackedExternalLink'
 
 interface ComparePageProps {
   searchParams: Promise<{
@@ -148,14 +149,16 @@ export default async function ComparePage({ searchParams }: ComparePageProps) {
                 {
                   label: '官网地址',
                   getValue: (p) => (
-                    <a
+                    <TrackedExternalLink
                       href={p.website_url}
                       target="_blank"
                       rel="noopener noreferrer"
+                      providerSlug={p.slug}
+                      placement="compare"
                       className="text-blue-600 hover:underline"
                     >
                       访问官网 →
-                    </a>
+                    </TrackedExternalLink>
                   ),
                 },
                 {

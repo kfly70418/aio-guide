@@ -7,6 +7,7 @@ import { generateRuServiceSchema, generateRuBreadcrumbSchema } from '@/lib/seo-r
 import { Header, Footer } from '@/components/layout/PublicLayout'
 import { Badge } from '@/components/ui'
 import Breadcrumb from '@/components/Breadcrumb'
+import { TrackedExternalLink } from '@/components/analytics/TrackedExternalLink'
 import { getDictionary } from '@/lib/i18n/utils'
 import { locales, type Locale } from '@/lib/i18n/config'
 import { getTranslatedProvider } from '@/lib/i18n/translated-data'
@@ -149,14 +150,16 @@ export default async function ProviderDetailPage({
                   </div>
                 </div>
                 {provider.website_url && (
-                  <a
+                  <TrackedExternalLink
                     href={provider.website_url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    providerSlug={provider.slug}
+                    placement="provider_detail_locale"
                     className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
                   >
                     {dict.providers.visit_website} →
-                  </a>
+                  </TrackedExternalLink>
                 )}
               </div>
               <p className="text-lg text-gray-600">{provider.description}</p>

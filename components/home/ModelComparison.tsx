@@ -28,7 +28,7 @@ export function ModelComparison({
   expandLabel = '展开',
 }: ModelComparisonProps) {
   const [expanded, setExpanded] = useState<Record<string, boolean>>(() =>
-    Object.fromEntries(groups.map((group, index) => [group.family, index === 0]))
+    Object.fromEntries(groups.map((group) => [group.family, false]))
   )
 
   useEffect(() => {

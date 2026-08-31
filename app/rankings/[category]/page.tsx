@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { generateSEOMetadata, generateItemListSchema } from '@/lib/seo';
 import Breadcrumb from '@/components/Breadcrumb';
 import { sortProvidersByLocale } from '@/lib/provider-order';
+import { TrackedExternalLink } from '@/components/analytics/TrackedExternalLink';
 
 interface RankingPageProps {
   params: Promise<{
@@ -386,14 +387,16 @@ export default async function RankingPage({ params }: RankingPageProps) {
                       查看详情
                     </a>
                     {provider.website_url && (
-                      <a
+                      <TrackedExternalLink
                         href={provider.website_url}
                         target="_blank"
                         rel="nofollow noopener noreferrer"
+                        providerSlug={provider.slug}
+                        placement={`ranking_${category}`}
                         className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50 transition-colors"
                       >
                         访问官网 →
-                      </a>
+                      </TrackedExternalLink>
                     )}
                   </div>
                 </div>

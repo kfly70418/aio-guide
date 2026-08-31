@@ -10,6 +10,7 @@ import { locales, type Locale } from '@/lib/i18n/config'
 import { getTranslatedProviders, getTranslatedModels, getTranslatedArticles } from '@/lib/i18n/translated-data'
 import { formatModelName } from '@/lib/format-model-name'
 import { ModelComparison } from '@/components/home/ModelComparison'
+import { TrackedExternalLink } from '@/components/analytics/TrackedExternalLink'
 
 export const revalidate = 300
 
@@ -212,14 +213,16 @@ export default async function HomePage({ params }: { params: { locale: string } 
                           >
                             {dict.common.view_details || 'Обзор'}
                           </Link>
-                          <a
+                          <TrackedExternalLink
                             href={provider.website_url || '#'}
                             target="_blank"
                             rel="noopener noreferrer"
+                            providerSlug={provider.slug}
+                            placement="locale_home"
                             className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded transition-colors"
                           >
                             {dict.common.visit_website || 'Сайт'} →
-                          </a>
+                          </TrackedExternalLink>
                         </div>
                       </div>
                     </div>
