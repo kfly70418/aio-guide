@@ -133,9 +133,10 @@ export default async function HomePage({ params }: { params: { locale: string } 
                 />
               )}
 
-              <nav className="mt-3 grid grid-cols-3 gap-2 sm:mt-4 sm:flex sm:flex-wrap" aria-label={locale === 'ru' ? 'Быстрая навигация' : '快速浏览'}>
+              <nav className="mt-3 grid grid-cols-2 gap-2 sm:mt-4 sm:flex sm:flex-wrap" aria-label={locale === 'ru' ? 'Быстрая навигация' : '快速浏览'}>
                 <Link href={`${basePath}/providers`} className="rounded-lg border border-blue-200 bg-white px-2 py-2 text-center text-xs font-medium text-blue-700 transition-colors hover:bg-blue-50 sm:px-3">{locale === 'ru' ? 'Провайдеры' : '找中转站'}</Link>
                 <Link href={`${basePath}/models`} className="rounded-lg border border-gray-200 bg-white px-2 py-2 text-center text-xs font-medium text-gray-700 transition-colors hover:border-blue-300 hover:text-blue-600 sm:px-3">{locale === 'ru' ? 'Цены моделей' : '查模型价格'}</Link>
+                <Link href={`${basePath}/tools/api-test`} className="rounded-lg border border-gray-200 bg-white px-2 py-2 text-center text-xs font-medium text-gray-700 transition-colors hover:border-blue-300 hover:text-blue-600 sm:px-3">{locale === 'ru' ? 'Проверить API' : '检测 API'}</Link>
                 <Link href={`${basePath}/articles`} className="rounded-lg border border-gray-200 bg-white px-2 py-2 text-center text-xs font-medium text-gray-700 transition-colors hover:border-blue-300 hover:text-blue-600 sm:px-3">{locale === 'ru' ? 'Руководства' : '看实用教程'}</Link>
               </nav>
             </div>

@@ -5,10 +5,11 @@ import { Menu, X } from 'lucide-react'
 import { useState } from 'react'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import type { Locale } from '@/lib/i18n/config'
+import { getDictionary } from '@/lib/i18n/utils'
 
 interface MobileNavProps {
   locale: Locale
-  dict: any
+  dict: ReturnType<typeof getDictionary>
 }
 
 export function MobileNav({ locale, dict }: MobileNavProps) {
@@ -18,12 +19,13 @@ export function MobileNav({ locale, dict }: MobileNavProps) {
   const links = [
     { href: `${basePath}/providers`, label: dict.nav.providers },
     { href: `${basePath}/models`, label: dict.nav.models },
+    { href: `${basePath}/tools/api-test`, label: dict.nav.api_test },
     { href: `${basePath}/articles`, label: dict.nav.articles },
     { href: `${basePath}/about`, label: dict.nav.about },
   ]
 
   return (
-    <div className="md:hidden">
+    <div className="lg:hidden">
       <button
         type="button"
         onClick={() => setIsOpen((open) => !open)}

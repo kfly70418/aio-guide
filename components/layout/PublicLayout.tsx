@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { SITE_NAME } from '@/lib/constants'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import { MobileNav } from '@/components/layout/MobileNav'
 import { getDictionary } from '@/lib/i18n/utils'
@@ -8,7 +7,7 @@ import type { Locale } from '@/lib/i18n/config'
 
 interface HeaderProps {
   locale?: Locale
-  dict?: any
+  dict?: ReturnType<typeof getDictionary>
 }
 
 export function Header({ locale = 'zh', dict }: HeaderProps = {}) {
@@ -41,12 +40,15 @@ export function Header({ locale = 'zh', dict }: HeaderProps = {}) {
               className="hidden h-10 w-auto sm:block"
             />
           </Link>
-          <nav className="hidden items-center gap-2 whitespace-nowrap text-xs font-medium sm:gap-4 sm:text-sm md:flex">
+          <nav className="hidden items-center gap-2 whitespace-nowrap text-xs font-medium sm:gap-4 sm:text-sm lg:flex">
             <Link href={`${basePath}/providers`} className="text-gray-700 hover:text-blue-600 transition-colors">
               {dictionary.nav.providers}
             </Link>
             <Link href={`${basePath}/models`} className="text-gray-700 hover:text-blue-600 transition-colors">
               {dictionary.nav.models}
+            </Link>
+            <Link href={`${basePath}/tools/api-test`} className="text-gray-700 hover:text-blue-600 transition-colors">
+              {dictionary.nav.api_test}
             </Link>
             <Link href={`${basePath}/articles`} className="text-gray-700 hover:text-blue-600 transition-colors">
               {dictionary.nav.articles}
@@ -65,7 +67,7 @@ export function Header({ locale = 'zh', dict }: HeaderProps = {}) {
 
 interface FooterProps {
   locale?: Locale
-  dict?: any
+  dict?: ReturnType<typeof getDictionary>
 }
 
 export function Footer({ locale = 'zh', dict }: FooterProps = {}) {
@@ -108,6 +110,11 @@ export function Footer({ locale = 'zh', dict }: FooterProps = {}) {
               <li>
                 <Link href={`${basePath}/models`} className="hover:text-blue-600">
                   {dictionary.nav.models}
+                </Link>
+              </li>
+              <li>
+                <Link href={`${basePath}/tools/api-test`} className="hover:text-blue-600">
+                  {dictionary.nav.api_test}
                 </Link>
               </li>
               <li>

@@ -201,6 +201,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   })
 
+  // API 在线检测工具（页面可收录，检测接口本身由 robots.txt 屏蔽）
+  sitemap.push({
+    url: `${SITE_URL}/tools/api-test`,
+    changeFrequency: 'weekly',
+    priority: 0.8,
+    alternates: {
+      languages: {
+        zh: `${SITE_URL}/tools/api-test`,
+        ru: `${SITE_URL}/ru/tools/api-test`
+      }
+    }
+  })
+
+  sitemap.push({
+    url: `${SITE_URL}/ru/tools/api-test`,
+    changeFrequency: 'weekly',
+    priority: 0.8,
+    alternates: {
+      languages: {
+        zh: `${SITE_URL}/tools/api-test`,
+        ru: `${SITE_URL}/ru/tools/api-test`
+      }
+    }
+  })
+
   // 服务商详情页
   providers?.forEach(provider => {
     const hasRu = hasFields('provider', provider.id, ['description'])

@@ -25,6 +25,7 @@
     "home": "Главная",
     "providers": "API-прокси",
     "models": "Цены моделей",
+    "api_test": "Проверка API",
     "rankings": "Рейтинг",
     "articles": "Руководства",
     "faq": "FAQ",
