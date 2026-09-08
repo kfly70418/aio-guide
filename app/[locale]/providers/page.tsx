@@ -1,9 +1,8 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { createPublicClient } from '@/lib/supabase/public'
-import { generateSEOMetadata } from '@/lib/seo'
-import { ruKeywords } from '@/lib/seo-ru'
+import { generateSEOMetadata, generateItemListSchema } from '@/lib/seo'
+import { generateRuBreadcrumbSchema, ruKeywords } from '@/lib/seo-ru'
 import { Header, Footer } from '@/components/layout/PublicLayout'
 import { Badge } from '@/components/ui'
 import Breadcrumb from '@/components/Breadcrumb'
@@ -52,9 +51,25 @@ export default async function ProvidersPage({ params }: { params: { locale: stri
 
   // 获取翻译后的服务商数据
   const providers = await getTranslatedProviders(locale as Locale)
+  const breadcrumbSchema = generateRuBreadcrumbSchema([
+    { name: dict.nav.home, url: 'https://www.apixuan.com/ru' },
+    { name: dict.providers.title, url: 'https://www.apixuan.com/ru/providers' },
+  ])
+  const itemListSchema = generateItemListSchema({
+    name: dict.providers.title,
+    description: dict.providers.description,
+    url: '/ru/providers',
+    items: providers.map(provider => ({
+      name: provider.name,
+      url: `/ru/providers/${provider.slug}`,
+      description: provider.description || undefined,
+    })),
+  })
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema).replace(/</g, '\\u003c') }} />
       <div className="min-h-screen flex flex-col bg-white">
         <Header locale={locale as Locale} dict={dict} />
 

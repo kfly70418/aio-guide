@@ -202,6 +202,7 @@ export default async function ArticleDetailPage({
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   components={{
+                    h1: ({ children }) => <h2>{children}</h2>,
                     pre: ({ children }) => (
                       <pre className="max-w-full overflow-x-auto bg-gray-900 p-4 text-sm text-gray-100 rounded-lg">
                         {children}

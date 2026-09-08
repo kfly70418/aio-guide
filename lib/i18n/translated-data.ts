@@ -17,6 +17,7 @@ export async function getTranslatedProvider(providerId: string, locale: Locale) 
     .from('providers')
     .select('*')
     .eq('id', providerId)
+    .eq('status', 'published')
     .single()
 
   if (error || !provider) {

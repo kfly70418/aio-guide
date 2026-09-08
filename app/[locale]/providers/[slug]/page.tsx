@@ -34,6 +34,7 @@ export async function generateMetadata({
     .from('providers')
     .select('id')
     .eq('slug', slug)
+    .eq('status', 'published')
     .single()
 
   if (!providerData) {
@@ -86,6 +87,7 @@ export default async function ProviderDetailPage({
     .from('providers')
     .select('id')
     .eq('slug', slug)
+    .eq('status', 'published')
     .single()
 
   if (!providerData) {

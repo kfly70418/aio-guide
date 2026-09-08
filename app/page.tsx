@@ -12,6 +12,8 @@ export const metadata: Metadata = generateSEOMetadata({
   title: 'AI API 中转站排行榜、价格对比与使用教程',
   description: SITE_DESCRIPTION,
   path: '/',
+  locale: 'zh',
+  alternateUrls: [{ locale: 'ru', url: '/ru' }],
 })
 
 export const revalidate = 300 // ISR: 5分钟
@@ -101,7 +103,7 @@ export default async function HomePage() {
               <p className="text-xs sm:text-sm leading-5 text-gray-600 mb-4 sm:mb-5">
                 给 AI 使用者选中转站：比价格、看模型真假
                 <span className="mx-1.5 sm:mx-2 text-gray-300">·</span>
-                人工录入并标注核验时间，不做自动抓取
+                服务商资料与价格由人工录入，定期自动检查网站可访问性
                 <span className="mx-1.5 sm:mx-2 text-gray-300">·</span>
                 最近核验 {latestVerifiedAt ? new Date(latestVerifiedAt).toLocaleDateString('zh-CN') : '-'}
               </p>

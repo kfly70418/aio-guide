@@ -8,6 +8,7 @@ import { Header, Footer } from '@/components/layout/PublicLayout'
 import { Badge } from '@/components/ui'
 import { isExpired } from '@/lib/utils'
 import { TrackedExternalLink } from '@/components/analytics/TrackedExternalLink'
+import { getTranslations } from '@/lib/i18n/translations'
 
 export const revalidate = 300 // ISR: 5分钟
 
@@ -41,11 +42,17 @@ export async function generateMetadata({
 
   const description = provider.description ||
     `${provider.name} 的详细评测，包括模型价格、支付方式、使用体验等信息。最后核验时间：${provider.verified_at ? new Date(provider.verified_at).toLocaleDateString('zh-CN') : '待核验'}。`
+  const russianTranslations = await getTranslations('provider', provider.id, 'ru')
+  const alternateUrls = russianTranslations.description?.trim()
+    ? [{ locale: 'ru', url: `/ru/providers/${provider.slug}` }]
+    : []
 
   return generateSEOMetadata({
     title: `${provider.name} 详细评测与价格对比`,
     description,
     path: `/providers/${provider.slug}`,
+    locale: 'zh',
+    alternateUrls,
   })
 }
 
@@ -202,7 +209,7 @@ export default async function ProviderDetailPage({
                 </span>
               </div>
               <p className="text-xs text-gray-600 mt-2">
-                本站不做实时监控，所有信息由人工录入。价格请以服务商官网为准。
+                本站不自动抓取价格；网站可访问性由定时任务检查，价格和政策请以服务商官网为准。
               </p>
             </div>
 

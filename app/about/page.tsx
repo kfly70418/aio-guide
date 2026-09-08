@@ -6,6 +6,8 @@ export const metadata: Metadata = generateSEOMetadata({
   title: '关于我们',
   description: '了解 API 中转站精选导航的建站初衷、运营理念和团队介绍',
   path: '/about',
+  locale: 'zh',
+  alternateUrls: [{ locale: 'ru', url: '/ru/about' }],
 })
 
 export default function AboutPage() {

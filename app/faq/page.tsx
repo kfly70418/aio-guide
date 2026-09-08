@@ -1241,6 +1241,8 @@ export const metadata: Metadata = generateSEOMetadata({
   title: 'API 中转站常见问题 - 使用教程、安全指南与选择建议',
   description: '30+ API 中转站常见问题解答，涵盖使用教程、安全性、价格计算、故障排查、服务商选择等。帮你快速上手 AI API 中转服务。',
   path: '/faq',
+  locale: 'zh',
+  alternateUrls: [{ locale: 'ru', url: '/ru/faq' }],
 });
 
 export default function FAQPage() {

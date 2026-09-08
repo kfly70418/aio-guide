@@ -40,6 +40,8 @@ export async function generateMetadata({ searchParams }: ArticlesPageProps): Pro
     description,
     path: '/articles',
     noindex,
+    locale: 'zh',
+    alternateUrls: [{ locale: 'ru', url: '/ru/articles' }],
   })
 }
 

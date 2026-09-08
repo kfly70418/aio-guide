@@ -17,6 +17,9 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       title: 'Коммерческая информация',
       description: 'Раскрытие информации о коммерческом сотрудничестве, партнерских отношениях и источниках дохода сайта',
       path: '/ru/disclosure',
+      locale: 'ru',
+      alternateUrls: [{ locale: 'zh', url: '/disclosure' }],
+      siteName: 'Выбор API',
     })
   }
 
@@ -24,6 +27,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
     title: '商业信息',
     description: '披露本站的商业合作、联盟关系和收入来源等信息',
     path: '/disclosure',
+    locale: 'zh',
+    alternateUrls: [{ locale: 'ru', url: '/ru/disclosure' }],
   })
 }
 

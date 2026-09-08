@@ -135,6 +135,8 @@ export async function generateMetadata({ params }: RankingPageProps): Promise<Me
     title: config.fullTitle,
     description: config.description,
     path: `/rankings/${category}`,
+    locale: 'zh',
+    alternateUrls: [{ locale: 'ru', url: `/ru/rankings/${category}` }],
   });
 }
 

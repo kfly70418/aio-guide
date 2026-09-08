@@ -11,6 +11,8 @@ export const metadata: Metadata = generateSEOMetadata({
   description:
     '精选 AI API 中转站排行榜：逐家对比模型真假检测、价格水平、起充金额、赠送额度、退款政策与开票支持。数据人工核验并标注核验时间。',
   path: '/providers',
+  locale: 'zh',
+  alternateUrls: [{ locale: 'ru', url: '/ru/providers' }],
 })
 
 export const revalidate = 300
@@ -130,7 +132,7 @@ export default async function ProvidersPage() {
               <p className="text-sm text-gray-600">
                 给 AI 使用者选中转站：比价格、看模型真假
                 <span className="mx-2 text-gray-300">·</span>
-                人工录入并标注核验时间，不做自动抓取
+                服务商资料与价格由人工录入，定期自动检查网站可访问性
                 <span className="mx-2 text-gray-300">·</span>
                 最近核验 {new Date().toLocaleDateString('zh-CN')}
               </p>
@@ -147,7 +149,7 @@ export default async function ProvidersPage() {
                 「模型真假检测」指该服务商提供的模型经人工抽查确认为官方模型，非替换或降级版本。
               </p>
               <p>
-                所有数据由人工录入并标注核验时间，本站不做实时监控或自动抓取。
+                服务商资料与价格由人工录入，网站可访问性由定时任务检查。
                 价格与政策随时可能变动，请以服务商官网实际计费为准。带优惠码的服务商与本站存在推广合作，详见
                 <Link href="/disclosure" className="text-blue-600 hover:underline mx-1">
                   商业合作披露

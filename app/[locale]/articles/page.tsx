@@ -18,9 +18,18 @@ export function generateStaticParams() {
   return locales.map(locale => ({ locale }))
 }
 
-export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ locale: string }>
+  searchParams: Promise<{ category?: string; page?: string }>
+}): Promise<Metadata> {
   const { locale } = await params
+  const { category, page: pageParam } = await searchParams
   const dict = getDictionary(locale as Locale)
+  const page = Number.parseInt(pageParam || '1', 10)
+  const noindex = Boolean(category) || Number.isNaN(page) || page < 1 || page > 1
 
   // 生成多语言链接
   const alternateUrls = locales
@@ -36,6 +45,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
     path: `/${locale === 'zh' ? '' : locale + '/'}articles`,
     locale: locale,
     alternateUrls,
+    noindex,
     keywords: locale === 'ru' ? ruKeywords.articles.keywords : undefined,
     siteName: dict.common.site_name,
   })

@@ -6,6 +6,8 @@ export const metadata: Metadata = generateSEOMetadata({
   title: '商业合作披露',
   description: '透明披露本站的商业合作关系、收入来源和利益冲突管理机制',
   path: '/disclosure',
+  locale: 'zh',
+  alternateUrls: [{ locale: 'ru', url: '/ru/disclosure' }],
 })
 
 export default function DisclosurePage() {

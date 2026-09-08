@@ -9,6 +9,8 @@ export const metadata: Metadata = generateSEOMetadata({
   description:
     '对比 GPT、Claude、Gemini、Grok 等主流 AI 大模型在各家 API 中转站的价格，同一模型逐条渠道直接比价，数据人工核验。',
   path: '/models',
+  locale: 'zh',
+  alternateUrls: [{ locale: 'ru', url: '/ru/models' }],
 })
 
 export const revalidate = 300

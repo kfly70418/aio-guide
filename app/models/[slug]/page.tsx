@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { createPublicClient } from '@/lib/supabase/public'
 import { generateSEOMetadata, generateBreadcrumbSchema } from '@/lib/seo'
 import { Header, Footer } from '@/components/layout/PublicLayout'
+import { getTranslations } from '@/lib/i18n/translations'
 
 export const revalidate = 300
 
@@ -76,6 +77,10 @@ export async function generateMetadata({
   }
 
   const rows = await getPublishedModelPrices(model.id)
+  const russianTranslations = await getTranslations('model', model.id, 'ru')
+  const alternateUrls = rows.length > 0 && russianTranslations.name?.trim()
+    ? [{ locale: 'ru', url: `/ru/models/${model.slug}` }]
+    : []
 
   return generateSEOMetadata({
     title: `${model.name} 各中转站价格对比`,
@@ -84,6 +89,8 @@ export async function generateMetadata({
       `对比 ${model.name} 在各家 AI API 中转站的输入输出价格，逐条渠道直接比价，数据人工核验。`,
     path: `/models/${model.slug}`,
     noindex: rows.length === 0,
+    locale: 'zh',
+    alternateUrls,
   })
 }
 

@@ -17,6 +17,9 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       title: 'Методология оценки',
       description: 'Подробное описание методов сбора данных, процессов проверки и критериев оценки нашего сайта для обеспечения точности и надежности информации',
       path: '/ru/methodology',
+      locale: 'ru',
+      alternateUrls: [{ locale: 'zh', url: '/methodology' }],
+      siteName: 'Выбор API',
     })
   }
 
@@ -24,6 +27,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
     title: '评测方法',
     description: '详细介绍本站的数据收集方法、核验流程和评价标准，保证信息的准确性和可靠性',
     path: '/methodology',
+    locale: 'zh',
+    alternateUrls: [{ locale: 'ru', url: '/ru/methodology' }],
   })
 }
 

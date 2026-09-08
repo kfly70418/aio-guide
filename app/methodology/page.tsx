@@ -6,6 +6,8 @@ export const metadata: Metadata = generateSEOMetadata({
   title: '评测方法',
   description: '详细介绍本站的数据收集方法、核验流程和评价标准，保证信息的准确性和可靠性',
   path: '/methodology',
+  locale: 'zh',
+  alternateUrls: [{ locale: 'ru', url: '/ru/methodology' }],
 })
 
 export default function MethodologyPage() {

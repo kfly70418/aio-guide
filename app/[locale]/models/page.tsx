@@ -1,9 +1,8 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { createPublicClient } from '@/lib/supabase/public'
-import { generateSEOMetadata } from '@/lib/seo'
-import { ruKeywords } from '@/lib/seo-ru'
+import { generateSEOMetadata, generateItemListSchema } from '@/lib/seo'
+import { generateRuBreadcrumbSchema, ruKeywords } from '@/lib/seo-ru'
 import { Header, Footer } from '@/components/layout/PublicLayout'
 import Breadcrumb from '@/components/Breadcrumb'
 import { getDictionary } from '@/lib/i18n/utils'
@@ -14,8 +13,15 @@ export function generateStaticParams() {
   return locales.map(locale => ({ locale }))
 }
 
-export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ locale: string }>
+  searchParams: Promise<{ family?: string }>
+}): Promise<Metadata> {
   const { locale } = await params
+  const { family } = await searchParams
   const dict = getDictionary(locale as Locale)
 
   // 生成多语言链接
@@ -32,6 +38,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
     path: `/${locale === 'zh' ? '' : locale + '/'}models`,
     locale: locale,
     alternateUrls,
+    noindex: Boolean(family),
     keywords: locale === 'ru' ? ruKeywords.models.keywords : undefined,
     siteName: dict.common.site_name,
   })
@@ -69,9 +76,25 @@ export default async function ModelsPage({
   }, {} as Record<string, typeof allModels>)
 
   const families = Object.keys(modelsByFamily).sort()
+  const breadcrumbSchema = generateRuBreadcrumbSchema([
+    { name: dict.nav.home, url: 'https://www.apixuan.com/ru' },
+    { name: dict.models.title, url: 'https://www.apixuan.com/ru/models' },
+  ])
+  const itemListSchema = generateItemListSchema({
+    name: dict.models.title,
+    description: dict.models.description,
+    url: '/ru/models',
+    items: allModels.map(model => ({
+      name: model.name,
+      url: `/ru/models/${model.slug}`,
+      description: model.description || undefined,
+    })),
+  })
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema).replace(/</g, '\\u003c') }} />
       <div className="min-h-screen flex flex-col bg-white">
         <Header locale={locale as Locale} dict={dict} />
 

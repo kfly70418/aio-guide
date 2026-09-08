@@ -7,6 +7,7 @@ import { createPublicClient } from '@/lib/supabase/public'
 import { generateSEOMetadata, generateBreadcrumbSchema, generateArticleSchema } from '@/lib/seo'
 import { Header, Footer } from '@/components/layout/PublicLayout'
 import { Badge } from '@/components/ui'
+import { getTranslations } from '@/lib/i18n/translations'
 
 export const revalidate = 3600 // ISR: 1小时（文章内容更新频率低）
 
@@ -50,6 +51,11 @@ export async function generateMetadata({
     })
   }
 
+  const russianTranslations = await getTranslations('article', article.id, 'ru')
+  const alternateUrls = russianTranslations.title?.trim() && russianTranslations.content?.trim()
+    ? [{ locale: 'ru', url: `/ru/articles/${article.slug}` }]
+    : []
+
   // 新闻类文章设置 noindex, follow（内容过于单薄）
   if (article.category === 'news') {
     return generateSEOMetadata({
@@ -60,6 +66,8 @@ export async function generateMetadata({
       publishedTime: article.published_at || undefined,
       modifiedTime: article.updated_at,
       noindex: true,
+      locale: 'zh',
+      alternateUrls,
     })
   }
 
@@ -71,6 +79,8 @@ export async function generateMetadata({
     publishedTime: article.published_at || undefined,
     modifiedTime: article.updated_at,
     image: article.cover_image_url || undefined,
+    locale: 'zh',
+    alternateUrls,
   })
 }
 
