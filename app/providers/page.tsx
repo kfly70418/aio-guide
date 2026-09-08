@@ -9,7 +9,7 @@ import { sortProvidersByLocale } from '@/lib/provider-order'
 export const metadata: Metadata = generateSEOMetadata({
   title: 'AI API 中转站排行榜',
   description:
-    '精选 AI API 中转站排行榜：逐家对比模型真假检测、价格水平、起充金额、赠送额度、退款政策与开票支持。数据人工核验并标注核验时间。',
+    '精选 AI API 中转站排行榜：逐家对比基础核验、价格水平、起充金额、赠送额度、退款政策与开票支持。数据人工整理并标注核验时间。',
   path: '/providers',
   locale: 'zh',
   alternateUrls: [{ locale: 'ru', url: '/ru/providers' }],
@@ -52,7 +52,8 @@ export default async function ProvidersPage() {
   // provider_id → Set<family>
   const providerFamilies = new Map<string, Set<string>>()
   for (const row of priceRows ?? []) {
-    const providerId = (row.channel as any)?.provider_id
+    const channel = row.channel as unknown as { provider_id?: string } | null
+    const providerId = channel?.provider_id
     const family = row.model_id ? modelFamily.get(row.model_id) : undefined
     if (!providerId || !family) continue
     if (!providerFamilies.has(providerId)) providerFamilies.set(providerId, new Set())
@@ -70,12 +71,19 @@ export default async function ProvidersPage() {
     invoice_policy: p.invoice_policy,
     invoice_support: p.invoice_support,
     verification_status: p.verification_status,
+    verified_at: p.verified_at,
     website_url: p.website_url,
     description: p.description,
     features: p.features,
     is_recommended: p.is_recommended,
     families: [...(providerFamilies.get(p.id) ?? [])],
   }))
+
+  const latestVerifiedAt = rows.reduce<string | null>((latest, provider) => {
+    if (!provider.verified_at) return latest
+    if (!latest || new Date(provider.verified_at) > new Date(latest)) return provider.verified_at
+    return latest
+  }, null)
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: '首页', url: '/' },
@@ -134,7 +142,7 @@ export default async function ProvidersPage() {
                 <span className="mx-2 text-gray-300">·</span>
                 服务商资料与价格由人工录入，定期自动检查网站可访问性
                 <span className="mx-2 text-gray-300">·</span>
-                最近核验 {new Date().toLocaleDateString('zh-CN')}
+                最近核验 {latestVerifiedAt ? new Date(latestVerifiedAt).toLocaleDateString('zh-CN') : '待核验'}
               </p>
             </div>
 
@@ -145,8 +153,8 @@ export default async function ProvidersPage() {
             <div className="mt-6 p-4 bg-white border border-gray-200 rounded-xl text-xs text-gray-600 leading-relaxed">
               <p className="mb-1">
                 <strong className="text-gray-900">关于本榜单：</strong>
-                排序综合参考价格水平、起充门槛、赠送额度、退款与开票政策，以及第三方榜单排名。
-                「模型真假检测」指该服务商提供的模型经人工抽查确认为官方模型，非替换或降级版本。
+                默认排序综合参考编辑推荐、价格水平、起充门槛、赠送额度、退款与开票政策，以及公开资料。
+                「基础核验」表示网站可访问性及公开资料近期完成检查，不等同于持续性能、缓存命中或扣费准确性测试。
               </p>
               <p>
                 服务商资料与价格由人工录入，网站可访问性由定时任务检查。

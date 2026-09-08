@@ -1,8 +1,20 @@
 'use client'
 
-import { useState, useMemo, useEffect } from 'react'
+import { useMemo, useState } from 'react'
 import Link from 'next/link'
-import { Badge } from '@/components/ui'
+import {
+  ArrowDownUp,
+  Check,
+  ChevronRight,
+  CircleCheck,
+  ExternalLink,
+  Gift,
+  ReceiptText,
+  RotateCcw,
+  Search,
+  ShieldCheck,
+  Sparkles,
+} from 'lucide-react'
 import { TrackedExternalLink } from '@/components/analytics/TrackedExternalLink'
 
 export interface RankingProvider {
@@ -16,6 +28,7 @@ export interface RankingProvider {
   invoice_policy: string | null
   invoice_support: boolean
   verification_status: string | null
+  verified_at: string | null
   website_url: string | null
   description: string | null
   features: string[] | null
@@ -27,270 +40,483 @@ interface ProvidersClientProps {
   providers: RankingProvider[]
 }
 
+type QuickFilter = 'recommended' | 'verified' | 'lowPrice' | 'trial' | 'invoice'
+type SortMode = 'ranking' | 'verified' | 'name'
+
+const QUICK_FILTERS: Array<{
+  key: QuickFilter
+  label: string
+  icon: typeof ShieldCheck
+}> = [
+  { key: 'recommended', label: '编辑推荐', icon: Sparkles },
+  { key: 'verified', label: '近期核验', icon: ShieldCheck },
+  { key: 'lowPrice', label: '有低价档', icon: CircleCheck },
+  { key: 'trial', label: '新人赠送', icon: Gift },
+  { key: 'invoice', label: '支持开票', icon: ReceiptText },
+]
+
+const FAMILY_OPTIONS = [
+  { value: 'all', label: '全部模型' },
+  { value: 'GPT', label: 'GPT' },
+  { value: 'Claude', label: 'Claude' },
+  { value: 'Gemini', label: 'Gemini' },
+  { value: 'Grok', label: 'Grok' },
+]
+
+function isRecentlyVerified(value: string | null) {
+  if (!value) return false
+  const verifiedTime = new Date(value).getTime()
+  if (Number.isNaN(verifiedTime)) return false
+  return Date.now() - verifiedTime <= 30 * 24 * 60 * 60 * 1000
+}
+
+function formatVerifiedDate(value: string | null) {
+  if (!value) return '待核验'
+  return new Intl.DateTimeFormat('zh-CN', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(new Date(value))
+}
+
+function matchesQuickFilter(provider: RankingProvider, filter: QuickFilter) {
+  switch (filter) {
+    case 'recommended':
+      return provider.is_recommended
+    case 'verified':
+      return provider.verification_status === 'verified' && isRecentlyVerified(provider.verified_at)
+    case 'lowPrice':
+      return provider.price_level?.split(/[\s,、/]+/).includes('低') ?? false
+    case 'trial':
+      return Boolean(provider.trial_credit && !/^(无|暂无|-)$/.test(provider.trial_credit.trim()))
+    case 'invoice':
+      return provider.invoice_support
+  }
+}
+
+function PriceLevels({ value }: { value: string | null }) {
+  if (!value) return <span className="text-gray-400">待补充</span>
+
+  const active = new Set(value.split(/[\s,、/]+/).filter(Boolean))
+  return (
+    <div className="flex flex-wrap gap-1" aria-label={`价格档位：${value}`}>
+      {['低', '中', '高'].map((level) => (
+        <span
+          key={level}
+          className={`inline-flex h-6 w-6 items-center justify-center rounded border text-xs font-medium ${
+            active.has(level)
+              ? level === '低'
+                ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
+                : level === '中'
+                  ? 'border-blue-200 bg-blue-50 text-blue-700'
+                  : 'border-orange-200 bg-orange-50 text-orange-700'
+              : 'border-gray-100 bg-gray-50 text-gray-300'
+          }`}
+        >
+          {level}
+        </span>
+      ))}
+    </div>
+  )
+}
+
+function VerificationBadge({ provider }: { provider: RankingProvider }) {
+  const verified = provider.verification_status === 'verified' && provider.verified_at
+
+  if (!verified) return <span className="text-xs text-gray-400">待核验</span>
+
+  return (
+    <span
+      className="inline-flex items-center gap-1 text-xs font-medium text-emerald-700"
+      title="已核验网站可访问性和基础资料，不代表持续性能测试"
+    >
+      <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
+      {formatVerifiedDate(provider.verified_at)}
+    </span>
+  )
+}
+
 export function ProvidersClient({ providers }: ProvidersClientProps) {
   const [search, setSearch] = useState('')
   const [family, setFamily] = useState('all')
-  const [recommendedOnly, setRecommendedOnly] = useState(false)
+  const [quickFilters, setQuickFilters] = useState<QuickFilter[]>([])
+  const [sortMode, setSortMode] = useState<SortMode>('ranking')
   const [mobileVisibleCount, setMobileVisibleCount] = useState(10)
 
   const filteredProviders = useMemo(() => {
     const searchLower = search.toLowerCase().trim()
-    return providers.filter(
-      (p) =>
-        (!searchLower ||
-          p.name.toLowerCase().includes(searchLower) ||
-          p.description?.toLowerCase().includes(searchLower) ||
-          p.features?.some((f) => f.toLowerCase().includes(searchLower))) &&
-        (family === 'all' || p.families.includes(family)) &&
-        (!recommendedOnly || p.is_recommended)
-    )
-  }, [providers, search, family, recommendedOnly])
+    const rows = providers.filter((provider) => {
+      const searchableText = [
+        provider.name,
+        provider.description,
+        ...(provider.features ?? []),
+        ...provider.families,
+      ]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase()
 
-  useEffect(() => {
+      return (
+        (!searchLower || searchableText.includes(searchLower)) &&
+        (family === 'all' || provider.families.includes(family)) &&
+        quickFilters.every((filter) => matchesQuickFilter(provider, filter))
+      )
+    })
+
+    if (sortMode === 'verified') {
+      return rows.sort(
+        (a, b) => new Date(b.verified_at ?? 0).getTime() - new Date(a.verified_at ?? 0).getTime()
+      )
+    }
+    if (sortMode === 'name') {
+      return rows.sort((a, b) => a.name.localeCompare(b.name, 'zh-CN'))
+    }
+    return rows
+  }, [providers, search, family, quickFilters, sortMode])
+
+  const filterCounts = useMemo(() => {
+    return Object.fromEntries(
+      QUICK_FILTERS.map(({ key }) => [key, providers.filter((p) => matchesQuickFilter(p, key)).length])
+    ) as Record<QuickFilter, number>
+  }, [providers])
+
+  const hasActiveFilters = Boolean(search || family !== 'all' || quickFilters.length)
+
+  function toggleQuickFilter(filter: QuickFilter) {
     setMobileVisibleCount(10)
-  }, [search, family, recommendedOnly])
+    setQuickFilters((current) =>
+      current.includes(filter) ? current.filter((item) => item !== filter) : [...current, filter]
+    )
+  }
+
+  function resetFilters() {
+    setSearch('')
+    setFamily('all')
+    setQuickFilters([])
+    setSortMode('ranking')
+    setMobileVisibleCount(10)
+  }
 
   return (
     <>
-      {/* 搜索框 */}
-      <div className="mb-6">
-        <input
-          type="text"
-          placeholder="搜索服务商名称、描述或功能..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-        />
-        <div className="mt-3 flex flex-wrap items-center gap-2">
-          <label htmlFor="provider-family" className="sr-only">按模型筛选</label>
-          <select
-            id="provider-family"
-            value={family}
-            onChange={(e) => setFamily(e.target.value)}
-            className="min-h-10 flex-1 rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:flex-none"
-          >
-            <option value="all">全部模型</option>
-            <option value="GPT">支持 GPT</option>
-            <option value="Claude">支持 Claude</option>
-            <option value="Gemini">支持 Gemini</option>
-            <option value="Grok">支持 Grok</option>
-          </select>
-          <button
-            type="button"
-            aria-pressed={recommendedOnly}
-            onClick={() => setRecommendedOnly((value) => !value)}
-            className={`min-h-10 rounded-lg border px-3 text-sm transition-colors ${
-              recommendedOnly
-                ? 'border-blue-600 bg-blue-600 text-white'
-                : 'border-gray-300 bg-white text-gray-700 hover:border-blue-400 hover:text-blue-600'
-            }`}
-          >
-            仅看推荐
-          </button>
-          <Link
-            href="/models"
-            className="min-h-10 inline-flex flex-1 items-center justify-center rounded-lg border border-gray-200 px-3 text-sm text-gray-600 hover:border-blue-300 hover:text-blue-600 sm:flex-none"
-          >
-            按模型查价格
-          </Link>
-        </div>
-        {search && (
-          <p className="text-sm text-gray-500 mt-2">
-            找到 {filteredProviders.length} 个结果
-          </p>
-        )}
-      </div>
+      <section className="mb-5 border-y border-gray-200 bg-white py-4" aria-label="服务商筛选">
+        <div className="grid gap-3 lg:grid-cols-[minmax(260px,1fr)_180px_180px]">
+          <label className="relative block">
+            <span className="sr-only">搜索服务商</span>
+            <Search
+              className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"
+              aria-hidden="true"
+            />
+            <input
+              type="search"
+              placeholder="搜索名称、模型或特点"
+              value={search}
+              onChange={(event) => {
+                setSearch(event.target.value)
+                setMobileVisibleCount(10)
+              }}
+              className="min-h-11 w-full rounded-md border border-gray-300 bg-white py-2 pl-10 pr-4 text-sm text-gray-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            />
+          </label>
 
-      {/* 服务商列表 */}
+          <label className="relative">
+            <span className="sr-only">按模型筛选</span>
+            <select
+              value={family}
+              onChange={(event) => {
+                setFamily(event.target.value)
+                setMobileVisibleCount(10)
+              }}
+              className="min-h-11 w-full appearance-none rounded-md border border-gray-300 bg-white px-3 pr-9 text-sm text-gray-700 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            >
+              {FAMILY_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label className="relative">
+            <span className="sr-only">排序方式</span>
+            <ArrowDownUp
+              className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"
+              aria-hidden="true"
+            />
+            <select
+              value={sortMode}
+              onChange={(event) => {
+                setSortMode(event.target.value as SortMode)
+                setMobileVisibleCount(10)
+              }}
+              className="min-h-11 w-full appearance-none rounded-md border border-gray-300 bg-white py-2 pl-10 pr-9 text-sm text-gray-700 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            >
+              <option value="ranking">综合推荐排序</option>
+              <option value="verified">最近核验优先</option>
+              <option value="name">按名称排序</option>
+            </select>
+          </label>
+        </div>
+
+        <div className="mt-3 flex gap-2 overflow-x-auto pb-1 sm:flex-wrap" aria-label="快速条件">
+          {QUICK_FILTERS.map(({ key, label, icon: Icon }) => {
+            const active = quickFilters.includes(key)
+            const disabled = filterCounts[key] === 0
+            return (
+              <button
+                key={key}
+                type="button"
+                aria-pressed={active}
+                disabled={disabled}
+                onClick={() => toggleQuickFilter(key)}
+                className={`inline-flex min-h-9 shrink-0 items-center gap-1.5 rounded-md border px-3 text-xs font-medium transition-colors ${
+                  active
+                    ? 'border-blue-600 bg-blue-600 text-white'
+                    : disabled
+                      ? 'cursor-not-allowed border-gray-100 bg-gray-50 text-gray-300'
+                      : 'border-gray-300 bg-white text-gray-700 hover:border-blue-400 hover:text-blue-700'
+                }`}
+              >
+                {active ? <Check className="h-3.5 w-3.5" /> : <Icon className="h-3.5 w-3.5" />}
+                {label}
+                <span className={active ? 'text-blue-100' : 'text-gray-400'}>{filterCounts[key]}</span>
+              </button>
+            )
+          })}
+        </div>
+
+        <div className="mt-3 flex items-center justify-between gap-3 text-xs text-gray-500">
+          <p aria-live="polite">
+            显示 <strong className="font-semibold text-gray-900">{filteredProviders.length}</strong> 家服务商
+            {hasActiveFilters ? `，已启用 ${quickFilters.length + (family !== 'all' ? 1 : 0) + (search ? 1 : 0)} 个条件` : ''}
+          </p>
+          {hasActiveFilters && (
+            <button
+              type="button"
+              onClick={resetFilters}
+              className="inline-flex shrink-0 items-center gap-1 text-gray-600 hover:text-blue-700"
+            >
+              <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
+              清除筛选
+            </button>
+          )}
+        </div>
+      </section>
+
       {filteredProviders.length > 0 ? (
         <>
-          {/* 移动端卡片：避免用户横向拖动宽表格 */}
           <div className="space-y-3 lg:hidden">
-            {filteredProviders.slice(0, mobileVisibleCount).map((provider, index) => (
-              <article
-                key={provider.id}
-                className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm"
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <Link
-                        href={`/providers/${provider.slug}`}
-                        className="text-base font-semibold text-blue-600 hover:text-blue-700"
-                      >
-                        {provider.name}
-                      </Link>
-                      {provider.is_recommended && <Badge variant="success" size="sm">推荐</Badge>}
-                      {provider.verification_status === 'verified' && (
-                        <span className="text-xs text-green-600" title="已核验">✓ 已核验</span>
+            {filteredProviders.slice(0, mobileVisibleCount).map((provider) => {
+              const originalRank = providers.findIndex((item) => item.id === provider.id) + 1
+              return (
+                <article key={provider.id} className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+                  <div className="flex items-start gap-3">
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded bg-gray-100 text-xs font-bold text-gray-600">
+                      {originalRank}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <Link
+                          href={`/providers/${provider.slug}`}
+                          className="text-base font-semibold text-gray-950 hover:text-blue-700"
+                        >
+                          {provider.name}
+                        </Link>
+                        {provider.is_recommended && (
+                          <span className="rounded bg-amber-50 px-1.5 py-0.5 text-xs font-medium text-amber-700">
+                            推荐
+                          </span>
+                        )}
+                      </div>
+                      {provider.description && (
+                        <p className="mt-1 line-clamp-2 text-xs leading-5 text-gray-600">{provider.description}</p>
                       )}
                     </div>
-                    {provider.description && (
-                      <p className="mt-2 text-xs leading-5 text-gray-600 line-clamp-2">
-                        {provider.description}
-                      </p>
+                  </div>
+
+                  <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-3 border-t border-gray-100 pt-3 text-sm">
+                    <div>
+                      <dt className="text-xs text-gray-500">基础核验</dt>
+                      <dd className="mt-1"><VerificationBadge provider={provider} /></dd>
+                    </div>
+                    <div>
+                      <dt className="text-xs text-gray-500">支持模型</dt>
+                      <dd className="mt-1 flex flex-wrap gap-1">
+                        {provider.families.length ? provider.families.map((item) => (
+                          <span key={item} className="rounded bg-blue-50 px-1.5 py-0.5 text-xs text-blue-700">{item}</span>
+                        )) : <span className="text-gray-400">待补充</span>}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-xs text-gray-500">价格档位</dt>
+                      <dd className="mt-1"><PriceLevels value={provider.price_level} /></dd>
+                    </div>
+                    <div>
+                      <dt className="text-xs text-gray-500">最低充值</dt>
+                      <dd className="mt-1 font-medium text-gray-900">{provider.min_topup || '待补充'}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-xs text-gray-500">新人赠送</dt>
+                      <dd className="mt-1 font-medium text-gray-900">{provider.trial_credit || '无公开信息'}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-xs text-gray-500">开票</dt>
+                      <dd className="mt-1 font-medium text-gray-900">
+                        {provider.invoice_policy || (provider.invoice_support ? '支持' : '未标注支持')}
+                      </dd>
+                    </div>
+                  </dl>
+
+                  {provider.features && provider.features.length > 0 && (
+                    <div className="mt-3 flex flex-wrap gap-1.5">
+                      {provider.features.slice(0, 3).map((feature) => (
+                        <span key={feature} className="rounded bg-gray-100 px-2 py-1 text-xs text-gray-600">
+                          {feature}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="mt-4 flex gap-2">
+                    <Link
+                      href={`/providers/${provider.slug}`}
+                      className="inline-flex min-h-10 flex-1 items-center justify-center gap-1 rounded-md border border-gray-300 px-3 text-xs font-medium text-gray-700 hover:border-blue-400 hover:text-blue-700"
+                    >
+                      查看详情
+                      <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
+                    </Link>
+                    {provider.website_url && (
+                      <TrackedExternalLink
+                        href={provider.website_url}
+                        target="_blank"
+                        rel="noopener noreferrer sponsored"
+                        providerSlug={provider.slug}
+                        placement="providers_mobile_card"
+                        className="inline-flex min-h-10 flex-1 items-center justify-center gap-1 rounded-md bg-blue-600 px-3 text-xs font-medium text-white hover:bg-blue-700"
+                      >
+                        访问官网
+                        <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+                      </TrackedExternalLink>
                     )}
                   </div>
-                  <span className="shrink-0 text-xs font-medium text-gray-400">#{index + 1}</span>
-                </div>
+                </article>
+              )
+            })}
 
-                <div className="mt-3 grid grid-cols-2 gap-3 border-t border-gray-100 pt-3 text-sm">
-                  <div>
-                    <div className="text-xs text-gray-500">支持模型</div>
-                    <div className="mt-1 flex flex-wrap gap-1">
-                      {provider.families.length > 0 ? provider.families.map((family) => (
-                        <span key={family} className="rounded bg-blue-50 px-1.5 py-0.5 text-xs text-blue-700">
-                          {family}
-                        </span>
-                      )) : <span className="text-gray-400">-</span>}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-xs text-gray-500">价格水平</div>
-                    <div className="mt-1 font-medium text-gray-900">{provider.price_level || '-'}</div>
-                  </div>
-                  <div>
-                    <div className="text-xs text-gray-500">最低充值</div>
-                    <div className="mt-1 font-medium text-gray-900">{provider.min_topup || '-'}</div>
-                  </div>
-                  <div>
-                    <div className="text-xs text-gray-500">新人赠送</div>
-                    <div className="mt-1 font-medium text-gray-900">{provider.trial_credit || '-'}</div>
-                  </div>
-                  <div>
-                    <div className="text-xs text-gray-500">退款政策</div>
-                    <div className="mt-1 truncate font-medium text-gray-900">{provider.refund_policy || '-'}</div>
-                  </div>
-                  <div>
-                    <div className="text-xs text-gray-500">开票政策</div>
-                    <div className="mt-1 font-medium text-gray-900">{provider.invoice_support ? '支持' : '不支持'}</div>
-                  </div>
-                </div>
-
-                <div className="mt-4 flex gap-2">
-                  {provider.website_url && (
-                    <TrackedExternalLink
-                      href={provider.website_url}
-                      target="_blank"
-                      rel="noopener noreferrer sponsored"
-                      providerSlug={provider.slug}
-                      placement="providers_mobile_card"
-                      className="flex-1 rounded-lg bg-blue-600 px-3 py-2 text-center text-xs font-medium text-white hover:bg-blue-700"
-                    >
-                      访问官网
-                    </TrackedExternalLink>
-                  )}
-                  <Link
-                    href={`/providers/${provider.slug}`}
-                    className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-center text-xs font-medium text-gray-700 hover:border-blue-400 hover:text-blue-600"
-                  >
-                    查看详情
-                  </Link>
-                </div>
-              </article>
-            ))}
             {mobileVisibleCount < filteredProviders.length && (
               <button
                 type="button"
                 onClick={() => setMobileVisibleCount((count) => count + 10)}
-                className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 hover:border-blue-400 hover:text-blue-600"
+                className="min-h-11 w-full rounded-md border border-gray-300 bg-white px-4 text-sm font-medium text-gray-700 hover:border-blue-400 hover:text-blue-700"
               >
-                显示更多服务商（还剩 {filteredProviders.length - mobileVisibleCount} 家）
+                显示更多（还剩 {filteredProviders.length - mobileVisibleCount} 家）
               </button>
             )}
           </div>
 
-          {/* 桌面端表格 */}
-          <div className="hidden overflow-x-auto lg:block">
-          <table className="min-w-[760px] divide-y divide-gray-200 text-sm">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  服务商
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  支持模型
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  价格水平
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  最低充值
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  新人赠送
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  退款政策
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  开票政策
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {filteredProviders.map((provider) => (
-                <tr key={provider.id} className="hover:bg-gray-50">
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-2">
-                      <Link
-                        href={`/providers/${provider.slug}`}
-                        className="font-medium text-blue-600 hover:text-blue-700 hover:underline"
-                      >
-                        {provider.name}
-                      </Link>
-                      {provider.is_recommended && (
-                        <Badge variant="success" size="sm">
-                          推荐
-                        </Badge>
-                      )}
-                      {provider.verification_status === 'verified' && (
-                        <span className="text-xs text-green-600" title="已核验">
-                          ✓
-                        </span>
-                      )}
-                    </div>
-                  </td>
-                  <td className="px-4 py-3">
-                    <div className="flex flex-wrap gap-1">
-                      {provider.families.map((family) => (
-                        <span
-                          key={family}
-                          className="inline-block px-2 py-0.5 text-xs bg-blue-50 text-blue-700 rounded"
-                        >
-                          {family}
-                        </span>
-                      ))}
-                    </div>
-                  </td>
-                  <td className="px-4 py-3 text-gray-700">
-                    {provider.price_level || '-'}
-                  </td>
-                  <td className="px-4 py-3 text-gray-700">
-                    {provider.min_topup || '-'}
-                  </td>
-                  <td className="px-4 py-3 text-gray-700">
-                    {provider.trial_credit || '-'}
-                  </td>
-                  <td className="px-4 py-3 text-gray-700">
-                    {provider.refund_policy || '-'}
-                  </td>
-                  <td className="px-4 py-3">
-                    {provider.invoice_support ? (
-                      <span className="text-green-600">支持</span>
-                    ) : (
-                      <span className="text-gray-400">不支持</span>
-                    )}
-                  </td>
+          <div className="hidden overflow-hidden rounded-lg border border-gray-200 bg-white lg:block">
+            <table className="w-full table-fixed text-sm">
+              <thead className="border-b border-gray-200 bg-gray-50 text-xs font-medium text-gray-600">
+                <tr>
+                  <th className="w-[25%] px-4 py-3 text-left">服务商</th>
+                  <th className="w-[14%] px-3 py-3 text-left">模型 / 特点</th>
+                  <th className="w-[12%] px-3 py-3 text-left">基础核验</th>
+                  <th className="w-[11%] px-3 py-3 text-left">价格 / 起充</th>
+                  <th className="w-[12%] px-3 py-3 text-left">新人赠送</th>
+                  <th className="w-[16%] px-3 py-3 text-left">退款 / 开票</th>
+                  <th className="w-[10%] px-4 py-3 text-right">操作</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {filteredProviders.map((provider) => {
+                  const originalRank = providers.findIndex((item) => item.id === provider.id) + 1
+                  return (
+                    <tr key={provider.id} className="align-top transition-colors hover:bg-blue-50/40">
+                      <td className="px-4 py-4">
+                        <div className="flex gap-3">
+                          <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded bg-gray-100 text-xs font-bold text-gray-500">
+                            {originalRank}
+                          </span>
+                          <div className="min-w-0">
+                            <div className="flex flex-wrap items-center gap-2">
+                              <Link
+                                href={`/providers/${provider.slug}`}
+                                className="font-semibold text-gray-950 hover:text-blue-700"
+                              >
+                                {provider.name}
+                              </Link>
+                              {provider.is_recommended && (
+                                <span className="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] font-medium text-amber-700">推荐</span>
+                              )}
+                            </div>
+                            {provider.description && (
+                              <p className="mt-1 line-clamp-2 text-xs leading-5 text-gray-500">{provider.description}</p>
+                            )}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-3 py-4">
+                        <div className="flex flex-wrap gap-1">
+                          {provider.families.length ? provider.families.map((item) => (
+                            <span key={item} className="rounded bg-blue-50 px-1.5 py-0.5 text-xs text-blue-700">{item}</span>
+                          )) : <span className="text-xs text-gray-400">待补充</span>}
+                        </div>
+                        {provider.features?.[0] && (
+                          <p className="mt-2 line-clamp-2 text-xs leading-4 text-gray-500">{provider.features[0]}</p>
+                        )}
+                      </td>
+                      <td className="px-3 py-4"><VerificationBadge provider={provider} /></td>
+                      <td className="px-3 py-4">
+                        <PriceLevels value={provider.price_level} />
+                        <p className="mt-2 text-xs text-gray-600">起充 {provider.min_topup || '待补充'}</p>
+                      </td>
+                      <td className="px-3 py-4 text-xs leading-5 text-gray-700">
+                        {provider.trial_credit || '无公开信息'}
+                      </td>
+                      <td className="px-3 py-4 text-xs leading-5 text-gray-700">
+                        <p>{provider.refund_policy || '退款政策待补充'}</p>
+                        <p className="mt-1 text-gray-500">
+                          {provider.invoice_policy || (provider.invoice_support ? '支持开票' : '未标注开票')}
+                        </p>
+                      </td>
+                      <td className="px-4 py-4">
+                        <div className="flex flex-col items-end gap-2">
+                          {provider.website_url && (
+                            <TrackedExternalLink
+                              href={provider.website_url}
+                              target="_blank"
+                              rel="noopener noreferrer sponsored"
+                              providerSlug={provider.slug}
+                              placement="providers_desktop_table"
+                              className="inline-flex min-h-8 items-center gap-1 rounded-md bg-blue-600 px-3 text-xs font-medium text-white hover:bg-blue-700"
+                            >
+                              官网
+                              <ExternalLink className="h-3 w-3" aria-hidden="true" />
+                            </TrackedExternalLink>
+                          )}
+                          <Link
+                            href={`/providers/${provider.slug}`}
+                            className="inline-flex min-h-8 items-center gap-1 rounded-md border border-gray-300 px-3 text-xs font-medium text-gray-700 hover:border-blue-400 hover:text-blue-700"
+                          >
+                            详情
+                            <ChevronRight className="h-3 w-3" aria-hidden="true" />
+                          </Link>
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
           </div>
         </>
       ) : (
-        <div className="text-center py-8 text-gray-500">
-          未找到匹配的服务商
+        <div className="border-y border-gray-200 bg-white py-16 text-center">
+          <Search className="mx-auto h-8 w-8 text-gray-300" aria-hidden="true" />
+          <p className="mt-3 text-sm font-medium text-gray-700">没有找到符合条件的服务商</p>
+          <button type="button" onClick={resetFilters} className="mt-2 text-sm text-blue-700 hover:underline">
+            清除筛选条件
+          </button>
         </div>
       )}
     </>
