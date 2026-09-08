@@ -1,8 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
-  <title id="title">API选图标</title>
-  <desc id="desc">代码括号环绕绿色勾选</desc>
-  <rect width="64" height="64" rx="15" fill="#111827"/>
-  <path d="M24 14c-6 0-7 5-7 10v2c0 4-3 6-6 6 3 0 6 2 6 6v2c0 5 1 10 7 10" fill="none" stroke="#60A5FA" stroke-width="4.5" stroke-linecap="round"/>
-  <path d="M40 14c6 0 7 5 7 10v2c0 4 3 6 6 6-3 0-6 2-6 6v2c0 5-1 10-7 10" fill="none" stroke="#93C5FD" stroke-width="4.5" stroke-linecap="round"/>
-  <path d="m24 32 7 7 11-14" fill="none" stroke="#34D399" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+<title id="title">API选</title>
+<desc id="desc">字母 A 与勾选符号组成的 API选品牌图标。</desc>
+<rect width="64" height="64" rx="18" fill="#2563EB"/>
+<path d="M16.5 44 29 19a3.35 3.35 0 0 1 6 0l3.5 7" fill="none" stroke="#fff" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="m29 35 7 8 13-16" fill="none" stroke="#A5F3FC" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
