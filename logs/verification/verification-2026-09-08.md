@@ -1,6 +1,6 @@
 
 # 服务商每日核验报告
-**核验时间：** 2026/9/8 10:22:31
+**核验时间：** 2026/9/8 15:12:44
 **总计服务商：** 27 个
 
 ## 📊 统计概览
@@ -12,27 +12,27 @@
 ## 📋 详细结果
 
 ### ✅ 正常服务商 (21)
-- AILink: 211ms 
-- AITUNNEL: 595ms 
-- api-top.com: 379ms 
-- API2D: 95ms 
-- APINebula: 69ms 
-- BotHub: 704ms 
-- Boxying: 154ms 
-- CCTQ: 57ms 
-- CUN.ai: 379ms 
-- DuiAPI: 512ms 
+- AILink: 347ms 
+- AITUNNEL: 101ms 
+- api-top.com: 198ms 
+- API2D: 88ms 
+- APINebula: 52ms 
+- BotHub: 708ms 
+- Boxying: 144ms 
+- CCTQ: 67ms 
+- CUN.ai: 39ms 
+- DuiAPI: 304ms 
 - H API: 252ms 
-- LinksAPI: 990ms 
-- LMU AI · 灵眸: 1506ms 
-- Micu: 91ms 
-- Moacode: 213ms 
-- OpenAI-HK: 986ms 
-- PackyAPI: 238ms 
-- SSSAiCode: 95ms 
-- UU API: 172ms 
-- wawapi: 247ms 
-- 三头牛: 456ms 
+- LinksAPI: 935ms 
+- LMU AI · 灵眸: 846ms 
+- Micu: 38ms 
+- Moacode: 208ms 
+- OpenAI-HK: 1034ms 
+- PackyAPI: 98ms 
+- SSSAiCode: 118ms 
+- UU API: 195ms 
+- wawapi: 241ms 
+- 三头牛: 263ms 
 
 
 
