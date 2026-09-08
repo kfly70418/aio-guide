@@ -15,9 +15,18 @@ if (typeof global.WebSocket === 'undefined') {
 }
 
 import { createClient } from '@supabase/supabase-js'
+import * as dotenv from 'dotenv'
+import * as path from 'path'
+
+dotenv.config({ path: path.resolve(process.cwd(), '.env.local') })
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+
+if (!supabaseUrl || !supabaseKey) {
+  throw new Error('缺少 NEXT_PUBLIC_SUPABASE_URL 或 SUPABASE_SERVICE_ROLE_KEY')
+}
+
 const supabase = createClient(supabaseUrl, supabaseKey)
 
 interface VerificationResult {
@@ -53,7 +62,10 @@ async function checkWebsite(url: string): Promise<{
     clearTimeout(timeout)
     const responseTime = Date.now() - startTime
 
-    if (response.ok) {
+    // 401/403/405/429 说明站点有响应，只是拒绝了机器人、HEAD 或触发了限流。
+    const reachable = response.ok || [401, 403, 405, 429].includes(response.status)
+
+    if (reachable) {
       return {
         status: responseTime > 5000 ? 'slow' : 'online',
         responseTime
@@ -124,6 +136,7 @@ async function verifyAllProviders(): Promise<VerificationResult[]> {
   const { data: providers, error } = await supabase
     .from('providers')
     .select('id, name, slug, website_url')
+    .eq('status', 'published')
     .order('name')
 
   if (error) {
@@ -157,18 +170,23 @@ async function verifyAllProviders(): Promise<VerificationResult[]> {
 
     results.push(result)
 
-    // 如果网站在线，更新核验时间
-    if (websiteCheck.status === 'online') {
+    // 网站正常或仅响应较慢时，都视为本次可访问性核验通过。
+    if (websiteCheck.status === 'online' || websiteCheck.status === 'slow') {
       const now = new Date().toISOString()
 
       // 更新服务商核验时间
-      await supabase
+      const { error: providerUpdateError } = await supabase
         .from('providers')
         .update({
-          last_verified_at: now,
+          verified_at: now,
+          verification_status: 'verified',
           updated_at: now
         })
         .eq('id', provider.id)
+
+      if (providerUpdateError) {
+        throw new Error(`更新 ${provider.name} 核验时间失败: ${providerUpdateError.message}`)
+      }
 
       // 同时更新该服务商的所有价格记录核验时间
       const { data: channels } = await supabase
@@ -178,12 +196,16 @@ async function verifyAllProviders(): Promise<VerificationResult[]> {
 
       if (channels && channels.length > 0) {
         const channelIds = channels.map(c => c.id)
-        await supabase
+        const { error: priceUpdateError } = await supabase
           .from('prices')
           .update({
             verified_at: now
           })
           .in('channel_id', channelIds)
+
+        if (priceUpdateError) {
+          throw new Error(`更新 ${provider.name} 价格核验时间失败: ${priceUpdateError.message}`)
+        }
       }
     }
 
@@ -284,14 +306,18 @@ async function main() {
 
     // 保存报告到文件
     const fs = require('fs')
-    const path = require('path')
     const reportDir = path.join(__dirname, '../logs/verification')
 
     if (!fs.existsSync(reportDir)) {
       fs.mkdirSync(reportDir, { recursive: true })
     }
 
-    const today = new Date().toISOString().split('T')[0]
+    const today = new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'Asia/Shanghai',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    }).format(new Date())
     const reportPath = path.join(reportDir, `verification-${today}.md`)
     fs.writeFileSync(reportPath, report)
     console.log(`✅ 报告已保存: ${reportPath}`)

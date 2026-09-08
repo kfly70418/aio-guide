@@ -5,6 +5,16 @@ on:
     # 每天上午 10:00 (UTC+8) = 02:00 UTC
     - cron: '0 2 * * *'
   workflow_dispatch: # 允许手动触发
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/daily-verification.yml'
+      - 'scripts/daily-provider-verification.ts'
+      - 'package.json'
+      - 'package-lock.json'
+
+permissions:
+  contents: write
 
 jobs:
   verify-providers:
@@ -17,17 +27,18 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        # 核验脚本不依赖原生模块，跳过安装脚本可避免无关模块构建失败。
+        run: npm ci --ignore-scripts --no-audit --no-fund
 
       - name: Run provider verification
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-        run: npx tsx scripts/daily-provider-verification.ts
+        run: npm exec -- tsx scripts/daily-provider-verification.ts
 
       - name: Commit verification report
         run: |
