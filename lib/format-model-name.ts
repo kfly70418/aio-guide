@@ -2,6 +2,24 @@
  * 格式化模型名称为用户友好的显示格式
  */
 
+// 历史导入时省略了小数点的站内 slug，不能按通用数字规则猜测版本。
+const LEGACY_MODEL_NAMES: Record<string, string> = {
+  'gpt-56-sol': 'GPT-5.6 Sol',
+  'gpt-56-terra': 'GPT-5.6 Terra',
+  'gpt-56-luna': 'GPT-5.6 Luna',
+  'gpt-55': 'GPT-5.5',
+  'gpt-5-6': 'GPT-5.6',
+  'gpt-35-turbo': 'GPT-3.5 Turbo',
+  'gpt-image-2': 'GPT Image 2',
+  'gemini-31-pro': 'Gemini 3.1 Pro',
+  'gemini-35-flash': 'Gemini 3.5 Flash',
+  'claude-opus-47': 'Claude Opus 4.7',
+  'claude-sonnet-46': 'Claude Sonnet 4.6',
+  'claude-haiku-45': 'Claude Haiku 4.5',
+  'grok-45': 'Grok 4.5',
+  'grok-46': 'Grok 4.6',
+}
+
 /**
  * 将模型ID转换为用户友好的显示名称
  * 例如：
@@ -11,10 +29,14 @@
  * - gemini-3.5-flash → Gemini 3.5 Flash
  */
 export function formatModelName(modelId: string): string {
-  // 保留已录入的展示名，避免 GPT-6 Astra 被转换成 Gpt 6 astra。
-  if (modelId.startsWith('GPT-')) return modelId
+  const trimmed = modelId.trim()
+  const legacyName = LEGACY_MODEL_NAMES[trimmed.toLowerCase()]
+  if (legacyName) return legacyName
+  // 已格式化的名称（包括俄语/中文说明）直接保留，避免二次处理损坏大小写。
+  if (/\s/.test(trimmed) || /^[A-Z]/.test(trimmed)) return trimmed
   // 移除日期后缀（如 -20250514）
-  let name = modelId.replace(/-\d{8}$/, '')
+  let name = trimmed.replace(/-\d{8}$/, '')
+  if (LEGACY_MODEL_NAMES[name.toLowerCase()]) return LEGACY_MODEL_NAMES[name.toLowerCase()]
 
   // 处理 Claude 系列
   if (name.startsWith('claude-')) {

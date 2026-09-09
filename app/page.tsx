@@ -7,6 +7,7 @@ import { Header, Footer } from '@/components/layout/PublicLayout'
 import { Badge } from '@/components/ui'
 import { sortProvidersByLocale } from '@/lib/provider-order'
 import { ModelComparison } from '@/components/home/ModelComparison'
+import { formatModelName } from '@/lib/format-model-name'
 
 export const metadata: Metadata = generateSEOMetadata({
   title: 'AI API 中转站排行榜、价格对比与使用教程',
@@ -513,7 +514,7 @@ export default async function HomePage() {
                   groups={modelGroups.map((group) => ({
                     family: group.family,
                     label: group.label,
-                    items: group.items.map((model) => ({ slug: model.slug, name: model.name })),
+                    items: group.items.map((model) => ({ slug: model.slug, name: formatModelName(model.name) })),
                   }))}
                   badge="特色"
                   title="模型详细比价"
