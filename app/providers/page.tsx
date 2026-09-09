@@ -9,7 +9,7 @@ import { sortProvidersByLocale } from '@/lib/provider-order'
 export const metadata: Metadata = generateSEOMetadata({
   title: 'AI API 中转站排行榜',
   description:
-    '精选 AI API 中转站排行榜：逐家对比基础核验、价格水平、起充金额、赠送额度、退款政策与开票支持。数据人工整理并标注核验时间。',
+    '精选 AI API 中转站排行榜：查看 GPT-6 Astra 等模型的接入信息，对比基础核验、价格水平、起充金额、赠送额度、退款政策与开票支持。',
   path: '/providers',
   locale: 'zh',
   alternateUrls: [{ locale: 'ru', url: '/ru/providers' }],
@@ -138,7 +138,7 @@ export default async function ProvidersPage() {
                 AI API 中转站 <span className="text-blue-600">排行榜</span>
               </h1>
               <p className="text-sm text-gray-600">
-                给 AI 使用者选中转站：比价格、看模型真假
+                给 AI 使用者选中转站：查看 GPT-6 Astra 等模型接入信息、比价格
                 <span className="mx-2 text-gray-300">·</span>
                 服务商资料与价格由人工录入，定期自动检查网站可访问性
                 <span className="mx-2 text-gray-300">·</span>

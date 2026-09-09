@@ -7,7 +7,7 @@ import { Header, Footer } from '@/components/layout/PublicLayout'
 export const metadata: Metadata = generateSEOMetadata({
   title: '模型价格对比',
   description:
-    '对比 GPT、Claude、Gemini、Grok 等主流 AI 大模型在各家 API 中转站的价格，同一模型逐条渠道直接比价，数据人工核验。',
+    '查看 GPT-6 Astra、GPT-5.6、Claude、Gemini、Grok 等 AI 模型的官方参考价格与中转站渠道报价。服务商报价人工整理，未收录的价格不作估算。',
   path: '/models',
   locale: 'zh',
   alternateUrls: [{ locale: 'ru', url: '/ru/models' }],

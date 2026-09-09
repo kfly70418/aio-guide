@@ -11,6 +11,7 @@ import { TrackedExternalLink } from '@/components/analytics/TrackedExternalLink'
 import { getDictionary } from '@/lib/i18n/utils'
 import { locales, type Locale } from '@/lib/i18n/config'
 import { getTranslatedProvider } from '@/lib/i18n/translated-data'
+import { Gpt6Availability } from '@/components/providers/Gpt6Availability'
 
 // 扩展 provider 类型以包含可能存在的字段
 type ExtendedProvider = Awaited<ReturnType<typeof getTranslatedProvider>> & {
@@ -165,6 +166,7 @@ export default async function ProviderDetailPage({
                 )}
               </div>
               <p className="text-lg text-gray-600">{provider.description}</p>
+              <Gpt6Availability features={provider.features} locale={locale} />
             </div>
 
             {/* 关键信息卡片 */}

@@ -73,6 +73,11 @@ export default async function LocalizedModelDetailPage({ params }: { params: Pro
             <header className="mb-8">
               <h1 className="text-3xl font-bold text-gray-900 mb-3">{model.name} — сравнение цен API</h1>
               {model.description && <p className="text-gray-600">{model.description}</p>}
+              {model.slug === 'gpt-6-astra' && (
+                <a href="https://developers.openai.com/api/docs/models/gpt-6-astra" target="_blank" rel="noopener noreferrer" className="mt-3 inline-block text-sm text-blue-600 hover:underline">
+                  Источник: официальная документация OpenAI GPT-6 Astra
+                </a>
+              )}
             </header>
             <section className="border border-gray-200 rounded-lg overflow-hidden">
               <h2 className="text-xl font-semibold p-5 border-b border-gray-200">Цены у API-прокси</h2>

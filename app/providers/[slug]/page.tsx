@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui'
 import { isExpired } from '@/lib/utils'
 import { TrackedExternalLink } from '@/components/analytics/TrackedExternalLink'
 import { getTranslations } from '@/lib/i18n/translations'
+import { Gpt6Availability } from '@/components/providers/Gpt6Availability'
 
 export const revalidate = 300 // ISR: 5分钟
 
@@ -177,6 +178,8 @@ export default async function ProviderDetailPage({
               {provider.description && (
                 <p className="text-gray-700 leading-relaxed mb-6">{provider.description}</p>
               )}
+
+              <Gpt6Availability features={provider.features} />
 
               {provider.features && provider.features.length > 0 && (
                 <div className="flex flex-wrap gap-2">

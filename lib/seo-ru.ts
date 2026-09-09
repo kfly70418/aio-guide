@@ -33,12 +33,12 @@ export const ruKeywords = {
       'Claude модели',
       'Gemini API',
       'сравнение моделей',
-      'GPT-5',
+      'GPT-6 Astra',
       'Claude Opus 5',
       'цены на модели',
       'характеристики моделей ИИ'
     ],
-    description: 'Подробное сравнение моделей искусственного интеллекта: GPT-5, Claude Opus 5, Gemini и другие. Характеристики, цены, области применения.'
+    description: 'Модели GPT-6 Astra, GPT-5.6, Claude Opus 5 и Gemini: официальные справочные цены и предложения API-посредников.'
   },
   articles: {
     keywords: [

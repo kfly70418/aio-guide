@@ -11,6 +11,8 @@
  * - gemini-3.5-flash → Gemini 3.5 Flash
  */
 export function formatModelName(modelId: string): string {
+  // 保留已录入的展示名，避免 GPT-6 Astra 被转换成 Gpt 6 astra。
+  if (modelId.startsWith('GPT-')) return modelId
   // 移除日期后缀（如 -20250514）
   let name = modelId.replace(/-\d{8}$/, '')
 
@@ -33,10 +35,9 @@ export function formatModelName(modelId: string): string {
     // gpt-4-turbo → GPT-4 Turbo
     // gpt-4o → GPT-4o
     // gpt-3.5-turbo → GPT-3.5 Turbo
-    name = name.replace(/^gpt-/, 'GPT-')
-    name = name.replace(/-/g, ' ')
-    return name.split(' ').map((word, i) => {
-      if (i === 0) return word // GPT-4, GPT-3.5
+    name = name.replace(/^gpt-/, '')
+    return 'GPT-' + name.split('-').map((word, i) => {
+      if (i === 0) return word // 6, 4o, 3.5
       return capitalize(word)
     }).join(' ')
   }

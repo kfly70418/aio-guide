@@ -167,6 +167,12 @@ export default async function ModelDetailPage({
                 <p className="text-gray-700 leading-relaxed mb-4">{model.description}</p>
               )}
 
+              {model.slug === 'gpt-6-astra' && (
+                <a href="https://developers.openai.com/api/docs/models/gpt-6-astra" target="_blank" rel="noopener noreferrer" className="mb-4 inline-block text-sm text-blue-600 hover:underline">
+                  资料来源：OpenAI GPT-6 Astra 官方文档
+                </a>
+              )}
+
               <dl className="flex flex-wrap gap-x-8 gap-y-2 text-sm">
                 {model.provider_official && (
                   <div>

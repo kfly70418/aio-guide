@@ -39,10 +39,10 @@ export const RANKING_CATEGORIES: Record<string, RankingCategory> = {
   },
   'gpt-api': {
     title: 'GPT 中转站推荐',
-    fullTitle: 'GPT 中转站推荐 - 支持 GPT-5.6 的 API 中转服务',
-    description: '精选支持 GPT-5.6/GPT-4o/GPT-4o Mini 的 API 中转站，价格透明、稳定可靠。对比国内主流 ChatGPT API 服务商。',
-    keywords: ['gpt中转站', 'chatgpt api', 'gpt5.6', 'gpt中转站推荐', 'gpt api中转'],
-    filter: { models: ['gpt-56-sol', 'gpt-56-terra', 'gpt-56-luna', 'gpt-55'] },
+    fullTitle: 'GPT 中转站推荐 - GPT-6 Astra 与 GPT-5.6 接入信息',
+    description: '对比 GPT 系列 API 中转站的价格与接入信息，关注 GPT-6 Astra、GPT-5.6 等模型。具体型号、渠道权限与计费以服务商公布的信息为准。',
+    keywords: ['gpt中转站', 'chatgpt api', 'GPT-6 Astra', 'gpt5.6', 'gpt中转站推荐', 'gpt api中转'],
+    filter: { models: ['gpt-6-astra', 'gpt-56-sol', 'gpt-56-terra', 'gpt-56-luna', 'gpt-55'] },
     icon: '💬',
   },
   'cheap': {
@@ -447,7 +447,7 @@ export default async function RankingPage({ params }: RankingPageProps) {
               >
                 <div className="text-3xl mb-3">💬</div>
                 <div className="font-bold text-lg mb-2">GPT 中转站</div>
-                <div className="text-sm text-gray-600">已支持 GPT-5.6 最新版</div>
+                <div className="text-sm text-gray-600">查看 GPT-6 Astra、GPT-5.6 接入信息</div>
               </Link>
             )}
             {category !== 'cheap' && (

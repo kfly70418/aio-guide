@@ -203,26 +203,15 @@ client = OpenAI(
   {
     id: 'best-gpt-relay',
     question: '哪个 GPT 中转站最好？',
-    answer: `推荐的 GPT 中转站（2026年8月）：
+    answer: `选择 GPT 中转站时，应先确认具体模型，再比较账户可用渠道、输入输出价格、缓存计费和退款条件。
 
-**🏆 综合推荐**
-1. **聚星AI** - 支持 GPT-5.6，价格透明
-2. **LinkAI** - 老牌服务商，稳定可靠
-3. **OpenOx** - 新人优惠力度大
+**GPT-6 Astra 接入信息（2026年9月9日查阅）**
 
-**🆕 GPT-5.6 支持**
-OpenAI 已发布 GPT-5.6，支持该模型的中转站：
-- 聚星AI（倍率 1.0）
-- LinkAI（倍率 1.1）
+[H API](/providers/h-api)、[OpenOx](/providers/openox)、[APINebula](/providers/apinebula)、[AITUNNEL](/providers/aitunnel) 和 [BotHub](/providers/bothub) 的公开模型目录已列出 GPT-6 Astra。这表示官网列出了型号，不代表本站完成了调用实测；不同账户、渠道和套餐的权限可能不同。
 
-**📊 价格对比**
-| 服务商 | GPT-4o | GPT-5.6 | 最低充值 |
-|--------|--------|---------|----------|
-| 聚星AI | 1.0x | 1.0x | ¥10 |
-| LinkAI | 1.1x | 1.1x | ¥20 |
-| OpenOx | 0.9x | - | ¥10 |
+充值前先确认模型 ID、接口路径和完整计费规则，再进行小额测试。支持 GPT-5.6 的渠道不一定支持 GPT-6 Astra。
 
-查看完整[GPT 中转站排行榜](/rankings/gpt-api)`,
+查看 [GPT-6 Astra 模型资料](/models/gpt-6-astra)与[GPT 中转站排行榜](/rankings/gpt-api)。`,
     category: 'comparison',
     keywords: ['gpt中转站推荐', '最好的gpt中转站', 'gpt5.6中转站'],
   },
@@ -379,7 +368,8 @@ curl -I https://api.provider.com
     answer: `主流 API 中转站支持的模型：
 
 **🤖 OpenAI 系列**
-- GPT-5.6（最新）
+- GPT-6 Astra（具体服务商与渠道需单独确认）
+- GPT-5.6
 - GPT-4o / GPT-4o mini
 - GPT-4 Turbo
 - GPT-3.5 Turbo
@@ -1361,7 +1351,7 @@ export default function FAQPage() {
           >
             <div className="text-3xl mb-3">💬</div>
             <div className="font-bold text-lg mb-2">GPT 中转站</div>
-            <div className="text-sm text-gray-600">已支持 GPT-5.6 最新版</div>
+            <div className="text-sm text-gray-600">查看 GPT-6 Astra、GPT-5.6 接入信息</div>
           </Link>
           <Link
             href="/rankings/cheap"

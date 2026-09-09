@@ -160,7 +160,7 @@ export default async function HomePage() {
                     GPT 中转站推荐
                   </h3>
                   <p className="text-sm text-gray-600 mb-4">
-                    已支持 GPT-5.6 最新版本，价格透明
+                    查看 GPT-6 Astra、GPT-5.6 接入信息与价格
                   </p>
                   <div className="flex items-center text-sm text-green-600 font-medium">
                     查看榜单
@@ -694,8 +694,9 @@ export default async function HomePage() {
               <div className="mt-8 p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border border-blue-100">
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">关注 AI 行业动态</h3>
                 <p className="text-sm text-gray-700 leading-relaxed">
-                  我们持续关注 <strong>ChatGPT API</strong>、<strong>Claude API</strong>、<strong>GPT 5.6 Sol</strong>、
-                  <strong>GPT 5.6 Terra</strong>、<strong>Claude Opus 5</strong> 等主流 AI 大模型的价格变动和服务更新。
+                  我们持续关注 <strong>ChatGPT API</strong>、<strong>Claude API</strong>、
+                  <Link href="/models/gpt-6-astra" className="font-semibold text-blue-700 hover:underline">GPT-6 Astra</Link>、
+                  <strong>GPT-5.6 Sol</strong>、<strong>GPT-5.6 Terra</strong>、<strong>Claude Opus 5</strong> 等主流 AI 大模型的价格变动和服务更新。
                   实时追踪各大 <strong>AI API 中转站</strong>、<strong>OpenAI 中转</strong>、<strong>Claude 中转</strong> 的
                   优惠活动、充值折扣和服务稳定性。为开发者提供最新的 <strong>API 价格对比</strong>、
                   <strong>中转站评测</strong>、<strong>使用教程</strong> 和 <strong>避坑指南</strong>，
