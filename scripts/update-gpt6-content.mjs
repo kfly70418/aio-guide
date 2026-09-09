@@ -6,6 +6,7 @@ const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABA
 const apply = process.argv.includes('--apply')
 const checkedOn = '2026-09-09'
 const sources = {
+  'uu-api': 'https://uuapi.shop/model-plaza',
   'h-api': 'https://hapiopen.cc/api/public/pricing',
   openox: 'https://openox.tech/',
   apinebula: 'https://apinebula.ai/api/pricing',
@@ -58,6 +59,7 @@ if (apply) {
   ], { onConflict: 'resource_type,resource_id,locale,field' }))
   await query(db.from('models').update({ status: 'published' }).eq('id', existing.id))
   for (const p of planned) {
+    if (p.before.description === p.description && JSON.stringify(p.before.features) === JSON.stringify(p.features)) continue
     const changed = await query(db.from('providers').update({ description: p.description, features: p.features })
       .eq('id', p.before.id).eq('updated_at', p.before.updated_at).select('id'))
     assert.equal(changed.length, 1, `Concurrent provider edit: ${p.before.slug}`)
