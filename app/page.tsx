@@ -25,12 +25,11 @@ export default async function HomePage() {
     supabase
       .from('providers')
       .select(
-        'id, slug, name, name_en, description, features, is_recommended, verified_at, min_topup, trial_credit, transaction_fee, invoice_support, verification_status'
+        'id, slug, name, name_en, description, features, is_recommended, sort_order, verified_at, min_topup, trial_credit, transaction_fee, invoice_support, verification_status'
       )
       .eq('status', 'published')
       .order('is_recommended', { ascending: false })
-      .order('sort_order', { ascending: false })
-      .limit(10), // 前3张卡片 + 后续列表
+      .order('sort_order', { ascending: false }),
     supabase
       .from('articles')
       .select('id, slug, title, summary, published_at')
@@ -52,7 +51,8 @@ export default async function HomePage() {
       .order('sort_order', { ascending: false }),
   ])
 
-  const orderedProviders = sortProvidersByLocale(providers ?? [], 'zh')
+  // 先按中文优先级排序，再取首页展示的 10 家，避免提前截断漏掉指定服务商。
+  const orderedProviders = sortProvidersByLocale(providers ?? [], 'zh').slice(0, 10)
 
   // 按家族分组模型，用于顶部比价筛选区
   const FAMILY_ORDER = ['GPT', 'Claude', 'Gemini', 'Grok']
