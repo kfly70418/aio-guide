@@ -19,6 +19,13 @@ export const metadata: Metadata = generateSEOMetadata({
 
 export const revalidate = 300 // ISR: 5分钟
 
+// 中文首页的编辑推荐星级独立于服务商排序和俄语站推荐设置。
+const RECOMMENDATION_STARS: Record<string, number> = {
+  'uu-api': 2,
+  apinebula: 2,
+  openox: 3,
+}
+
 export default async function HomePage() {
   const supabase = createPublicClient()
 
@@ -372,11 +379,16 @@ export default async function HomePage() {
                         className="group block border-2 border-gray-200 rounded-xl p-6 hover:border-blue-500 hover:shadow-lg transition-all bg-white"
                       >
                         {/* 头部：名称和推荐标签 */}
-                        <div className="flex items-center justify-between mb-4">
+                        <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
                           <h3 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
                             {provider.name}
                           </h3>
-                          {provider.is_recommended && (
+                          {RECOMMENDATION_STARS[provider.slug] ? (
+                            <Badge variant="success" size="sm" className="shrink-0 gap-1 whitespace-nowrap">
+                              <span aria-hidden="true" className="text-amber-500">{'★'.repeat(RECOMMENDATION_STARS[provider.slug])}</span>
+                              <span>{RECOMMENDATION_STARS[provider.slug]}星推荐</span>
+                            </Badge>
+                          ) : provider.is_recommended && (
                             <Badge variant="success" size="sm">⭐ 推荐</Badge>
                           )}
                         </div>
