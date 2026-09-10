@@ -245,6 +245,17 @@ export default async function RankingPage({ params }: RankingPageProps) {
     providers = sortProvidersByLocale(providers, 'zh');
   }
 
+  // 中文低价榜的编辑推荐顺序，其他服务商保留原有相对位置。
+  if (category === 'cheap') {
+    const priority = ['openox', 'uu-api'];
+    providers.sort((a, b) => {
+      const aRank = priority.indexOf(a.slug);
+      const bRank = priority.indexOf(b.slug);
+      return (aRank === -1 ? priority.length : aRank)
+        - (bRank === -1 ? priority.length : bRank);
+    });
+  }
+
   // 生成结构化数据
   const itemListSchema = generateItemListSchema({
     name: config.title,
