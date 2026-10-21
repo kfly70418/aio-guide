@@ -60,6 +60,44 @@
       "view_all": "查看全部教程",
       "description": "从入门到精通"
     },
+    "selection_guide": {
+      "title": "中转站怎么选",
+      "description": "从你关心的问题出发，先看证据、算清费用，再决定是否充值。",
+      "compare": "查看模型价格 →",
+      "tutorials": "查看实用教程 →",
+      "items": {
+        "choose": {
+          "title": "中转站怎么选？",
+          "description": "先明确用途、需要的模型和预算，再核对服务商的充值门槛、退款规则与资料更新时间。",
+          "action": "查看服务商资料"
+        },
+        "stability": {
+          "title": "稳定性怎么看？",
+          "description": "网站能打开不代表 API 长期稳定。选好候选后，分时段记录失败、断流和响应耗时。",
+          "action": "查看候选服务商"
+        },
+        "authenticity": {
+          "title": "“纯血”可信吗？",
+          "description": "模型自报身份和一次回答都不能证明来源。连通性检测只提供请求结果，不等于模型鉴真。",
+          "action": "查看连通性检测"
+        },
+        "cost": {
+          "title": "低倍率真便宜吗？",
+          "description": "倍率的计算基准可能不同。把实付金额、可用额度与请求扣费放在一起，才好比较成本。",
+          "action": "学习额度与倍率换算"
+        },
+        "trial": {
+          "title": "免费试用怎么验收？",
+          "description": "先确认额度有效期与可用模型，再用自己的任务检查输出、响应和账单，不只看赠送金额。",
+          "action": "查看试用条件与候选"
+        },
+        "troubleshooting": {
+          "title": "接入失败怎么办？",
+          "description": "按账户、密钥、接口地址、模型名、网络和余额逐项排查，结合错误信息定位问题。",
+          "action": "查看连接失败排查指南"
+        }
+      }
+    },
     "why_choose_us": {
       "title": "为什么选择我们",
       "verification": {

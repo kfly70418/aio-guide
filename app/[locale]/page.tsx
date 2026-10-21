@@ -10,6 +10,7 @@ import { locales, type Locale } from '@/lib/i18n/config'
 import { getTranslatedProviders, getTranslatedModels, getTranslatedArticles } from '@/lib/i18n/translated-data'
 import { formatModelName } from '@/lib/format-model-name'
 import { ModelComparison } from '@/components/home/ModelComparison'
+import { SelectionGuide } from '@/components/home/SelectionGuide'
 import { TrackedExternalLink } from '@/components/analytics/TrackedExternalLink'
 
 export const revalidate = 300
@@ -53,10 +54,9 @@ export default async function HomePage({ params }: { params: { locale: string } 
   const dict = getDictionary(locale as Locale)
 
   // 获取翻译后的数据
-  const [providers, tutorials, news, models] = await Promise.all([
+  const [providers, tutorials, models] = await Promise.all([
     getTranslatedProviders(locale as Locale, { limit: 10 }),
     getTranslatedArticles(locale as Locale, { category: 'tutorial', limit: 6 }),
-    getTranslatedArticles(locale as Locale, { category: 'news', limit: 8 }),
     getTranslatedModels(locale as Locale),
   ])
 
@@ -335,6 +335,7 @@ export default async function HomePage({ params }: { params: { locale: string } 
               </div>
             </section>
           )}
+          <SelectionGuide locale={locale as Locale} />
         </main>
 
         <Footer locale={locale as Locale} dict={dict} />

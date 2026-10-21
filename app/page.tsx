@@ -7,6 +7,7 @@ import { Header, Footer } from '@/components/layout/PublicLayout'
 import { Badge } from '@/components/ui'
 import { sortProvidersByLocale } from '@/lib/provider-order'
 import { ModelComparison } from '@/components/home/ModelComparison'
+import { SelectionGuide } from '@/components/home/SelectionGuide'
 import { formatModelName } from '@/lib/format-model-name'
 
 export const metadata: Metadata = generateSEOMetadata({
@@ -29,7 +30,7 @@ const RECOMMENDATION_STARS: Record<string, number> = {
 export default async function HomePage() {
   const supabase = createPublicClient()
 
-  const [{ data: providers }, { data: tutorials }, { data: news }, { data: models }] = await Promise.all([
+  const [{ data: providers }, { data: tutorials }, { data: models }] = await Promise.all([
     supabase
       .from('providers')
       .select(
@@ -45,13 +46,6 @@ export default async function HomePage() {
       .eq('category', 'tutorial')
       .order('published_at', { ascending: false })
       .limit(6),
-    supabase
-      .from('articles')
-      .select('id, slug, title, summary, published_at')
-      .eq('status', 'published')
-      .eq('category', 'news')
-      .order('published_at', { ascending: false })
-      .limit(3),
     supabase
       .from('models')
       .select('id, slug, name, family, sort_order')
@@ -624,100 +618,7 @@ export default async function HomePage() {
             </section>
           )}
 
-          {/* AI快讯 */}
-          <section className="order-7 py-12 bg-gray-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex items-center justify-between mb-6">
-                <div>
-                  <h2 className="text-2xl font-bold text-gray-900 mb-2">AI 快讯</h2>
-                  <p className="text-gray-600">AI 大模型、API 中转站最新动态和行业资讯</p>
-                </div>
-                <Link
-                  href="/articles?category=news"
-                  className="text-sm font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1"
-                >
-                  查看全部资讯
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </Link>
-              </div>
-
-              {news && news.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {news.map((article, index) => (
-                    <Link
-                      key={article.id}
-                      href={`/articles/${article.slug}`}
-                      className={`block border border-gray-200 rounded-xl p-6 hover:border-blue-400 hover:shadow-md transition-all ${
-                        index === 0 ? 'md:col-span-2 bg-gradient-to-br from-blue-50 to-white' : 'bg-white'
-                      }`}
-                    >
-                      <div className="flex items-start gap-4">
-                        {index === 0 && (
-                          <div className="flex-shrink-0">
-                            <span className="inline-flex items-center justify-center w-12 h-12 bg-blue-600 text-white rounded-lg font-bold text-lg">
-                              热
-                            </span>
-                          </div>
-                        )}
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-2">
-                            {/* 只有当天的内容才显示"最新"标签 */}
-                            {article.published_at && (() => {
-                              const publishDate = new Date(article.published_at)
-                              const today = new Date()
-                              const isToday = publishDate.toDateString() === today.toDateString()
-                              return isToday ? (
-                                <span className="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-red-100 text-red-800 rounded">
-                                  最新
-                                </span>
-                              ) : null
-                            })()}
-                            {article.published_at && (
-                              <time className="text-xs text-gray-500" dateTime={article.published_at}>
-                                {new Date(article.published_at).toLocaleDateString('zh-CN', {
-                                  month: 'numeric',
-                                  day: 'numeric'
-                                })}
-                              </time>
-                            )}
-                          </div>
-                          <h3 className={`font-semibold text-gray-900 mb-2 line-clamp-2 hover:text-blue-600 transition-colors ${
-                            index === 0 ? 'text-xl' : 'text-base'
-                          }`}>
-                            {article.title}
-                          </h3>
-                          {article.summary && (
-                            <p className={`text-gray-600 line-clamp-2 ${
-                              index === 0 ? 'text-base' : 'text-sm'
-                            }`}>
-                              {article.summary}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-center text-gray-500 py-12">暂无快讯</p>
-              )}
-
-              <div className="mt-8 p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border border-blue-100">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">关注 AI 行业动态</h3>
-                <p className="text-sm text-gray-700 leading-relaxed">
-                  我们持续关注 <strong>ChatGPT API</strong>、<strong>Claude API</strong>、
-                  <Link href="/models/gpt-6-astra" className="font-semibold text-blue-700 hover:underline">GPT-6 Astra</Link>、
-                  <strong>GPT-5.6 Sol</strong>、<strong>GPT-5.6 Terra</strong>、<strong>Claude Opus 5</strong> 等主流 AI 大模型的价格变动和服务更新。
-                  实时追踪各大 <strong>AI API 中转站</strong>、<strong>OpenAI 中转</strong>、<strong>Claude 中转</strong> 的
-                  优惠活动、充值折扣和服务稳定性。为开发者提供最新的 <strong>API 价格对比</strong>、
-                  <strong>中转站评测</strong>、<strong>使用教程</strong> 和 <strong>避坑指南</strong>，
-                  帮助您选择性价比最高、最稳定可靠的 <strong>AI API 服务商</strong>。
-                </p>
-              </div>
-            </div>
-          </section>
+          <SelectionGuide className="order-7" />
         </main>
 
         <Footer />
